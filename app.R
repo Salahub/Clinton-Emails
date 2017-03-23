@@ -295,13 +295,13 @@ server <- function(input, output) {
      if (adjVar()) {
        timevalues <- selDat()$Hour6pm*60 + selDat()$Minutes
        xlab <- "Adjusted Date (dd/mm/yy)"
-       main <- "Adjusted Email Sending Times"
+       main <- "Adjusted Email Times"
        labelset <- c('22:00', '02:00', '06:00', '10:00', '14:00')
      }
      else {
        timevalues <- selDat()$Hour*60 + selDat()$Minutes
        xlab <- "Date (dd/mm/yy)"
-       main <- "Email Sending Times"
+       main <- "Email Sent/Received Times"
        labelset <- c("04:00", "08:00", "12:00", "16:00", "20:00")
      }
      # plot dates based on the dates provided from the slider
@@ -321,8 +321,8 @@ server <- function(input, output) {
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
      plot(x = selDays(), y = selCounts(), type = 'l', xlab = 'Date (dd/mm/yy)',
-          xaxt = "n", ylab = 'Number of Emails Sent', pch = 19,
-          main = "Number of Emails Sent by Date",
+          xaxt = "n", ylab = 'Number of Emails', pch = 19,
+          main = "Number of Emails by Date",
           ylim = extendrange(AScounts), col = adjustcolor("black", alpha.f = 0.6))
      # add the schedule if it has been selected
      if (dispSched()) {
@@ -350,7 +350,7 @@ server <- function(input, output) {
      spiralNetPlot2(wgtTbl = sort(table(c(as.character(SpirDat()$To.name),
                                 as.character(SpirDat()$From.name))),
                         decreasing = TRUE)[-1],
-                   title = "Spiral Network Plot of Clinton's Communications")
+                   title = "Inner Circle by Volume of Communication")
    })
    # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
