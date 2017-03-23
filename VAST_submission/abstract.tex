@@ -1,0 +1,160 @@
+\documentclass[journal]{vgtc}                % final (journal style)
+%\documentclass[review,journal]{vgtc}         % review (journal style)
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint,journal]{vgtc}       % preprint (journal style)
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Please note that the use of figures other than the optional teaser is not permitted on the first page
+%% of the journal version.  Figures should begin on the second page and be
+%% in CMYK or Grey scale format, otherwise, colour shifting may occur
+%% during the printing process.  Papers submitted with figures other than the optional teaser on the
+%% first page will be refused. Also, the teaser figure should only have the
+%% width of the abstract as the template enforces it.
+
+%% These few lines make a distinction between latex and pdflatex calls and they
+%% bring in essential packages for graphics and font handling.
+%% Note that due to the \DeclareGraphicsExtensions{} call it is no longer necessary
+%% to provide the the path and extension of a graphics file:
+%% \includegraphics{diamondrule} is completely sufficient.
+%%
+\ifpdf%                                % if we use pdflatex
+  \pdfoutput=1\relax                   % create PDFs from pdfLaTeX
+  \pdfcompresslevel=9                  % PDF Compression
+  \pdfoptionpdfminorversion=7          % create PDF 1.7
+  \ExecuteOptions{pdftex}
+  \usepackage{graphicx}                % allow us to embed graphics files
+  \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg} % for pdflatex we expect .pdf, .png, or .jpg files
+\else%                                 % else we use pure latex
+  \ExecuteOptions{dvips}
+  \usepackage{graphicx}                % allow us to embed graphics files
+  \DeclareGraphicsExtensions{.eps}     % for pure latex we expect eps files
+\fi%
+
+%% it is recomended to use ``\autoref{sec:bla}'' instead of ``Fig.~\ref{sec:bla}''
+\graphicspath{{figures/}{pictures/}{images/}{./}} % where to search for the images
+
+\usepackage{microtype}                 % use micro-typography (slightly more compact, better to read)
+\PassOptionsToPackage{warn}{textcomp}  % to address font issues with \textrightarrow
+\usepackage{textcomp}                  % use better special symbols
+\usepackage{mathptmx}                  % use matching math font
+\usepackage{times}                     % we use Times as the main font
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+\usepackage{cite}                      % needed to automatically sort the references
+\usepackage{tabu}                      % only used for the table example
+\usepackage{booktabs}                  % only used for the table example
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+
+%% In preprint mode you may define your own headline.
+%\preprinttext{To appear in IEEE Transactions on Visualization and Computer Graphics.}
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+%% please declare the paper type of your paper to help reviewers, only shown in review mode
+%% choices:
+%% * algorithm/technique
+%% * application/design study
+%% * evaluation
+%% * system
+%% * theory/model
+\vgtcpapertype{please specify}
+
+\title{Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata}
+\author{Christopher D. Salahub  \& R. Wayne Oldford\\
+University of Waterloo\\
+Waterloo, Ontario, Canada}
+\date{}
+\maketitle
+
+\begin{abstract}
+
+We present a web-based visualization that allows the user to interactively filter and display characteristics of 32,795 Hillary Clinton's emails as provided by Wikileaks.
+
+The visualization focuses on the meta-data of each email, including its senders, receivers, and the timestamp the email appeared on the Clinton server.  An interactive time range slider filters all email and all displays automatically update to changes in the slider.  The main display shows Clinton's most frequent correspondents arranged as nodes of a spoked graph with Clinton at the centre.  Volume determines the thickness of each spoke and high volume determines an inner circle whose spokes are shortened.  Correspondents and their edges are coloured according to whether that email account could be identified as being an approved Federal government account or not.  A second display shows two daily time series: the total number of emails for that day, and the number meeting selection criteria.  A third display shows a scatterplot of the time of day versus the day on which that email appeared.  Scatterplot points are coloured by whether the email was redacted or not.  
+
+Other displays add some information beyond metadata.  FOIA exemption codes appear as a selectable list and a barplot shows email counts by FOIA code.  The (stemmed) terms having highest frequency in the displayed email, and those having highest tf-idf are listed in separate displays.  All displays are interactively filtered by time range and selected FOIA codes.
+
+We illustrate how the filtered displays can be used to generate hypotheses and uncover interesting information.  These touch on contentious issues including the handling of classified information, the 2012 attack on the Benghazi U.S. diplomatic compound, and emails apparently missing from those released publicly.  
+
+The data are extracted from Wikileaks HTML files, cleaned, and stored in a form useful for interactive exploration.  A local \texttt{R} \texttt{shiny} server provides the interactive displays as a public service online tool to explore and uncover patterns in the meta-data and summary contents of Clinton's email.  Coupled with publicly available sources of information, these interactive tools uncover surprising amounts of information about an individual, especially one holding public office. The ease with which this can be accomplished and shared should serve as a clear warning as to what can be learned about anyone from metadata.
+
+
+\end{abstract}
+
+The 2016 US Presidential election was one of the most contentious in history.  The existence and possible content of Hillary Clinton's private email server played an significant role in the campaign until the end.
+
+
+
+Historically important,  possibly had an impact on the 2016 US presidential election.
+
+Contentious issues:
+\begin{itemize}
+\item private email server
+\item classified documents (outside of state)
+\item Sidney Blumenthal
+\item Benghazi spin handling of media (Susan Rice)
+
+\item scrubbing of her server (bleachbit)
+\item missing email from online email State department
+\end{itemize}
+
+
+Learn:
+\begin{itemize}
+\item inner circle over time (state or not)
+\item spike in email around Libyan revolution
+\item gap in the email
+\item daily email patterns, server behaviour
+\end{itemize}
+
+  
+ Filter:
+\begin{itemize}
+\item time
+\item redacted or not
+\item FOIA exemption codes
+\end{itemize}
+
+   
+ Content:
+\begin{itemize}
+\item Term frequency, TFIDF
+\end{itemize}
+
+   
+ Tool: 
+\begin{itemize}
+\item Web-based, interactive filter and display tool
+\end{itemize}
+    
+    
+Discovery from visualization \& connecting discovery sources
+
+
+
+- Nothing on this ... Preparation for Benghazi (security considerations)
+
+- House Oversight and Government Reform Committee (standing committee) 
+  Darrell Issa, Chair
+     Jason Chaffetz, Chair (Gowdy a member)
+  (discovered email server)
+    ... 
+- House Select Committee on Benghazi (Summer 2014) 
+   Trey Gowdy, Chair
+
+\end{document}
