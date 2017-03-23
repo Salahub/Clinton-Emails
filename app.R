@@ -15,12 +15,14 @@ ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
 Freq <- read.csv("TermDocumentMatrix.csv")
 TfIdf <- read.csv("TFIDF.csv")
+# commented out daily reads, the most recent version has much greater selection power
 #DailyFreq <- as.matrix(read.csv('DailyFrequency.csv'))
 #DailyTfIdf <- as.matrix(read.csv('TFIDFbyDay.csv'))
 
 ### Filter and prepare the data from time as secretary of state #########################
+# select all emails sent while Secretary
 AsSec <- filter(EmailData, Year >= 2009 & Year <= 2013)
-# first use 'tally' and 'group_by' in dplyr to extract counts
+# extract daily counts of emails for plotting later
 countbyDate <- tally(group_by(AsSec, dates(as.chron(Date))))
 ASDays <- seq(from = min(countbyDate$`dates(as.chron(Date))`),
               to = max(countbyDate$`dates(as.chron(Date))`),
@@ -29,7 +31,7 @@ AScounts <- rep(0, length(ASDays))
 AScounts[ASDays %in% countbyDate$`dates(as.chron(Date))`] <- countbyDate$n
 # prepare the adjusted dates
 AsSec <- arrange(AsSec, Date)
-# now define the days
+# now define the days with 6pm as the adjusted day definition
 days6pm <- seq(from = floor(min(AsSec$Date)) + 0.75, to = max(AsSec$Date),
                by = 1)
 newDays <- sapply(AsSec$Date, function(date) sum(days6pm < date) %% 7) + 1
@@ -40,17 +42,22 @@ AsSec$Weekday6pm <- newDays
 AsSec$Hour6pm <- (AsSec$Hour + 6) %% 24
 
 ### Spiral Network Plot Functions #######################################################
+# filter the data by communications including Clinton
 ClintonCom <- filter(AsSec, 
                      From.name == "Hillary Clinton" | To.name == "Hillary Clinton" |
                        From.name == "H" | To.name == "H")
+# extract names of all the communicated with Clinton
 ClintNet <- sort(table(c(as.character(ClintonCom$To.name), 
                          as.character(ClintonCom$From.name))),
                  decreasing = TRUE)[-1]
-# extract state mail information
+# extract state mail information, information pertaining to whether an email is .gov or not
+# first get all names from above network
 allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
                                levels(ClintonCom$From.name))))
+# generate storage in advance
 stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
+# for each name identify if it is associated with a .gov email anywhere in the data
 for (name in allnames) {
   Mail <- filter(ClintonCom, To.name == name | From.name == name)
   state <- any(grepl(".gov", c(as.character(Mail$To.Add), as.character(Mail$To.name),
@@ -58,6 +65,7 @@ for (name in allnames) {
   stateMail[which(allnames == name)] <- as.numeric(state)
 }
 # write the function to generate the spiral network plot
+# THIS IS AN OUTDATED VERSION, SEE SpiralNetPlot2
 spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                           levelNum = 2, nodeNum = 20, title = "Title") {
   # check the wgtTbl status
@@ -132,7 +140,7 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
   }
 }
 
-# modify the spiral network plot function
+# modify the spiral network plot function, improve it
 spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA, 
                            levelNum = 2, nodeNum = 20, title = "Title") {
   # check the wgtTbl status
@@ -217,7 +225,7 @@ ui <- fluidPage(
    # Application title
    titlePanel("Hillary Clinton Email Displays"),
    
-   # the slider right below the title
+   # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
    fluidRow(column(width = 6, offset = 0.5, textOutput("Dates"))),
    fluidRow(column(width = 12, sliderInput("range", "",
@@ -233,12 +241,10 @@ ui <- fluidPage(
             wellPanel(id = "WriteUp", style = "overflow-y:scroll; max-height: 600px",
                       h3("Write up Goes Here"))),
      
-     # Sidebar with a slider input for number of bins 
-     # sidebarLayout(
-     #    sidebarPanel(
+     # central interaction panel with a slider input for number of bins 
      column(width = 2,
             fluidRow(selectInput("AdjVar", "Daily Reference Point: ", c("0:00", "18:00"),
-                                 selected = "18:00")),
+                                 selected = "0:00")),
             fluidRow(checkboxInput("Schedule", "Display Clinton's Foreign Schedule")),
             fluidRow(selectInput("ClassFilter", "FOIA Codes: ", 
                                  c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"), 
@@ -249,10 +255,9 @@ ui <- fluidPage(
             fluidRow(textOutput("tfidf")),
             fluidRow(h4("20 Highest Frequency Terms")),
             fluidRow(textOutput("Freq"))
-            # ),
      ),
      
-     # Show a plot of the generated distribution
+     # add a well panel with all the generated displays
      column(width = 6,
             wellPanel(id = "tPanel",style = "overflow-y:scroll; max-height: 600px",
                       fluidRow(plotOutput("Spiral")),
@@ -264,9 +269,9 @@ ui <- fluidPage(
    )
 )
 
-# Define server logic required to draw a histogram
+# Define server logic required to draw all displays
 server <- function(input, output) {
-  # select data
+  # select data using the input date and classification filters
   DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]), 
                                     format = "day mon year"),
                               collapse = " - "))
@@ -313,6 +318,7 @@ server <- function(input, output) {
            col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
            xpd = TRUE)
    })
+   # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
      plot(x = selDays(), y = selCounts(), type = 'l', xlab = 'Date (dd/mm/yy)', 
           xaxt = "n", ylab = 'Number of Emails Sent', pch = 19,
@@ -339,21 +345,26 @@ server <- function(input, output) {
             legend = c("All", "Selected FOIA Codes"), cex = 0.8, inset = c(0,-0.05),
             xpd = TRUE, horiz = TRUE)
    })
+   # add the spiral network plot
    output$Spiral <- renderPlot({
      spiralNetPlot2(wgtTbl = sort(table(c(as.character(SpirDat()$To.name), 
                                 as.character(SpirDat()$From.name))),
                         decreasing = TRUE)[-1],
                    title = "Spiral Network Plot of Clinton's Communications")
    })
+   # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
      colnames(tfIdf())[order(cSum(tfIdf()), decreasing = TRUE)][1:20],
      collapse = ", "
      ))
+   # display the top twenty frequency terms
    output$Freq <- renderText(paste(
      colnames(freq())[order(cSum(freq()), decreasing = TRUE)][1:20],
      collapse = ", "
    ))
+   # display the selected date range
    output$Dates <- renderText(DateRange())
+   # finally a barplot of classification codes used in the selection
    output$Class <- renderPlot(
      barplot(table(unlist(str_split(selDat()$Classification, "-"))),
                           main = "FOIA Exemption Codes Used for Redactions")

@@ -1,3 +1,4 @@
+# load required packages
 library(RCurl)
 library(XML)
 library(tm)
@@ -7,12 +8,8 @@ library(chron)
 library(dplyr)
 library(loon)
 
+# load the raw HTML data if desired
 fullmail <- readRDS('ClintonsEmails')
-
-# Note: recall the subset frequency adjustment idea for the tfidf, tfidf is useful
-# for distinguishing but we want to distinguish subsets of the data
-# - maybe use the proportion of mentions of a term in the document which are mentioned
-#   in a subset
 
 ### Email Extraction Functions #########################################################
 # generate a function to clean up emails using the library chron
@@ -20,15 +17,15 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   # first identify whether the email is at all redacted
   redacted <- grepl(x = emails, pattern = "RELEASE\\s*IN\\s*PART")
   # extract the information on sender and recipient
-  # extract the recipient
+  # extract the recipient information from the Wikileaks header
   to <- str_extract(emails, "(?<=(To\\: <span title=\"Original: )).+(?=</span>)")
   nameTo <- str_extract(to, "(?<=(\">)).+")
   addressTo <- str_extract(to, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
-  # extract the sender
+  # extract the sender information from the Wikileaks header
   from <- str_extract(emails, "(?<=(From\\: <span title=\"Original: )).+(?=</span>)")
   nameFrom <- str_extract(from, "(?<=(\">)).+")
   addressFrom <- str_extract(from, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
-  # also extract the forwarding contact chain
+  # also extract the forwarding contact chain using generic email matching on "@"
   forwards <- str_extract_all(emails, "[a-zA-Z0-9]+\\@[a-zA-Z0-9\\.]+|To:|From:")
   forwards <- lapply(forwards, 
                      function(el) c(rbind(el[which(grepl(x = el, pattern = "@"))-1],
@@ -39,23 +36,23 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   subj <- str_extract(emails, "(?<=(Subject\\:)).+")
   # extract the time and date information
   date <- str_extract(emails, "(?<=(Date\\:\\s)).+")
-  # clean these up
+  # clean the extracted times and dates up
   date <- str_replace_all(date, "[^\\s0-9\\-\\:]", "")
   # convert these into time structures
-  # now generate the time structure
+  # apply to the times from above a function which gets date and time information
   chr_tm <- lapply(date, function (tm) {
     chron(dates. = str_split(tm, " ")[[1]][1], 
           times. = paste(str_split(tm, " ")[[1]][2], ':00', sep = ''),
           format = c(dates = "y-m-d", times = "h:m:s"))})
   chr_tm <- unlist(chr_tm)
-  # now extract the email content
+  # now extract the email content using Wikileaks content tab
   content <- str_extract(emails, "(?<=(<div class=\"email-content\" id=\"uniquer\">))(?s).+(?-s)(?=(<div class=\"tab-pane fade in\" id=\"source\">))")
-  # clean the content to make it more readable
-  # also extract possible classification level
+  # also extract all possible classifications used in the email
   Clevel <- str_extract_all(content, "B[1-9](?![0-9a-zA-Z])")
   Clevel <- unlist(lapply(Clevel, function(el) {
     if(length(el)==0) "None"
     else paste(sort(unique(el)), collapse = "-")}))
+  # next clean the email content
   cln_txt <- str_replace_all(content, pattern = "\\s+|\"", " ")
   cln_txt <- str_replace_all(cln_txt, 
                              pattern = "<span(?s).*?(?s)</span>|</div>|B[0-9]+", "")
@@ -81,7 +78,7 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
 }
 
 # define a function which accepts some basic user input and pulls the
-# corresponding emails, used ot be 30322, but addition of more moved it to 32795
+# corresponding emails, the max was 30322, but addition of more increased it to 32795
 get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
                             size = length(ids), # size of selection
                             random = FALSE, # determine if selection is random
@@ -189,6 +186,8 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
 EmailData <- read.csv('ClintonEmailData2.csv')
 
 ### Thompson Timeline ###################################################################
+# a function to pull the timeline compiled on the Thompson timeline, not used in the final
+# analysis as it did not seem a reliable source
 get_ThompTime <- function() {
   # define the base url to make access easier later
   baseURL <- "http://www.thompsontimeline.com/category/clinton-email-server/timeline-long/page/"
@@ -216,6 +215,7 @@ get_ThompTime <- function() {
   pgHeadLine <- str_extract_all(pgHeaders, "(?<=(\\&quot;)).+?(?=(\\&quot;))")
   # output the information
   dates <- matrix(c(unlist(pgDates), unlist(pgHeadLine)), ncol = 2)
+  # replace peculiarities
   dates[,2] <- str_replace_all(dates[,2], pattern = "&#8217;|&#8220;|&#8221;", 
                                replacement = "'")
   return(dates)
@@ -223,7 +223,8 @@ get_ThompTime <- function() {
 
 # extract the times
 ThompsonTimeline <- get_ThompTime()
-# perform some replacements as identified later
+# perform some replacements as identified later, these are specific and based on searching
+# the document for issues
 ThompsonTimeline[c(11,139,179,188,215,236,256,264,306,315,447,462,530,742,775,323),1] <-
   c("January 1, 2006", "June 1, 2010", "April 1, 2011-May 31, 2011", 
     "May 13, 2011-May 14, 2011", "August 18, 2011-August 19, 2011", 
@@ -286,7 +287,7 @@ ThompsonTimeline <- DateCleaner(ThompsonTimeline[,1], ThompsonTimeline[,2])
 
 
 ### Official Schedule ###################################################################
-# create a helper to process schedule dates
+# create a helper to process official foreign schedule dates from the state department
 schedProc <- function(date) {
   # have a month vector for reference
   months <- c("January", "February", "March", "April", "May", "June", "July",
@@ -495,7 +496,7 @@ for (ii in 1:1192) {
             border = NA)
   }
 }
-# resort by ID
+# re-sort by ID
 AsSec <- arrange(AsSec, ID)
 # we can use loon to interact with this plot much more easily
 mail <- l_plot(x = ASDays, y = AScounts, xlabel = 'Date',
@@ -504,7 +505,8 @@ mail <- l_plot(x = ASDays, y = AScounts, xlabel = 'Date',
 l_layer_line(mail, x = ASDays, y = AScounts)
 l_layer_line(mail, x =rep(as.numeric(ASDays[ASDays == "09/11/12"]), 2),
              y = c(0, 125), col = 'red')
-# alternatively, we can use a double-sided slider and basic R
+# alternatively, we can use a double-sided slider and basic R, as shown below
+
 ### Keyword Analysis ####################################################################
 # define a function which can be used to clean and process email content
 get_keywords <- function(Content, stem = TRUE, table = TRUE) {
@@ -550,6 +552,7 @@ ASmat <- read.csv('TermDocumentMatrix.csv')
 # generate a tfidf matrix
 tfIdf <- apply(ASmat, 2, function(col) col/max(col) * log(length(col)/sum(col != 0)))
 colnames(tfIdf) <- relKey
+
 ### Frequency and Email Network Plots with Sliders ######################################
 # let's do some processing by days and extract relevant information
 Days <- unique(floor(AsSec$Date))
@@ -671,11 +674,14 @@ tkpack(slider, fill = "x", side = "bottom")
 tkpack(p, side = "left", fill = "both", expand = 1)
 tkpack(p2, side = "right", fill = "both", expand = 1)
 tkpack(g, side = "top", fill = "both", expand = 1)
+
 ### Spiral Network Plot Function ########################################################
 library(grid)
+# first filter out those communications which involve Clinton
 ClintonCom <- filter(EmailData, 
                      From.name == "Hillary Clinton" | To.name == "Hillary Clinton" |
                        From.name == "H" | To.name == "H")
+# extract the names of all addresses that communicated with Clinton
 ClintNet <- sort(table(c(as.character(ClintonCom$To.name), 
                          as.character(ClintonCom$From.name))),
                  decreasing = TRUE)[-1]
@@ -745,6 +751,74 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
   }
 }  
+
+# modify the spiral network plot function
+spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA, 
+                           levelNum = 2, nodeNum = 20, title = "Title") {
+  # check the wgtTbl status
+  if (!all(is.na(wgtTbl))) {
+    # trim wgtTbl
+    if (length(wgtTbl) > nodeNum) wgtTbl <- wgtTbl[1:nodeNum]
+    # start by generating state mail colouring
+    statemail <- stateMail[names(stateMail) %in% names(wgtTbl)]
+    statemail <- statemail[match(names(wgtTbl), names(statemail))]
+    if (length(statemail) == 0) cols <- "white"
+    else cols <- c("firebrick", "steelblue")[statemail + 1]
+    # generate a new page
+    grid.newpage()
+    # define radial units
+    radunit <- 0.45/levelNum
+    # determine inner level names
+    diffs <- diff(wgtTbl)
+    # select the largest
+    impDiffs <- order(diffs)[1:(levelNum-1)]
+    # extract names of the largest
+    innerCirc <- names(wgtTbl)[1:impDiffs]
+    # now sort the table alphabetically
+    ordering <- order(names(wgtTbl))
+    wgtTbl <- wgtTbl[ordering]
+    # get the radial positions of the first level
+    radPos <- seq(from = 0, to = 2*pi, length.out = length(wgtTbl) + 1)[1:length(wgtTbl)]
+    # now extract coordinates
+    xvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*cos(radPos) + 0.5
+    yvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*sin(radPos) + 0.5
+    # sort out some bookkeeping
+    cols <- cols[ordering]
+    # now plot everything
+    for (ii in 1:length(wgtTbl)) {
+      grid.lines(x = c(0.5, xvals[ii]), y = c(0.5, yvals[ii]),
+                 gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
+                           col = adjustcolor(cols[ii]), alpha.f = 0.8))
+    }
+    grid.circle(x = xvals, y = yvals, r = 0.01, 
+                gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
+                          fill = adjustcolor(cols, alpha.f = 0.8)))
+    # place the central node
+    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+                gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
+                          fill = adjustcolor(col = "firebrick", alpha.f = 1)))
+    # label everything
+    grid.text(names(wgtTbl), x = xvals, y = yvals - 0.01,
+              just = "top", gp = gpar(cex = 0.75))
+    # add a title
+    grid.text(title, x = 0, y = 0.98, just = "left",
+              gp = gpar(face = 2))
+    # add a legend
+    grid.text("Blue - Identifiably .gov", x = 0, y = 0.02,
+              just = "left", gp = gpar(face = 2))
+    grid.text("Red - Not Identifiably .gov", x = 0.98, y = 0.02,
+              just = "right", gp = gpar(face = 2))
+  }
+  else  {
+    # generate a new page
+    grid.newpage()
+    # place the central node
+    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+                gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
+                          fill = adjustcolor(col = "firebrick", alpha.f = 1)))
+  }
+}
+
 ### Spiral Network Plot Double-Sided Slider #############################################
 # extract state mail information
 allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
