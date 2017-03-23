@@ -188,7 +188,7 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
 }
 
 ### Pre-loaded data #####################################################################
-EmailData <- read.csv('ClintonEmailData2.csv')
+EmailData <- read.csv('ClintonEmailData.csv')
 
 ### Thompson Timeline ###################################################################
 # a function to pull the timeline compiled on the Thompson timeline, not used in the final

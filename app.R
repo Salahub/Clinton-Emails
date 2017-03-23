@@ -10,7 +10,7 @@ library(shinyBS)
 
 ### Pre-loaded data #####################################################################
 pal <- c("steelblue", "firebrick")
-EmailData <- read.csv('ClintonEmailData2.csv')
+EmailData <- read.csv('ClintonEmailData.csv')
 ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
 Freq <- read.csv("TermDocumentMatrix.csv")
