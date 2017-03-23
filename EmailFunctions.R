@@ -65,7 +65,12 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
                           Year = years(chr_tm), Weekday = weekdays(chr_tm),
                           Hour = hours(chr_tm), Minutes = minutes(chr_tm),
                           Redacted = redacted, Forwards = forwards,
-                          Content = cln_txt, Classification = Clevel)
+                          Content = cln_txt, Classification = Clevel,
+                          B1 = grepl("B1", Clevel), B2 = grepl("B2", Clevel),
+                          B3 = grepl("B3", Clevel), B4 = grepl("B4", Clevel),
+                          B5 = grepl("B5", Clevel), B6 = grepl("B6", Clevel),
+                          B7 = grepl("B7", Clevel), B8 = grepl("B8", Clevel),
+                          B9 = grepl("B9", Clevel), None = grepl("None", Clevel))
   # now if we want raw output alongside the processed output, include the raw header
   # and the raw email content
   if (includeRaw) {
