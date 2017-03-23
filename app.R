@@ -43,11 +43,11 @@ AsSec$Hour6pm <- (AsSec$Hour + 6) %% 24
 
 ### Spiral Network Plot Functions #######################################################
 # filter the data by communications including Clinton
-ClintonCom <- filter(AsSec, 
+ClintonCom <- filter(AsSec,
                      From.name == "Hillary Clinton" | To.name == "Hillary Clinton" |
                        From.name == "H" | To.name == "H")
 # extract names of all the communicated with Clinton
-ClintNet <- sort(table(c(as.character(ClintonCom$To.name), 
+ClintNet <- sort(table(c(as.character(ClintonCom$To.name),
                          as.character(ClintonCom$From.name))),
                  decreasing = TRUE)[-1]
 # extract state mail information, information pertaining to whether an email is .gov or not
@@ -95,7 +95,7 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     radPoslvl2 <- c(outer(radPoslvl1, shift*(1:numFull), FUN = function(x,y) x + y))
     # add in the rest
     extraPos <- if(numRot-numFull == 0) NULL else(radPoslvl1 +
-                                                    numRot*shift)[1:(length(wgtTbl) - 
+                                                    numRot*shift)[1:(length(wgtTbl) -
                                                                        impDiffs[1]*(numFull+1))]
     # combine
     if (numFull != 0) radPoslvl2 <- c(radPoslvl2, extraPos)
@@ -111,11 +111,11 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                  gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
                            col = adjustcolor(cols[ii]), alpha.f = 0.8))
     }
-    grid.circle(x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y), r = 0.01, 
+    grid.circle(x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y), r = 0.01,
                 gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
                           fill = adjustcolor(cols, alpha.f = 0.8)))
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # label everything
@@ -134,14 +134,14 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # generate a new page
     grid.newpage()
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
   }
 }
 
 # modify the spiral network plot function, improve it
-spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA, 
+spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                            levelNum = 2, nodeNum = 20, title = "Title") {
   # check the wgtTbl status
   if (!all(is.na(wgtTbl))) {
@@ -178,11 +178,11 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                  gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
                            col = adjustcolor(cols[ii]), alpha.f = 0.8))
     }
-    grid.circle(x = xvals, y = yvals, r = 0.01, 
+    grid.circle(x = xvals, y = yvals, r = 0.01,
                 gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
                           fill = adjustcolor(cols, alpha.f = 0.8)))
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # label everything
@@ -201,7 +201,7 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # generate a new page
     grid.newpage()
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
   }
@@ -221,10 +221,10 @@ Vgrepl <- function(patterns, strings) {
 ### App #################################################################################
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-   
+
    # Application title
-   titlePanel("Hillary Clinton Email Displays"),
-   
+   titlePanel("Secretary Clinton's Email (Source: https://wikileaks.org/clinton-emails/)"),
+
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
    fluidRow(column(width = 6, offset = 0.5, textOutput("Dates"))),
@@ -233,21 +233,21 @@ ui <- fluidPage(
                                  max = floor(max(AsSec$Date)),
                                  value = c(floor(min(AsSec$Date)), floor(max(AsSec$Date))),
                                  width = "100%"))),
-   
+
    # everything else
    fluidRow(
      # well panel with write up
-     column(width = 4, 
+     column(width = 4,
             wellPanel(id = "WriteUp", style = "overflow-y:scroll; max-height: 600px",
                       h3("Write up Goes Here"))),
-     
-     # central interaction panel with a slider input for number of bins 
+
+     # central interaction panel with a slider input for number of bins
      column(width = 2,
             fluidRow(selectInput("AdjVar", "Daily Reference Point: ", c("0:00", "18:00"),
                                  selected = "0:00")),
-            fluidRow(checkboxInput("Schedule", "Display Clinton's Foreign Schedule")),
-            fluidRow(selectInput("ClassFilter", "FOIA Codes: ", 
-                                 c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"), 
+            fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
+            fluidRow(selectInput("ClassFilter", "FOIA Codes: ",
+                                 c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"),
                                  selected = c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
                                               "B8", "B9"),
                                  multiple = TRUE)),
@@ -256,7 +256,7 @@ ui <- fluidPage(
             fluidRow(h4("20 Highest Frequency Terms")),
             fluidRow(textOutput("Freq"))
      ),
-     
+
      # add a well panel with all the generated displays
      column(width = 6,
             wellPanel(id = "tPanel",style = "overflow-y:scroll; max-height: 600px",
@@ -272,22 +272,22 @@ ui <- fluidPage(
 # Define server logic required to draw all displays
 server <- function(input, output) {
   # select data using the input date and classification filters
-  DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]), 
+  DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]),
                                     format = "day mon year"),
                               collapse = " - "))
-  selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter],1,any),], 
+  selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter],1,any),],
                             Date < input$range[2] + 1 & Date >= input$range[1]))
   selDays <- reactive(ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
   selCounts <- reactive(AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter],1,any),], 
+  SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter],1,any),],
                               Date < input$range[2] + 1 & Date >= input$range[1]))
-  Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] & 
+  Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] &
                                         StartDate < input$range[2]) |
                              (EndDate < input$range[2] & EndDate >= input$range[1])))
   dispSched <- reactive(input$Schedule)
   tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter],1,any),],
                            Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
-  freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter],1,any),], 
+  freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter],1,any),],
                           Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
   adjVar <- reactive(input$AdjVar == "18:00")
    output$Times <- renderPlot({
@@ -307,20 +307,20 @@ server <- function(input, output) {
      # plot dates based on the dates provided from the slider
      plot(x = as.chron(floor(selDat()$Date)),
           y = timevalues, xlab = xlab,
-          ylab = 'Time Sent', yaxt = 'n', xaxt = 'n', pch = 19, 
+          ylab = 'Time Sent', yaxt = 'n', xaxt = 'n', pch = 19,
           main = main,
           col = adjustcolor(pal[as.numeric(selDat()$Redacted)+1], alpha.f = 0.5),
           cex = 0.25, ylim = extendrange(c(0,1440)), xlim = c(input$range[1], input$range[2]))
-     axis(side = 2, at = c(240, 480, 720, 960, 1200), 
+     axis(side = 2, at = c(240, 480, 720, 960, 1200),
           labels = labelset)
      axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
-     legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19), 
+     legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
            col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
            xpd = TRUE)
    })
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
-     plot(x = selDays(), y = selCounts(), type = 'l', xlab = 'Date (dd/mm/yy)', 
+     plot(x = selDays(), y = selCounts(), type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails Sent', pch = 19,
           main = "Number of Emails Sent by Date",
           ylim = extendrange(AScounts), col = adjustcolor("black", alpha.f = 0.6))
@@ -347,7 +347,7 @@ server <- function(input, output) {
    })
    # add the spiral network plot
    output$Spiral <- renderPlot({
-     spiralNetPlot2(wgtTbl = sort(table(c(as.character(SpirDat()$To.name), 
+     spiralNetPlot2(wgtTbl = sort(table(c(as.character(SpirDat()$To.name),
                                 as.character(SpirDat()$From.name))),
                         decreasing = TRUE)[-1],
                    title = "Spiral Network Plot of Clinton's Communications")
@@ -371,6 +371,6 @@ server <- function(input, output) {
    )
 }
 
-# Run the application 
+# Run the application
 shinyApp(ui = ui, server = server)
 
