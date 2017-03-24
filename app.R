@@ -10,6 +10,7 @@ library(shinyBS)
 
 ### Pre-loaded data #####################################################################
 pal <- c("steelblue", "firebrick")
+pal2 <- c("gray50","firebrick", "steelblue")
 EmailData <- read.csv('ClintonEmailData.csv')
 ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
@@ -62,82 +63,9 @@ for (name in allnames) {
   Mail <- filter(ClintonCom, To.name == name | From.name == name)
   state <- any(grepl(".gov", c(as.character(Mail$To.Add), as.character(Mail$To.name),
                                as.character(Mail$From.name), as.character(Mail$From.Add))))
-  stateMail[which(allnames == name)] <- as.numeric(state)
-}
-# write the function to generate the spiral network plot
-# THIS IS AN OUTDATED VERSION, SEE SpiralNetPlot2
-spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
-                          levelNum = 2, nodeNum = 20, title = "Title") {
-  # check the wgtTbl status
-  if (!all(is.na(wgtTbl))) {
-    # trim wgtTbl
-    if (length(wgtTbl) > nodeNum) wgtTbl <- wgtTbl[1:nodeNum]
-    # start by generating state mail colouring
-    statemail <- stateMail[names(stateMail) %in% names(wgtTbl)]
-    statemail <- statemail[match(names(wgtTbl), names(statemail))]
-    if (length(statemail) == 0) cols <- "white"
-    else cols <- c("firebrick", "steelblue")[statemail + 1]
-    # generate a new page
-    grid.newpage()
-    # define radial units
-    radunit <- 0.45/levelNum
-    # determine inner level names
-    diffs <- diff(wgtTbl)
-    # select the largest
-    impDiffs <- order(diffs)[1:(levelNum-1)]
-    # get the radial positions of the first level
-    radPoslvl1 <- seq(from = 0, to = 2*pi, length.out = impDiffs[1] + 1)[1:impDiffs[1]]
-    # add the second level, see how much space has to be left in between axes
-    numRot <- ceiling((length(wgtTbl) - impDiffs[1])/impDiffs[1])
-    numFull <- floor((length(wgtTbl) - impDiffs[1])/impDiffs[1])
-    # determine the major positions
-    shift <- (2*pi)/((numRot+1)*impDiffs[1])
-    radPoslvl2 <- c(outer(radPoslvl1, shift*(1:numFull), FUN = function(x,y) x + y))
-    # add in the rest
-    extraPos <- if(numRot-numFull == 0) NULL else(radPoslvl1 +
-                                                    numRot*shift)[1:(length(wgtTbl) -
-                                                                       impDiffs[1]*(numFull+1))]
-    # combine
-    if (numFull != 0) radPoslvl2 <- c(radPoslvl2, extraPos)
-    else radPoslvl2 <- extraPos
-    # now extract coordinates
-    lvl1x <- radunit*cos(radPoslvl1) + 0.5
-    lvl1y <- radunit*sin(radPoslvl1) + 0.5
-    lvl2x <- 2*radunit*cos(radPoslvl2) + 0.5
-    lvl2y <- 2*radunit*sin(radPoslvl2) + 0.5
-    # now plot everything
-    for (ii in 1:length(wgtTbl)) {
-      grid.lines(x = c(0.5, c(lvl1x,lvl2x)[ii]), y = c(0.5, c(lvl1y,lvl2y)[ii]),
-                 gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
-                           col = adjustcolor(cols[ii]), alpha.f = 0.8))
-    }
-    grid.circle(x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y), r = 0.01,
-                gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
-                          fill = adjustcolor(cols, alpha.f = 0.8)))
-    # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01,
-                gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
-                          fill = adjustcolor(col = "firebrick", alpha.f = 1)))
-    # label everything
-    grid.text(names(wgtTbl), x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y) - 0.01,
-              just = "top", gp = gpar(cex = 0.75))
-    # add a title
-    grid.text(title, x = 0, y = 0.98, just = "left",
-              gp = gpar(face = 2))
-    # add a legend
-    grid.text("Blue - State Email Address", x = 0, y = 0.02,
-              just = "left", gp = gpar(face = 2))
-    grid.text("Red - Not State Email Address", x = 0.98, y = 0.02,
-              just = "right", gp = gpar(face = 2))
-  }
-  else  {
-    # generate a new page
-    grid.newpage()
-    # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01,
-                gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
-                          fill = adjustcolor(col = "firebrick", alpha.f = 1)))
-  }
+  notState <- any(grepl("[@.]", c(as.character(Mail$To.Add), as.character(Mail$To.name),
+                                   as.character(Mail$From.name), as.character(Mail$From.Add))))
+  stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState)
 }
 
 # modify the spiral network plot function, improve it
@@ -151,11 +79,11 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     statemail <- stateMail[names(stateMail) %in% names(wgtTbl)]
     statemail <- statemail[match(names(wgtTbl), names(statemail))]
     if (length(statemail) == 0) cols <- "white"
-    else cols <- c("firebrick", "steelblue")[statemail + 1]
+    else cols <- pal2[statemail + 1]
     # generate a new page
     grid.newpage()
     # define radial units
-    radunit <- 0.45/levelNum
+    radunit <- 0.42/levelNum
     # determine inner level names
     diffs <- diff(wgtTbl)
     # select the largest
@@ -194,8 +122,10 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # add a legend
     grid.text("Blue - Identifiably .gov", x = 0, y = 0.02,
               just = "left", gp = gpar(face = 2))
-    grid.text("Red - Not Identifiably .gov", x = 0.98, y = 0.02,
+    grid.text("Red - Identifiably Not .gov", x = 0.98, y = 0.02,
               just = "right", gp = gpar(face = 2))
+    grid.text("Grey - Unidentifiable", x = 0.5, y = 0.02,
+              just = "centre", gp = gpar(face = 2))
   }
   else  {
     # generate a new page
