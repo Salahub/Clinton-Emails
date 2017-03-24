@@ -527,6 +527,7 @@ get_keywords <- function(Content, stem = TRUE, table = TRUE) {
   corpus <- str_replace_all(corpus, "(?<=[0-9])\\,(?=[0-9])", "")
   # now safely remove everything else
   corpus <- str_replace_all(corpus, "[^0-9a-zA-Z\\s]", " ")
+  corpus <- str_replace_all(corpus, "[0-9]", "")
   # replace all duplicate spaces
   corpus <- str_replace_all(corpus, "\\s+", " ")
   # split by singular spaces
