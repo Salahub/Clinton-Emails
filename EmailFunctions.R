@@ -557,7 +557,16 @@ ASmat <- matrix(unlist(ASmat), ncol = length(relKey), byrow = TRUE)
 ASmat <- read.csv('TermDocumentMatrix.csv')
 # generate a tfidf matrix
 tfIdf <- apply(ASmat, 2, function(col) col/max(col) * log(length(col)/sum(col != 0)))
-colnames(tfIdf) <- relKey
+ASmat <- cbind(AsSec$ID, AsSec$Date, 
+               AsSec[,c("B1","B2","B3","B4","B5","B6","B7","B8","B9","None")],
+               ASmat)
+tfIdf <- cbind(AsSec$ID, AsSec$Date, 
+               AsSec[,c("B1","B2","B3","B4","B5","B6","B7","B8","B9","None")],
+               tfIdf)
+colnames(tfIdf) <- c("ID","Date","B1","B2","B3","B4","B5","B6","B7","B8","B9","None",
+                     relKey)
+colnames(ASmat) <- c("ID","Date","B1","B2","B3","B4","B5","B6","B7","B8","B9","None",
+                     relKey)
 
 ### Frequency and Email Network Plots with Sliders ######################################
 # let's do some processing by days and extract relevant information
