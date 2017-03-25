@@ -520,6 +520,10 @@ get_keywords <- function(Content, stem = TRUE, table = TRUE) {
   # make everything lowercase for reference
   corpus <- tolower(corpus)
   # start by removing a number of problematic terms
+  corpus <- str_replace_all(corpus, "\\&lt;|\\&gt;|</span>|</div>", " ")
+  corpus <- str_replace_all(corpus, "unclassified [a-z0-9][.]*[a-z0-9][.]* department of state case no[.]* [a-z0-9]+ doc no[.]* [a-z0-9]+ date: [0-9/]+ | unclassified [a-z0-9][.]*[a-z0-9][.]* department of state case no[.]* [a-z0-9\\-]+ doc no[.]* [a-z0-9]+",
+                            " ")
+  corpus <- str_replace_all(corpus, "release\\s*in\\s*part|release\\s*in\\s*full", " ")
   corpus <- str_replace_all(corpus, "u.s.|u.s.a.", "usa")
   # remove all non-alphanumeric characters
   # first remove the contractions and commas used in number display
@@ -554,7 +558,7 @@ ASmat <- lapply(lapply(AsSec$Content, function(e) get_keywords(e, table = FALSE)
                 function(email) sapply(relKey, function(kw) sum(kw == email)))
 ASmat <- matrix(unlist(ASmat), ncol = length(relKey), byrow = TRUE)
 # load the term-document matrix
-ASmat <- read.csv('TermDocumentMatrix.csv')
+# ASmat <- read.csv('TermDocumentMatrix.csv')
 # generate a tfidf matrix
 tfIdf <- apply(ASmat, 2, function(col) col/max(col) * log(length(col)/sum(col != 0)))
 ASmat <- cbind(AsSec$ID, AsSec$Date, 
