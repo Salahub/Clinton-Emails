@@ -20,10 +20,16 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   # extract the recipient information from the Wikileaks header
   to <- str_extract(emails, "(?<=(To\\: <span title=\"Original: )).+(?=</span>)")
   nameTo <- str_extract(to, "(?<=(\">)).+")
+  nameTo <- str_replace_all(nameTo, "&lt.", "\\(")
+  nameTo <- str_replace_all(nameTo, "&gt.", "\\)")
+  nameTo <- str_replace_all(nameTo, "&quot.", "")
   addressTo <- str_extract(to, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
   # extract the sender information from the Wikileaks header
   from <- str_extract(emails, "(?<=(From\\: <span title=\"Original: )).+(?=</span>)")
   nameFrom <- str_extract(from, "(?<=(\">)).+")
+  nameFrom <- str_replace_all(nameFrom, "&lt.", "\\(")
+  nameFrom <- str_replace_all(nameFrom, "&gt.", "\\)")
+  nameFrom <- str_replace_all(nameFrom, "&quot.", "")
   addressFrom <- str_extract(from, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
   # also extract the forwarding contact chain using generic email matching on "@"
   forwards <- str_extract_all(emails, "[a-zA-Z0-9]+\\@[a-zA-Z0-9\\.]+|To:|From:")
