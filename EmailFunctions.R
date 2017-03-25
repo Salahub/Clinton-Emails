@@ -845,9 +845,10 @@ allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
 stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
 for (name in allnames) {
-  Mail <- filter(ClintonCom, To.name == name | From.name == name)
-  state <- any(grepl(".gov", c(as.character(Mail$To.Add), as.character(Mail$To.name),
-                               as.character(Mail$From.name), as.character(Mail$From.Add))))
+  toMail <- filter(ClintonCom, To.name == name)
+  fromMail <- filter(ClintonCom, From.name == name)
+  state <- any(grepl(".gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                               as.character(fromMail$From.name), as.character(fromMail$From.Add))))
   stateMail[which(allnames == name)] <- as.numeric(state)
 }
 # this is my double sided slider hack
