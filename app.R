@@ -237,7 +237,7 @@ server <- function(input, output) {
      # plot dates based on the dates provided from the slider
      plot(x = as.chron(floor(selDat()$Date)),
           y = timevalues, xlab = xlab,
-          ylab = 'Time Sent', yaxt = 'n', xaxt = 'n', pch = 19,
+          ylab = 'Time Sent/Received', yaxt = 'n', xaxt = 'n', pch = 19,
           main = main,
           col = adjustcolor(pal[as.numeric(selDat()$Redacted)+1], alpha.f = 0.5),
           cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
