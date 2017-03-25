@@ -240,7 +240,8 @@ server <- function(input, output) {
           ylab = 'Time Sent', yaxt = 'n', xaxt = 'n', pch = 19,
           main = main,
           col = adjustcolor(pal[as.numeric(selDat()$Redacted)+1], alpha.f = 0.5),
-          cex = 0.25, ylim = extendrange(c(0,1440)), xlim = c(input$range[1], input$range[2]))
+          cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
+          xlim = c(input$range[1], input$range[2]))
      axis(side = 2, at = c(240, 480, 720, 960, 1200),
           labels = labelset)
      axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
