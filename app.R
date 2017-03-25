@@ -10,7 +10,7 @@ library(shinyBS)
 
 ### Pre-loaded data #####################################################################
 pal <- c("steelblue", "firebrick")
-pal2 <- c("gray50","firebrick", "steelblue")
+pal2 <- c("darkorange","firebrick", "steelblue")
 EmailData <- read.csv('ClintonEmailData.csv')
 ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
@@ -206,19 +206,19 @@ server <- function(input, output) {
   DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]),
                                     format = "day mon year"),
                               collapse = " - "))
-  selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter],1,any),],
+  selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
                             Date < input$range[2] + 1 & Date >= input$range[1]))
   selDays <- reactive(ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
   selCounts <- reactive(AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter],1,any),],
+  SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter, drop = FALSE],1,any),],
                               Date < input$range[2] + 1 & Date >= input$range[1]))
   Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] &
                                         StartDate < input$range[2]) |
                              (EndDate < input$range[2] & EndDate >= input$range[1])))
   dispSched <- reactive(input$Schedule)
-  tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter],1,any),],
+  tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter, drop = FALSE],1,any),],
                            Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
-  freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter],1,any),],
+  freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter, drop = FALSE],1,any),],
                           Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
   adjVar <- reactive(input$AdjVar == "18:00")
    output$Times <- renderPlot({
