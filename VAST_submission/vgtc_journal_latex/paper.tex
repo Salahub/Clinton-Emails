@@ -3,6 +3,12 @@
 %\documentclass[widereview]{vgtc}             % wide-spaced review
 %\documentclass[preprint,journal]{vgtc}       % preprint (journal style)
 
+% Colors
+\usepackage[
+hyperref,% for working together with hyperref
+table% for coloring matrix entries
+]{xcolor}% color package; load before tocstyle
+
 %% Uncomment one of the lines above depending on where your paper is
 %% in the conference process. ``review'' and ``widereview'' are for review
 %% submission, ``preprint'' is for pre-publication, and the final version
@@ -143,33 +149,102 @@ The data are extracted from Wikileaks HTML files, cleaned, and stored in a form 
 %%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Commands with arguments
+\newcommand*{\TODO}[1]{\textcolor{red}{TODO #1}}
+% See http://tex.stackexchange.com/questions/251460/how-to-put-symbols-of-equal-size-on-top-of-each-other?noredirect=1#comment599930_251460
+
 \begin{document}
 %% the only exception to this rule is the \firstsection command
 \firstsection{Introduction}
-
 \maketitle
+The 2016 U.S. Presidential election was one of the most contentious in history.  The existence and possible content of Hillary Clinton's private email server dogged former Secretary Clinton's bid for the U.S. presidency and was doubtless a contributing factor to her surprising defeat by Donald Trump.
 
+On March 16, 2016 Wikileaks  published a searchable archive \cite{Wikileaks} containing the contents of more than 30,000 emails (and attachments) that were sent to and from Secretary Clinton's private server.  The documents were provided as pdfs by the U.S. Department of State in response to Freedom of Information Act (FOIA) \cite{FOIA} requests.  The State Dept. also provided a searchable web archive of the pdf documents, released in several installments from May 2015 to March 2017\cite{StateDeptFOIA}.   Both sites provide a  useful tool for anyone searching for particular terms in the documents.  The Wikileaks site was put to much use by investigative reporters, and others, to search for topical news items.
 
-The 2016 US Presidential election was one of the most contentious in history.  The existence and possible content of Hillary Clinton's private email server played an significant role in the campaign until the end. Despite their significant nature, very few of the individuals commenting on the significance of this server had spent any significant time viewing this content. This is no fault of theirs, the officially released data has previously only been stored in databases on the United States' State Department Website (see https://foia.state.gov/Learn/New.aspx) and Wikileaks (see https://wikileaks.org/clinton-emails/) in individually searchable form. Furthermore, the email data is stored in the inconvenient format of individual PDF documents, and in the case of Wikileaks a slightly more convenient but still cumbersome HTML representation based on the official PDF content. This granularity and separation of individual emails on different webpages prevents a great deal interesting analysis of the data, including any aggregate analyses of patterns in content or metadata. As such, the emails are incredibly misunderstood documents, and current searches for patterns and points of interest have relied upon searching for terms of interest and sifting through the results of the search. Such a method is not only tedious but problematic from a statistical point of view, as approaching any data set with a specific hypothesis before exploring its structure and patterns in abstract leads to biased conclusions and poor analysis. In the interest of simplifying the general exploration of this important data set, the Wikileaks HTML email versions were extracted and a series of visualizations were generated around the metadata included in these emails. An interactive web application in \texttt{R} \texttt{shiny} was constructed utilizing these visualizations and the extracted data. Incorporated in this app was a short article explaining the use of the app, providing links to background information, and outlining some of the findings of the more interesting trends observed. This framework provides any individual with interest the ability to generate hypotheses by exploring the data without necessarily searching for any particular conclusion. 
+What is critically missing from either site, however, is the ability to easily conduct statistical analyses of their contents.  Only then can patterns be easily discerned.  
+
+In this paper, we describe a complementary website service (\texttt{rshiny.math.uwaterloo.ca/clinton}).  This service does not provide the search facilities found on Wikileaks, but rather provides the user with interactive visualizations that allow them to uncover patterns in the emails and, through a variety of filters on the emails,  to explore these patterns at some depth.  The service is intended to be used in conjunction with either the Wikileaks service or the State Dept. FOIA service.   The latter two provide the search mechanisms as well as the actual contents of individual emails.  One imagines having three browsers open, one for the data base search (e.g. Wikileaks), one for statistical visualization and exploration (our service), and one for internet search (to provide important context for the other two services). Each one fills a need not met by the other two; the synergy of all three provide the user a powerful set of investigative tools.
+
+In providing the service, we have purposely restrict consideration (for the most part) to displaying patterns of simple characteristics of the emails, displaying simple characteristics of the emails,  the so-called metadata.   
+
+\TODO{MORE TO COME HERE}
+
+Meta data ...  Cautionary
+
+\subsection{A brief timeline on the private email server}
+While the following timeline is somewhat abbreviated, it should serve to raise some of the major issues and concerns related to the private email server and its contents.  It also introduces some of the principal characters in the whole affair.  More complete and in depth timelines are readily available on the internet (e.g. \cite{attkissonTimeline, thompsonTimeline, WashPostTimeline, clintonWikipedia, TimeMagEverything}).
+
+On November 21, 2008, the New York Times reported that Hillary Clinton had decided to accept the position of U.S. Secretary of State.  On January 13, 2009 the internet domain name \texttt{clintonemail.com} was registered \cite{whoisClintonserver}; eight days later Senator Clinton was confirmed as Secretary of State.  
+
+Public knowledge that a private email server being used by Secretary Clinton and others for State Department and personal communications did not surface until March 2015 \cite{NewYorkTimes2015} during the course of a U.S. Congressional investigation \cite{BenghaziReport} of the September 11, 2012 attack by militants on U.S. compounds in Benghazi Libya.  
+
+The State Department had difficulty fulfilling public FOIA and House Benghazi Committee requests \cite{TakingRootWashPost} for Secretary Clinton's government emails because she had exclusively used the private server for all her email.  On March 10, 2015,  Clinton told reporters that she turned over 30,490 emails to the State Department and deleted 31,830 emails deemed to be personal \cite{WashPostTimeline}.    Clinton had tasked three lawyers Cheryl Mills (Clinton's former chief of staff),  David Kendall (Clinton's personal lawyer), and Heather Samuelson (a State Department staffer during Clinton's tenure) to make the determinations as to which emails were work related and which were not \cite{emailVetting, thompsonTimeline}.   
+
+On March 10, 2015 the House Benghazi Committee requested that the private email server be turned over to a neutral third party to determine which emails are personal and which are government records \cite{serverRequest}, but was informed March 27 by David Kendall that no emails remained on the private server for any kind of review \cite{severScrubbedLawyer}.
+Between March 25 and 31, 2015, Paul Combetta (then the server's system administrator), erased all backup copies using \texttt{BleachBit} (see \texttt{www.bleachbit.org}).    
+
+Combetta, Mills, and Samuelson will later be granted partial immunity by the Justice Department during the FBI investigations into the private email server, as were two others: Bryan Pagliano (original server manager) and  John Bentel (former director of Information Resources Management for the State Department's Executive Secretariat) \cite{immunityPolitico, immunityDailyCaller, immunityIT}.  
+
+On April 12, 2015 Clinton announces that she is running for the U.S. Presidency.  On July 24, 2015, inspectors general for the State Department  and the national intelligence agencies announce finding classified information in the emails and that the information they found was classified at the time sent \cite{serverClasssified}, though her campaign declared that they must have been classified after the fact. On August 19, 2015, Clinton calls the allegation of mishandling classified information a ``disagreement between agencies'' \cite{clintonDenialGuardian}.
+
+Nearly one year later, July 5, 2016,  FBI Director James Comey recommended that no charges be laid against Clinton on use of private email server \cite{nochargeFBI}.  On October 28, 2016, Comey revealed that in a separate investigation into former Congressman Anthony Weiner, that emails belonging to his wife Huma Abedin have been found on his laptop.  Since Abedin was a close aid to former Secretary Clinton, FBI investigations were reopened into the private server usage but closed again by Comey on November 6, 2016 without charges being laid \cite{nochargeFBINov}.  In both cases, Comey and the FBI are criticized by pundits from different political parties.
+
+\section{Old stuff}
+\TODO{This material is to be reused wherever}
+All work related emails were eventually released to the State Department who subsequently published more than 30,000 on the U.S.  To add to the confusion, only those work government emails, as vetted Secretary Clinton's lawyers 
+
+The emails and the server became a source for criticism of Secretary Clinton, and others, and came to dog her bid for the presidency in 2016, in what may be one of the most contentious U.S. elections in history.   Part of this criticism was levelled  More complete timelines are publicly available on the internet (e.g. \cite{attkissonTimeline, TimeMagEverything, clintonWikipedia}).  For our purposes, it is enoug
+ 
+ 
+ 33,000 supposedly missing emails
+ Encouraged 
+ and three other American citizens.  Public knowledge of the private email server surfaces State business being conducted on a private server surfaced only after the a
+
+The 2016 US Presidential election was one of the most contentious in history.  The existence and possible content of Hillary Clinton's private email server played a significant role in the campaign until the end.  
+
+The timeline of events related to use of this private server may be found elsewhere (e.g. 
+Despite their significant nature, very few of the individuals commenting on the significance of this server had spent any significant time viewing this content. This is no fault of theirs, the officially released data has previously only been stored in databases on the United States' State Department Website (see https://foia.state.gov/Learn/New.aspx) and Wikileaks (see https://wikileaks.org/clinton-emails/) in individually searchable form. Furthermore, the email data is stored in the inconvenient format of individual PDF documents, and in the case of Wikileaks a slightly more convenient but still cumbersome HTML representation based on the official PDF content. This granularity and separation of individual emails on different webpages prevents a great deal interesting analysis of the data, including any aggregate analyses of patterns in content or metadata. As such, the emails are incredibly misunderstood documents, and current searches for patterns and points of interest have relied upon searching for terms of interest and sifting through the results of the search. Such a method is not only tedious but problematic from a statistical point of view, as approaching any data set with a specific hypothesis before exploring its structure and patterns in abstract leads to biased conclusions and poor analysis. In the interest of simplifying the general exploration of this important data set, the Wikileaks HTML email versions were extracted and a series of visualizations were generated around the metadata included in these emails. An interactive web application in \texttt{R} \texttt{shiny} was constructed utilizing these visualizations and the extracted data. Incorporated in this app was a short article explaining the use of the app, providing links to background information, and outlining some of the findings of the more interesting trends observed. This framework provides any individual with interest the ability to generate hypotheses by exploring the data without necessarily searching for any particular conclusion. 
 
 In generating and exploring this data, a considerable amount of respect is gained for the power of the often overlooked metadata of emails, especially with public figures. Simply having access to the network of communications, simple indicators of identifiable features of the individuals communicating, and times sent is enough to generate interesting questions which simple Google searches of important events and days can shed a great deal of light on. Leveraging data beyond this metadata, including the Freedom of Information Act (FOIA) exemption codes (see https://vault.fbi.gov/explanation-of-exemptions) used to redact the emails, only bolsters this simple metadata driven investigation. Metadata is often viewed as less significant or somehow less intrusive data, but the exploration performed in this paper demonstrated, at the very least to the authors, what a powerful tool metadata is for generating hypotheses about data. Given the lack of privacy present in the modern internet age and the amount of information most individuals make publicly available, there is a clear warning here about the utility of metadata for bad or for good. For a public official like Hillary Clinton, the data become even more interesting due to a number of contentious issues which arose during her tenure as the Secretary of State, independent of and as a result of her use of a private server.
 
-\section{Data Extraction}
+\section{Data}
 
+\TODO{This needs to be short and to the point.  Just say what is done.}
 Before any of the analysis could begin, the emails had to be converted from the individual PDF and HTML form into a more easily used data structure. The choice was made to use the Wikileaks HTML emails as the source for data extraction. This choice was made primarily due to the relative ease of loading the raw HTML pages on the Wikileaks database due to their regular method of storage (the email with ID <id> is stored at https://wikileaks.org/clinton-emails/emailid/<id>) and ease of loading. These qualities made the HTML emails amenable to programmatic extraction, which was completed using a host of web-scraping and string parsing tools in \texttt{R}. In particular the packages \texttt{RCurl} and \texttt{XML} proved invaluable to extract the raw HTML pages for each email, and the packages \texttt{tm}, \texttt{stringr}, and \texttt{SnowballC} were indispensible to process and clean the raw HTML into a useable form. After downloading the raw HTML and extracting the data of interest, the resulting data was stored in csv files to provide the flexibility to load the data into any architecture or analysis tool desired.
 
 Unfortunately, this data is not perfect. The PDF files released by the state department do not include the typical email server header with information about the time stamp inforamtion, the addresses of all involved, and other useful and regular information. Instead, these files appear more similar to screen captures of the emails, providing only the visual display a user would see without the useful information used to generate that display. As a result, the email addresses are occasionally not included, and there were initially concerns over the time zones used to generate the time stamp metadata. Furthermore, the HTML data on Wikileaks is frequently irregular in form, and although work has been done to make the cleaning and extraction functions as general as possible, there are still certainly fringe cases not considered which occur frequently enough to have an impact. It is also important to keep in mind the fact that the data have already been filtered twice. First by the emails chosen to be released by Clinton, and next by the emails and email sections which the State Department chose not to redact. Indeed, even the metadata can be affected by this redaction, as a number of individuals have their email addresses redacted in all communications, preventing certain analysis from being performed.
 
+\section{Displays}
+\TODO{Each of these four displays is described and commented on in context of whole time line}
+\subsection{Inner circle} 
+The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. Finally, all edges and points are coloured according to a simple scheme. If the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, they are coloured blue. Individuals with email addresses which are identifiably not hosted at a '.gov' domain are coloured red. Finally, individuals which cannot have their email host domain identified are coloured grey. It is important to note that for those individuals with grey spokes, the reason the email is not identifiable is the removal of the email by the state department. Such a redaction is not a guarantee that the email said individual used is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain. Still, such speculation cannot be conclusively made, and so these emails are simply reported as they are, unidentifiable.
+
+\subsection{Email volume}
+This plot has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
+
+\subsection{Email times}
+This plot takes advantage of the time-stamps on every email and then plots the emails as points with times on the vertical axis and the day sent on the horizontal axis. The points in this scatterplot are then coloured according to whether the corresponding email was redacted, in which case the point is coloured red, or released in full, in which case the point is coloured blue. Alpha blending and transparency of these points was utilized to make the patterns present more obvious and prevent overplotting from obscuring any interesting results. 
+
+\subsection{FOIA exemptions}.
+ It is important to notice that this barplot is not trivialized by the possibility of selecting individual FOIA exemption codes, as many of the emails in the data set are exempted on a number of grounds, and so have numerous FOIA exemption codes. Thus, this barplot is not only interesting when all codes are selected, but can be used to see which codes commonly co-occur in documents.
+
+\subsection{Term frequency and TFIDF}
+
+
+\section{Filters}
+\TODO{Each filter is described and displayed }
+\subsection{Time filtering}
+\subsection{Sent or received}
+\subsection{FOIA exemptions}
+\subsection{Auxiliary information}
+\TODO{e.g. Clinton's foreign schedule}
+\section{Some further exploration}
+\TODO{Some of our findings.  Unless done in the previous section}
 \section{Shiny App}
+\TODO{Again short and to the point}
+The app (HOST ADDRESS) provides the ability for users to place custom filters on the time frame of server time stamps and classification tags of the emails and view how a series of three displays change. 
 
-The app (HOST ADDRESS) provides the ability for users to place custom filters on the time frame of server time stamps and classification tags of the emails and view how a series of three displays change. The first of these is a spoked network graph of all corresponents with Clinton at the centre. The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. Finally, all edges and points are coloured according to a simple scheme. If the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, they are coloured blue. Individuals with email addresses which are identifiably not hosted at a '.gov' domain are coloured red. Finally, individuals which cannot have their email host domain identified are coloured grey. It is important to note that for those individuals with grey spokes, the reason the email is not identifiable is the removal of the email by the state department. Such a redaction is not a guarantee that the email said individual used is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain. Still, such speculation cannot be conclusively made, and so these emails are simply reported as they are, unidentifiable.
-
-In addition to the spoked network graph, a time series plot of daily email volume is displayed. This plot has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
-
-For an even more detailed view of exactly when emails are sent and what proportion are classified, a third plot of email sending times by day is included in the web application. This plot takes advantage of the time-stamps on every email and then plots the emails as points with times on the vertical axis and the day sent on the horizontal axis. The points in this scatterplot are then coloured according to whether the corresponding email was redacted, in which case the point is coloured red, or released in full, in which case the point is coloured blue. Alpha blending and transparency of these points was utilized to make the patterns present more obvious and prevent overplotting from obscuring any interesting results. 
-
-Finally, a barplot of the FOIA exemption codes used in the selected data is displayed. It is important to notice that this barplot is not trivialized by the possibility of selecting individual FOIA exemption codes, as many of the emails in the data set are exempted on a number of grounds, and so have numerous FOIA exemption codes. Thus, this barplot is not only interesting when all codes are selected, but can be used to see which codes commonly co-occur in documents.
-
+Finally, a barplot of the FOIA exemption codes used in the selected data is displayed
 
 Historically important,  possibly had an impact on the 2016 US presidential election.
 
@@ -230,185 +305,19 @@ Discovery from visualization \& connecting discovery sources
 
 \section{Exposition}
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-molestie consequat, vel illum dolore eu feugiat nulla facilisis at
-vero eros et accumsan et iusto odio dignissim qui blandit praesent
-luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-aliquam erat volutpat~\cite{Kindlmann:1999:SAG}.
-
-\begin{equation}
-\sum_{j=1}^{z} j = \frac{z(z+1)}{2}
-\end{equation}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet.
-
-\subsection{Lorem ipsum}
-
-Lorem ipsum dolor sit amet (see \autoref{tab:vis_papers}), consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. 
-
-\begin{table}[tb]
-  \caption{VIS/VisWeek accepted/presented papers: 1990--2015.}
-  \label{tab:vis_papers}
-  \scriptsize%
-	\centering%
-  \begin{tabu}{%
-	r%
-	*{7}{c}%
-	*{2}{r}%
-	}
-  \toprule
-   year & \rotatebox{90}{Vis/SciVis} &   \rotatebox{90}{SciVis conf} &   \rotatebox{90}{InfoVis} &   \rotatebox{90}{VAST} &   \rotatebox{90}{VAST conf} &   \rotatebox{90}{TVCG @ VIS} &   \rotatebox{90}{CG\&A @ VIS} &   \rotatebox{90}{VIS/VisWeek} \rotatebox{90}{incl. TVCG/CG\&A}   &   \rotatebox{90}{VIS/VisWeek} \rotatebox{90}{w/o TVCG/CG\&A}   \\
-  \midrule
-  2015 & 33 & 9 & 38 & 33 & 14 & 17 & 15 & 159 & 127 \\
-  2014 & 34 &   & 45 & 33 & 21 & 20 &   & 153 & 133 \\
-  2013 & 31 &   & 38 & 32 &   & 20 &   & 121 & 101 \\
-  2012 & 42 &   & 44 & 30 &   & 23 &   & 139 & 116 \\
-  2011 & 49 &   & 44 & 26 &   & 20 &   & 139 & 119 \\
-  2010 & 48 &   & 35 & 26 &   &   &   & 109 & 109 \\
-  2009 & 54 &   & 37 & 26 &   &   &   & 117 & 117 \\
-  2008 & 50 &   & 28 & 21 &   &   &   & 99 & 99 \\
-  2007 & 56 &   & 27 & 24 &   &   &   & 107 & 107 \\
-  2006 & 63 &   & 24 & 26 &   &   &   & 113 & 113 \\
-  2005 & 88 &   & 31 &   &   &   &   & 119 & 119 \\
-  2004 & 70 &   & 27 &   &   &   &   & 97 & 97 \\
-  2003 & 74 &   & 29 &   &   &   &   & 103 & 103 \\
-  2002 & 78 &   & 23 &   &   &   &   & 101 & 101 \\
-  2001 & 74 &   & 22 &   &   &   &   & 96 & 96 \\
-  2000 & 73 &   & 20 &   &   &   &   & 93 & 93 \\
-  1999 & 69 &   & 19 &   &   &   &   & 88 & 88 \\
-  1998 & 72 &   & 18 &   &   &   &   & 90 & 90 \\
-  1997 & 72 &   & 16 &   &   &   &   & 88 & 88 \\
-  1996 & 65 &   & 12 &   &   &   &   & 77 & 77 \\
-  1995 & 56 &   & 18 &   &   &   &   & 74 & 74 \\
-  1994 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  1993 & 55 &   &   &   &   &   &   & 55 & 55 \\
-  1992 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  1991 & 50 &   &   &   &   &   &   & 50 & 50 \\
-  1990 & 53 &   &   &   &   &   &   & 53 & 53 \\
-  \midrule
-  \textbf{sum} & \textbf{1515} & \textbf{9} & \textbf{595} & \textbf{277} & \textbf{35} & \textbf{100} & \textbf{15} & \textbf{2546} & \textbf{2431} \\
-  \bottomrule
-  \end{tabu}%
-\end{table}
-
-\subsection{Mezcal Head}
-
-Lorem ipsum dolor sit amet (see \autoref{fig:sample}), consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. 
-
-\subsubsection{Duis Autem}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem
-ipsum dolor sit amet.
-
-\begin{figure}[tb]
- \centering % avoid the use of \begin{center}...\end{center} and use \centering instead (more compact)
- \includegraphics[width=\columnwidth]{paper-count-w-2015-new}
- \caption{A visualization of the data from \autoref{tab:vis_papers}. The image is from \cite{Isenberg:2017:VMC} and is in the public domain.}
- \label{fig:sample}
-\end{figure}
-
-\subsubsection{Ejector Seat Reservation}
-
-Duis autem~\cite{Lorensen:1987:MCA}\footnote{The algorithm behind
-Marching Cubes \cite{Lorensen:1987:MCA} had already been
-described by Wyvill et al. \cite{Wyvill:1986:DSS} a year
-earlier.} vel eum iriure dolor in hendrerit
-in vulputate velit esse molestie consequat,\footnote{Footnotes
-appear at the bottom of the column.} vel illum dolore eu
-feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-ut laoreet dolore magna aliquam erat volutpat.
-
-
-\paragraph{Confirmed Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat~\cite{Nielson:1991:TAD}. Duis autem vel eum iriure dolor in
-hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi.
-
-\paragraph{Rejected Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
-vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-
-
-\section{Conclusion}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum.
-
 
 %% if specified like this the section will be committed in review mode
 \acknowledgments{
-The authors wish to thank A, B, C. This work was supported in part by
-a grant from XYZ.}
+This work was supported in part by
+a Discovery grant from the Natural Sciences and Engineering Research Council of Canada..}
 
-%\bibliographystyle{abbrv}
-\bibliographystyle{abbrv-doi}
+\newpage
+\bibliographystyle{abbrv}
+%\bibliographystyle{abbrv-doi}
 %\bibliographystyle{abbrv-doi-narrow}
 %\bibliographystyle{abbrv-doi-hyperref}
 %\bibliographystyle{abbrv-doi-hyperref-narrow}
 
-\bibliography{template}
+\bibliography{clinton}
 
 \end{document}
