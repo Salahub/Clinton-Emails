@@ -147,8 +147,21 @@ Vgrepl <- function(patterns, strings) {
 }
 
 ### App #################################################################################
+# define some javascript code for extracting user window size data
+jscode <-'
+var height = 0;
+$(document).on("shiny:connected", function(e) {
+height = window.innerHeight;
+Shiny.onInputChange("height", height);
+});
+$(window).resize(function(e) {
+height = window.innerHeight;
+Shiny.onInputChange("height", height);
+});
+'
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+   tags$head(tags$script(jscode)),
 
    # Application title
    titlePanel("Secretary Clinton's Email (Source: https://wikileaks.org/clinton-emails/)"),
@@ -166,7 +179,8 @@ ui <- fluidPage(
    fluidRow(
      # well panel with write up
      column(width = 4,
-            wellPanel(id = "WriteUp", style = "overflow-y:scroll; max-height: 600px",
+            wellPanel(id = "WriteUp", 
+                      style = "overflow-y:scroll; max-height: 800px", 
                       h3("Write up Goes Here"))),
 
      # central interaction panel with a slider input for number of bins
@@ -190,7 +204,8 @@ ui <- fluidPage(
 
      # add a well panel with all the generated displays
      column(width = 6,
-            wellPanel(id = "tPanel",style = "overflow-y:scroll; max-height: 600px",
+            wellPanel(id = "tPanel",
+                      style = paste('overflow-y:scroll; max-height: 800px'),
                       fluidRow(plotOutput("Spiral")),
                       fluidRow(plotOutput("DaySum")),
                       fluidRow(plotOutput("Times")),
@@ -217,20 +232,12 @@ server <- function(input, output) {
                                  Date < input$range[2] + 1 & Date >= input$range[1] &
                                    (To.name == "Hillary Clinton" | To.name == "H"))$ID)
   )
-  #selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-  #                          Date < input$range[2] + 1 & Date >= input$range[1]))
   selDays <- reactive(ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
   selCounts <- reactive(AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  #SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter, drop = FALSE],1,any),],
-  #                            Date < input$range[2] + 1 & Date >= input$range[1]))
   Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] &
                                         StartDate < input$range[2]) |
                              (EndDate < input$range[2] & EndDate >= input$range[1])))
   dispSched <- reactive(input$Schedule)
-  #tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter, drop = FALSE],1,any),],
-  #                         Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
-  #freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter, drop = FALSE],1,any),],
-  #                        Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
   adjVar <- reactive(input$AdjVar == "18:00")
    output$Times <- renderPlot({
      # first determine whether adjusted or unadjusted times are to be used
@@ -315,6 +322,8 @@ server <- function(input, output) {
      barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% selIDs()], "-"))),
                           main = "FOIA Exemption Codes Used for Redactions")
    )
+   # record the user window size (still cannot use in ui)
+   # output$winHeight <- reactive(input$height)
 }
 
 # Run the application
