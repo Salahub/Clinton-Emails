@@ -543,11 +543,17 @@ get_keywords <- function(Content, stem = TRUE, table = TRUE) {
   # split by singular spaces
   corpus <- unlist(str_split(corpus, " "))
   # remove common stopwords
-  corpus <- removeWords(corpus, c(stopwords(), "s"))
+  Cust_stop <- c(stopwords(), "will", "state", "pm", "said", "secretari", "can", "call",
+                 "depart", "time", "presid", "govern", "offic", "work", "usa", "also", "meet",
+                 "new", tolower(LETTERS))
+  corpus <- removeWords(corpus, stopwords())
   # remove empty strings which may have occurred
   corpus <- corpus[corpus != ""]
   # stem the remaining terms
-  if (stem) corpus <- stemDocument(corpus)
+  if (stem) {
+    corpus <- removeWords(stemDocument(corpus), Cust_stop)
+    corpus <- corpus[corpus != ""]
+  }
   # now to extract the unique words used
   if (table) corpus <- sort(table(corpus), decreasing = TRUE)
   corpus
