@@ -10,15 +10,12 @@ library(shinyBS)
 
 ### Pre-loaded data #####################################################################
 pal <- c("steelblue", "firebrick")
-pal2 <- c("gray50","firebrick", "steelblue")
+pal2 <- c("darkorange","firebrick", "steelblue")
 EmailData <- read.csv('ClintonEmailData.csv')
 ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
 Freq <- read.csv("TermDocumentMatrix.csv")
 TfIdf <- read.csv("TFIDF.csv")
-# commented out daily reads, the most recent version has much greater selection power
-#DailyFreq <- as.matrix(read.csv('DailyFrequency.csv'))
-#DailyTfIdf <- as.matrix(read.csv('TFIDFbyDay.csv'))
 
 ### Filter and prepare the data from time as secretary of state #########################
 # select all emails sent while Secretary
@@ -60,11 +57,12 @@ stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
 # for each name identify if it is associated with a .gov email anywhere in the data
 for (name in allnames) {
-  Mail <- filter(ClintonCom, To.name == name | From.name == name)
-  state <- any(grepl(".gov", c(as.character(Mail$To.Add), as.character(Mail$To.name),
-                               as.character(Mail$From.name), as.character(Mail$From.Add))))
-  notState <- any(grepl("[@.]", c(as.character(Mail$To.Add), as.character(Mail$To.name),
-                                   as.character(Mail$From.name), as.character(Mail$From.Add))))
+  toMail <- filter(ClintonCom, To.name == name)
+  fromMail <- filter(ClintonCom, From.name == name)
+  state <- any(grepl(".gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                               as.character(fromMail$From.name), as.character(fromMail$From.Add))))
+  notState <- any(grepl("[@.]", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                                  as.character(fromMail$From.name), as.character(fromMail$From.Add))))
   stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState)
 }
 
@@ -124,7 +122,7 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
               just = "left", gp = gpar(face = 2))
     grid.text("Red - Identifiably Not .gov", x = 0.98, y = 0.02,
               just = "right", gp = gpar(face = 2))
-    grid.text("Grey - Unidentifiable", x = 0.5, y = 0.02,
+    grid.text("Orange - Unidentifiable", x = 0.5, y = 0.02,
               just = "centre", gp = gpar(face = 2))
   }
   else  {
@@ -176,6 +174,9 @@ ui <- fluidPage(
             fluidRow(selectInput("AdjVar", "Daily Reference Point: ", c("0:00", "18:00"),
                                  selected = "0:00")),
             fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
+            fluidRow(selectInput("ToFromFilter", "Show Emails: ", 
+                                 c("From Clinton", "To Clinton", "All Emails"),
+                                 selected = "All Emails", multiple = FALSE)),
             fluidRow(selectInput("ClassFilter", "FOIA Codes: ",
                                  c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"),
                                  selected = c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
@@ -205,41 +206,55 @@ server <- function(input, output) {
   DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]),
                                     format = "day mon year"),
                               collapse = " - "))
-  selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter],1,any),],
-                            Date < input$range[2] + 1 & Date >= input$range[1]))
+  selIDs <- reactive(
+    switch(input$ToFromFilter,
+           "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                Date < input$range[2] + 1 & Date >= input$range[1])$ID,
+           "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                 Date < input$range[2] + 1 & Date >= input$range[1] &
+                                   (From.name == "Hillary Clinton" | From.name == "H"))$ID,
+           "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                 Date < input$range[2] + 1 & Date >= input$range[1] &
+                                   (To.name == "Hillary Clinton" | To.name == "H"))$ID)
+  )
+  #selDat <- reactive(filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+  #                          Date < input$range[2] + 1 & Date >= input$range[1]))
   selDays <- reactive(ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
   selCounts <- reactive(AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter],1,any),],
-                              Date < input$range[2] + 1 & Date >= input$range[1]))
+  #SpirDat <- reactive(filter(ClintonCom[apply(ClintonCom[,input$ClassFilter, drop = FALSE],1,any),],
+  #                            Date < input$range[2] + 1 & Date >= input$range[1]))
   Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] &
                                         StartDate < input$range[2]) |
                              (EndDate < input$range[2] & EndDate >= input$range[1])))
   dispSched <- reactive(input$Schedule)
-  tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter],1,any),],
-                           Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
-  freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter],1,any),],
-                          Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
+  #tfIdf <- reactive(filter(TfIdf[apply(TfIdf[,input$ClassFilter, drop = FALSE],1,any),],
+  #                         Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
+  #freq <- reactive(filter(Freq[apply(Freq[,input$ClassFilter, drop = FALSE],1,any),],
+  #                        Date < input$range[2] + 1 & Date >= input$range[1])[,-(1:12)])
   adjVar <- reactive(input$AdjVar == "18:00")
    output$Times <- renderPlot({
      # first determine whether adjusted or unadjusted times are to be used
      if (adjVar()) {
-       timevalues <- selDat()$Hour6pm*60 + selDat()$Minutes
+       timevalues <- AsSec$Hour6pm[AsSec$ID %in% selIDs()]*60 + 
+         AsSec$Minutes[AsSec$ID %in% selIDs(),]
        xlab <- "Adjusted Date (dd/mm/yy)"
        main <- "Adjusted Email Times"
        labelset <- c('22:00', '02:00', '06:00', '10:00', '14:00')
      }
      else {
-       timevalues <- selDat()$Hour*60 + selDat()$Minutes
+       timevalues <- AsSec$Hour[AsSec$ID %in% selIDs()]*60 + 
+         AsSec$Minutes[AsSec$ID %in% selIDs()]
        xlab <- "Date (dd/mm/yy)"
        main <- "Email Sent/Received Times"
        labelset <- c("04:00", "08:00", "12:00", "16:00", "20:00")
      }
      # plot dates based on the dates provided from the slider
-     plot(x = as.chron(floor(selDat()$Date)),
+     plot(x = as.chron(floor(AsSec$Date[AsSec$ID %in% selIDs()])),
           y = timevalues, xlab = xlab,
           ylab = 'Time Sent/Received', yaxt = 'n', xaxt = 'n', pch = 19,
           main = main,
-          col = adjustcolor(pal[as.numeric(selDat()$Redacted)+1], alpha.f = 0.5),
+          col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% selIDs()])+1], 
+                            alpha.f = 0.5),
           cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
           xlim = c(input$range[1], input$range[2]))
      axis(side = 2, at = c(240, 480, 720, 960, 1200),
@@ -265,7 +280,7 @@ server <- function(input, output) {
             })
      }
      axis.Date(side = 1, as.chron(selDays()), format = "%d/%m/%y")
-     countbyDate <- tally(group_by(selDat(), dates(as.chron(Date))))
+     countbyDate <- tally(group_by(AsSec[AsSec$ID %in% selIDs(),], dates(as.chron(Date))))
      tempDays <- seq(from = min(countbyDate$`dates(as.chron(Date))`),
                    to = max(countbyDate$`dates(as.chron(Date))`),
                    by = 'days')
@@ -273,31 +288,31 @@ server <- function(input, output) {
      tempcounts[tempDays %in% countbyDate$`dates(as.chron(Date))`] <- countbyDate$n
      lines(x = tempDays, y = tempcounts, col = adjustcolor("darkorchid", alpha.f = 0.4))
      legend("topright", lty = 1, col = adjustcolor(c("black", "darkorchid")),
-            legend = c("All", "Selected FOIA Codes"), cex = 0.8, inset = c(0,-0.05),
+            legend = c("All", "Selected Emails"), cex = 0.8, inset = c(0,-0.05),
             xpd = TRUE, horiz = TRUE)
    })
    # add the spiral network plot
    output$Spiral <- renderPlot({
-     spiralNetPlot2(wgtTbl = sort(table(c(as.character(SpirDat()$To.name),
-                                as.character(SpirDat()$From.name))),
+     spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% selIDs()]),
+                                as.character(ClintonCom$From.name[ClintonCom$ID %in% selIDs()]))),
                         decreasing = TRUE)[-1],
                    title = "Inner Circle by Volume of Communication")
    })
    # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
-     colnames(tfIdf())[order(cSum(tfIdf()), decreasing = TRUE)][1:20],
+     colnames(TfIdf[TfIdf$ID %in% selIDs(),-(1:12)])[order(cSum(TfIdf[TfIdf$ID %in% selIDs(),-(1:12)]), decreasing = TRUE)][1:20],
      collapse = ", "
      ))
    # display the top twenty frequency terms
    output$Freq <- renderText(paste(
-     colnames(freq())[order(cSum(freq()), decreasing = TRUE)][1:20],
+     colnames(Freq[Freq$ID %in% selIDs(),-(1:12)])[order(cSum(Freq[Freq$ID %in% selIDs(),-(1:12)]), decreasing = TRUE)][1:20],
      collapse = ", "
    ))
    # display the selected date range
    output$Dates <- renderText(DateRange())
    # finally a barplot of classification codes used in the selection
    output$Class <- renderPlot(
-     barplot(table(unlist(str_split(selDat()$Classification, "-"))),
+     barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% selIDs()], "-"))),
                           main = "FOIA Exemption Codes Used for Redactions")
    )
 }

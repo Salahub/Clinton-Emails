@@ -20,10 +20,16 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   # extract the recipient information from the Wikileaks header
   to <- str_extract(emails, "(?<=(To\\: <span title=\"Original: )).+(?=</span>)")
   nameTo <- str_extract(to, "(?<=(\">)).+")
+  nameTo <- str_replace_all(nameTo, "&lt.", "\\(")
+  nameTo <- str_replace_all(nameTo, "&gt.", "\\)")
+  nameTo <- str_replace_all(nameTo, "&quot.", "")
   addressTo <- str_extract(to, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
   # extract the sender information from the Wikileaks header
   from <- str_extract(emails, "(?<=(From\\: <span title=\"Original: )).+(?=</span>)")
   nameFrom <- str_extract(from, "(?<=(\">)).+")
+  nameFrom <- str_replace_all(nameFrom, "&lt.", "\\(")
+  nameFrom <- str_replace_all(nameFrom, "&gt.", "\\)")
+  nameFrom <- str_replace_all(nameFrom, "&quot.", "")
   addressFrom <- str_extract(from, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
   # also extract the forwarding contact chain using generic email matching on "@"
   forwards <- str_extract_all(emails, "[a-zA-Z0-9]+\\@[a-zA-Z0-9\\.]+|To:|From:")
@@ -845,9 +851,10 @@ allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
 stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
 for (name in allnames) {
-  Mail <- filter(ClintonCom, To.name == name | From.name == name)
-  state <- any(grepl(".gov", c(as.character(Mail$To.Add), as.character(Mail$To.name),
-                               as.character(Mail$From.name), as.character(Mail$From.Add))))
+  toMail <- filter(ClintonCom, To.name == name)
+  fromMail <- filter(ClintonCom, From.name == name)
+  state <- any(grepl(".gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                               as.character(fromMail$From.name), as.character(fromMail$From.Add))))
   stateMail[which(allnames == name)] <- as.numeric(state)
 }
 # this is my double sided slider hack
