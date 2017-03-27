@@ -10,7 +10,7 @@ library(shinyBS)
 
 ### Pre-loaded data #####################################################################
 pal <- c("steelblue", "firebrick")
-pal2 <- c("darkorange","firebrick", "steelblue")
+pal2 <- c("darkorange","firebrick", "steelblue", "black")
 EmailData <- read.csv('ClintonEmailData.csv')
 ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
@@ -59,11 +59,14 @@ names(stateMail) <- allnames
 for (name in allnames) {
   toMail <- filter(ClintonCom, To.name == name)
   fromMail <- filter(ClintonCom, From.name == name)
-  state <- any(grepl(".gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+  state <- any(grepl("[\\.]gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
                                as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  notState <- any(grepl("[@.]", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+  mil <- any(grepl("[\\.]mil$", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                             as.character(fromMail$From.name), as.character(fromMail$From.Add))))
+  notState <- any(grepl("[@\\.]", c(as.character(toMail$To.Add), as.character(toMail$To.name),
                                   as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState)
+  stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState) + 
+    2*as.numeric(mil)
 }
 
 # modify the spiral network plot function, improve it
@@ -118,12 +121,14 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     grid.text(title, x = 0, y = 0.98, just = "left",
               gp = gpar(face = 2))
     # add a legend
-    grid.text("Blue - Identifiably .gov", x = 0, y = 0.02,
-              just = "left", gp = gpar(face = 2))
-    grid.text("Red - Identifiably Not .gov", x = 0.98, y = 0.02,
-              just = "right", gp = gpar(face = 2))
-    grid.text("Orange - Unidentifiable", x = 0.5, y = 0.02,
-              just = "centre", gp = gpar(face = 2))
+    grid.text(".gov", x = 0, y = 0.02, just = "left", 
+              gp = gpar(face = 2, col = "steelblue"))
+    grid.text(".mil", x = 0.1, y = 0.02, just = "left",
+              gp = gpar(face = 2, col = "black"))
+    grid.text("Not .gov", x = 0.2, y = 0.02, just = "left", 
+              gp = gpar(face = 2, col = "firebrick"))
+    grid.text("Unidentifiable", x = 0.3, y = 0.02, just = "left", 
+              gp = gpar(face = 2, col = "darkorange"))
   }
   else  {
     # generate a new page
