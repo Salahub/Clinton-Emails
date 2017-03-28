@@ -123,11 +123,11 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # add a legend
     grid.text(".gov", x = 0, y = 0.02, just = "left", 
               gp = gpar(face = 2, col = "steelblue"))
-    grid.text(".mil", x = 0.1, y = 0.02, just = "left",
+    grid.text(".mil", x = 0.33, y = 0.02, just = "center",
               gp = gpar(face = 2, col = "black"))
-    grid.text("Not .gov", x = 0.2, y = 0.02, just = "left", 
+    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
               gp = gpar(face = 2, col = "firebrick"))
-    grid.text("Unidentifiable", x = 0.3, y = 0.02, just = "left", 
+    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
               gp = gpar(face = 2, col = "darkorange"))
   }
   else  {
