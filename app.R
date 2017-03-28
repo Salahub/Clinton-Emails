@@ -222,50 +222,61 @@ ui <- fluidPage(
 
 # Define server logic required to draw all displays
 server <- function(input, output) {
-  # select data using the input date and classification filters
-  DateRange <- reactive(paste(chron(c(input$range[1], input$range[2]),
-                                    format = "day mon year"),
-                              collapse = " - "))
-  selIDs <- reactive(
-    switch(input$ToFromFilter,
-           "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                Date < input$range[2] + 1 & Date >= input$range[1])$ID,
-           "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                 Date < input$range[2] + 1 & Date >= input$range[1] &
-                                   (From.name == "Hillary Clinton" | From.name == "H"))$ID,
-           "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                 Date < input$range[2] + 1 & Date >= input$range[1] &
-                                   (To.name == "Hillary Clinton" | To.name == "H"))$ID)
-  )
-  selDays <- reactive(ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  selCounts <- reactive(AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]])
-  Sched <- reactive(filter(ForSched, (StartDate >= input$range[1] &
-                                        StartDate < input$range[2]) |
-                             (EndDate < input$range[2] & EndDate >= input$range[1])))
-  dispSched <- reactive(input$Schedule)
-  adjVar <- reactive(input$AdjVar == "18:00")
+  # insert a caching function
+  inputProc <- function(input) reactive({
+    # generate a storage item
+    intermed <- list()
+    # select data using the input date and classification filters
+    intermed$DateRange <- paste(chron(c(input$range[1], input$range[2]),
+                                      format = "day mon year"),
+                                collapse = " - ")
+    intermed$selIDs <- 
+      switch(input$ToFromFilter,
+             "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                   Date < input$range[2] + 1 & Date >= input$range[1])$ID,
+             "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                     Date < input$range[2] + 1 & Date >= input$range[1] &
+                                       (From.name == "Hillary Clinton" | From.name == "H"))$ID,
+             "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                   Date < input$range[2] + 1 & Date >= input$range[1] &
+                                     (To.name == "Hillary Clinton" | To.name == "H"))$ID)
+    intermed$toFromLab <- switch(input$ToFromFilter,
+                                 "All Emails" = "Sent/Received",
+                                 "From Clinton" = "Sent",
+                                 "To Clinton" = "Received")
+    intermed$selDays <- ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]]
+    intermed$selCounts <- AScounts[ASDays < input$range[2] + 1 & ASDays >= input$range[1]]
+    intermed$Sched <- filter(ForSched, (StartDate >= input$range[1] &
+                                          StartDate < input$range[2]) |
+                               (EndDate < input$range[2] & EndDate >= input$range[1]))
+    intermed$dispSched <- input$Schedule
+    intermed$adjVar <- input$AdjVar == "18:00"
+    return(intermed)
+  })
+  # memoise the above function for caching
+  inter <- inputProc(input)
    output$Times <- renderPlot({
      # first determine whether adjusted or unadjusted times are to be used
-     if (adjVar()) {
-       timevalues <- AsSec$Hour6pm[AsSec$ID %in% selIDs()]*60 + 
-         AsSec$Minutes[AsSec$ID %in% selIDs(),]
+     if (inter()$adjVar) {
+       timevalues <- AsSec$Hour6pm[AsSec$ID %in% inter()$selIDs]*60 + 
+         AsSec$Minutes[AsSec$ID %in% inter()$selIDs,]
        xlab <- "Adjusted Date (dd/mm/yy)"
-       main <- "Adjusted Email Times"
+       main <- paste("Adjusted Email", inter()$toFromLab, "Times")
        labelset <- c('22:00', '02:00', '06:00', '10:00', '14:00')
      }
      else {
-       timevalues <- AsSec$Hour[AsSec$ID %in% selIDs()]*60 + 
-         AsSec$Minutes[AsSec$ID %in% selIDs()]
+       timevalues <- AsSec$Hour[AsSec$ID %in% inter()$selIDs]*60 + 
+         AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
        xlab <- "Date (dd/mm/yy)"
-       main <- "Email Sent/Received Times"
+       main <- paste("Email", inter()$toFromLab, "Times")
        labelset <- c("04:00", "08:00", "12:00", "16:00", "20:00")
      }
      # plot dates based on the dates provided from the slider
-     plot(x = as.chron(floor(AsSec$Date[AsSec$ID %in% selIDs()])),
+     plot(x = as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs])),
           y = timevalues, xlab = xlab,
-          ylab = 'Time Sent/Received', yaxt = 'n', xaxt = 'n', pch = 19,
+          ylab = paste("Time", inter()$toFromLab), yaxt = 'n', xaxt = 'n', pch = 19,
           main = main,
-          col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% selIDs()])+1], 
+          col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
                             alpha.f = 0.5),
           cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
           xlim = c(input$range[1], input$range[2]))
@@ -278,21 +289,21 @@ server <- function(input, output) {
    })
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
-     plot(x = selDays(), y = selCounts(), type = 'l', xlab = 'Date (dd/mm/yy)',
+     plot(x = inter()$selDays, y = inter()$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails', pch = 19,
           main = "Number of Emails by Date",
           ylim = extendrange(AScounts), col = adjustcolor("black", alpha.f = 0.6))
      # add the schedule if it has been selected
-     if (dispSched()) {
-       apply(Sched(), 1,
+     if (inter()$dispSched) {
+       apply(inter()$Sched, 1,
           function(row) {
             polygon(x = c(row[c("StartDate", "EndDate")],  rev(row[c("StartDate", "EndDate")])),
                     y = c(-50,-50,130,130), col = adjustcolor("steelblue", alpha.f = 0.4),
                     border = NA)
             })
      }
-     axis.Date(side = 1, as.chron(selDays()), format = "%d/%m/%y")
-     countbyDate <- tally(group_by(AsSec[AsSec$ID %in% selIDs(),], dates(as.chron(Date))))
+     axis.Date(side = 1, as.chron(inter()$selDays), format = "%d/%m/%y")
+     countbyDate <- tally(group_by(AsSec[AsSec$ID %in% inter()$selIDs,], dates(as.chron(Date))))
      tempDays <- seq(from = min(countbyDate$`dates(as.chron(Date))`),
                    to = max(countbyDate$`dates(as.chron(Date))`),
                    by = 'days')
@@ -305,26 +316,26 @@ server <- function(input, output) {
    })
    # add the spiral network plot
    output$Spiral <- renderPlot({
-     spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% selIDs()]),
-                                as.character(ClintonCom$From.name[ClintonCom$ID %in% selIDs()]))),
+     spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% inter()$selIDs]),
+                                as.character(ClintonCom$From.name[ClintonCom$ID %in% inter()$selIDs]))),
                         decreasing = TRUE)[-1],
                    title = "Inner Circle by Volume of Communication")
    })
    # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
-     colnames(TfIdf[TfIdf$ID %in% selIDs(),-(1:12)])[order(cSum(TfIdf[TfIdf$ID %in% selIDs(),-(1:12)]), decreasing = TRUE)][1:20],
+     colnames(TfIdf[TfIdf$ID %in% inter()$selIDs,-(1:12)])[order(cSum(TfIdf[TfIdf$ID %in% inter()$selIDs,-(1:12)]), decreasing = TRUE)][1:20],
      collapse = ", "
      ))
    # display the top twenty frequency terms
    output$Freq <- renderText(paste(
-     colnames(Freq[Freq$ID %in% selIDs(),-(1:12)])[order(cSum(Freq[Freq$ID %in% selIDs(),-(1:12)]), decreasing = TRUE)][1:20],
+     colnames(Freq[Freq$ID %in% inter()$selIDs,-(1:12)])[order(cSum(Freq[Freq$ID %in% inter()$selIDs,-(1:12)]), decreasing = TRUE)][1:20],
      collapse = ", "
    ))
    # display the selected date range
-   output$Dates <- renderText(DateRange())
+   output$Dates <- renderText(inter()$DateRange)
    # finally a barplot of classification codes used in the selection
    output$Class <- renderPlot(
-     barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% selIDs()], "-"))),
+     barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% inter()$selIDs], "-"))),
                           main = "FOIA Exemption Codes Used for Redactions")
    )
    # record the user window size (still cannot use in ui)
