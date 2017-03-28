@@ -1,18 +1,22 @@
 \BOOKMARK [1][]{section.2}{Introduction}{}% 1
-\BOOKMARK [2][]{subsection.4}{A brief timeline on the private email server}{section.2}% 2
-\BOOKMARK [1][]{section.5}{Old stuff}{}% 3
-\BOOKMARK [1][]{section.6}{Data}{}% 4
-\BOOKMARK [1][]{section.7}{Displays}{}% 5
-\BOOKMARK [2][]{subsection.8}{Inner circle}{section.7}% 6
-\BOOKMARK [2][]{subsection.9}{Email volume}{section.7}% 7
-\BOOKMARK [2][]{subsection.10}{Email times}{section.7}% 8
-\BOOKMARK [2][]{subsection.11}{FOIA exemptions}{section.7}% 9
-\BOOKMARK [2][]{subsection.12}{Term frequency and TFIDF}{section.7}% 10
-\BOOKMARK [1][]{section.13}{Filters}{}% 11
-\BOOKMARK [2][]{subsection.14}{Time filtering}{section.13}% 12
-\BOOKMARK [2][]{subsection.15}{Sent or received}{section.13}% 13
-\BOOKMARK [2][]{subsection.16}{FOIA exemptions}{section.13}% 14
-\BOOKMARK [2][]{subsection.17}{Auxiliary information}{section.13}% 15
-\BOOKMARK [1][]{section.18}{Some further exploration}{}% 16
-\BOOKMARK [1][]{section.19}{Shiny App}{}% 17
-\BOOKMARK [1][]{section.20}{Exposition}{}% 18
+\BOOKMARK [1][]{section.4}{The data}{}% 2
+\BOOKMARK [2][]{subsection.5}{Data extraction and cleaning}{section.4}% 3
+\BOOKMARK [2][]{subsection.6}{Metadata}{section.4}% 4
+\BOOKMARK [2][]{subsection.7}{Redaction information}{section.4}% 5
+\BOOKMARK [2][]{subsection.8}{Content information}{section.4}% 6
+\BOOKMARK [1][]{section.9}{Displays}{}% 7
+\BOOKMARK [2][]{subsection.10}{Inner circle}{section.9}% 8
+\BOOKMARK [2][]{subsection.11}{Email volume}{section.9}% 9
+\BOOKMARK [2][]{subsection.12}{Email times}{section.9}% 10
+\BOOKMARK [2][]{subsection.13}{FOIA exemptions}{section.9}% 11
+\BOOKMARK [2][]{subsection.14}{Term frequency and TFIDF}{section.9}% 12
+\BOOKMARK [1][]{section.15}{Filters}{}% 13
+\BOOKMARK [2][]{subsection.16}{Time filtering}{section.15}% 14
+\BOOKMARK [2][]{subsection.17}{Sent or received}{section.15}% 15
+\BOOKMARK [2][]{subsection.18}{FOIA exemptions}{section.15}% 16
+\BOOKMARK [2][]{subsection.19}{Auxiliary information}{section.15}% 17
+\BOOKMARK [1][]{section.20}{Analysis}{}% 18
+\BOOKMARK [2][]{subsection.21}{Context: A brief timeline on the private email server}{section.20}% 19
+\BOOKMARK [2][]{subsection.22}{Highest peak}{section.20}% 20
+\BOOKMARK [1][]{section.23}{Old stuff}{}% 21
+\BOOKMARK [1][]{section.24}{Concluding Remarks}{}% 22
