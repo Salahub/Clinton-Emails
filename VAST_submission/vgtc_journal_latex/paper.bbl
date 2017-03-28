@@ -11,6 +11,12 @@ Automatic.
 \newblock clintonemail.com.
 \newblock {\em WHOis.net}, March 2017.
 
+\bibitem{snowballc2014package}
+M.~Bouchet-Valat.
+\newblock {\em SnowballC: Snowball stemmers based on the C libstemmer UTF-8
+  library}.
+\newblock {CRAN R-project}, 2014.
+
 \bibitem{BenghaziReport}
 T.~G. (Chairman), L.~Westmoreland, J.~Jordan, P.~Roskam, M.~Pompeo, M.~Roby,
   S.~Brooks, E.~E. Cimmings, A.~Smith, A.~Schiff, L.~Sanchez, and T.~Duckworth.
@@ -31,6 +37,11 @@ H.~R. Clinton.
 \newblock {Secretary Clinton} emails.
 \newblock In {\em Virtual Reading Room}. {U.S. Department of State}, 2017.
 
+\bibitem{NYRmetadata}
+D.~Cole.
+\newblock {`We Kill People Based on Metadata'}.
+\newblock {\em The New York Review of Books}, May 10, 2014.
+
 \bibitem{FOIA}
 U.~S. Congress.
 \newblock {\em The {F}reedom of {I}nformation {A}ct, 5 {U.S.C.} {Sect 522, As
@@ -42,6 +53,16 @@ U.~S. Congress.
 Crowdsource.
 \newblock {Hillary Clinton} email controversy.
 \newblock {\em Wikipedia}, March 2017.
+
+\bibitem{tm2017package}
+I.~Feinerer and K.~Hornik.
+\newblock {\em tm: Text Mining Package}.
+\newblock {CRAN R-project}, 2017.
+
+\bibitem{tm2008paper}
+I.~Feinerer, K.~Hornik, and D.~Meyer.
+\newblock Text mining infrastructure in r.
+\newblock {\em Journal of Statistical Software}, 25(5):1--54, 2008.
 
 \bibitem{immunityPolitico}
 J.~Gerstein and N.~Gass.
@@ -66,9 +87,20 @@ M.~Landler and E.~Lichtblau.
   Clinton} on email.
 \newblock {\em The New York Times}, July 5, 2016.
 
+\bibitem{RCurl2016package}
+D.~T. Lang and the CRAN~team.
+\newblock {\em RCurl: General Network (HTTP/FTP/...) Client Interface for R}.
+\newblock {CRAN R-project}, 2016.
+
+\bibitem{XML2016package}
+D.~T. Lang and the CRAN~Team.
+\newblock {\em XML: Tools for Parsing and Generating XML Within R and S-Plus}.
+\newblock {CRAN R-project}, 2016.
+
 \bibitem{windrushGuardian}
 D.~Leigh and I.~Griffiths.
 \newblock The mystery of {Tony Blair's} finances.
+\newblock {\em The Guardian}, December 1, 2009.
 
 \bibitem{TimeMagEverything}
 J.~Linshi.
@@ -78,20 +110,45 @@ J.~Linshi.
 \bibitem{windrushTelegraph}
 R.~Mendick.
 \newblock {Blair Inc: How Tony Blair} makes his fortune.
+\newblock {\em The Telegraph}, January 7, 2012.
 
-\bibitem{ForeignSched}
-U.~S.~O. of~the Historian.
-\newblock Hillary rodham clinton's travels as secretary of state.
+\bibitem{ObamaMetadata}
+B.~Obama.
+\newblock {Statement by the President on the Section 215 Bulk Metadata
+  Program}.
+\newblock {\em {The White House: Office of the Press Secretary}}, March 27,
+  2014.
 
 \bibitem{TakingRootWashPost}
 R.~O'Harrow~Jr.
 \newblock How {C}linton's email scandal took root.
 \newblock {\em The Washington Post}, March 27, March 2016.
 
+\bibitem{JebBushMetadata2015}
+E.~O'Keefe.
+\newblock {Bush credits Obama for continuing NSA's metadata program}.
+\newblock {\em The Washington Post}, April 21, 2015.
+
+\bibitem{PompeoMetadata}
+M.~Pompeo and D.~B. {Rivkin Jr.}
+\newblock Time for a rigorous national debate about surveillance: Post 9/11
+  measures have been weaked or discarded, a coherent new approach is needed,.
+\newblock {\em The Wall Street Journal}, January 3, 2016.
+
+\bibitem{Rsystem}
+{R Core Team}.
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
+
 \bibitem{immunityDailyCaller}
 C.~Ross.
 \newblock The immunized five: Meet the people covering for {Hillary}.
 \newblock {\em The Daily Caller}, September 23, 2016.
+
+\bibitem{NYRsnowdenLeaks}
+A.~Rusbridger.
+\newblock {The Snowden Leaks and the Public}.
+\newblock {\em The New York Review of Books}, November 21, 2013.
 
 \bibitem{serverRequest}
 M.~S. Schmidt.
@@ -118,6 +175,22 @@ M.~T. Schmidt.
 P.~Thompson.
 \newblock Clinton email investigation timeline.
 \newblock {\em Thompson Timeline}, November 2016.
+
+\bibitem{ForeignSched}
+{U.S. Department of State}.
+\newblock Hillary rodham clinton's travels as secretary of state.
+\newblock {\em {United States Office of the Historian}}, 2016.
+
+\bibitem{TrumpMetadata}
+K.~Waddell.
+\newblock {Trump's CIA Director Wants to Return to a Pre-Snowden World}.
+\newblock {\em {The Atlantic}}, November 18, 2016.
+
+\bibitem{stringr2016package}
+H.~Wickham.
+\newblock {\em stringr: Simple, Consistent Wrappers for Common String
+  Operations}.
+\newblock {CRAN R-project}.
 
 \bibitem{Wikileaks}
 Wikileaks.
