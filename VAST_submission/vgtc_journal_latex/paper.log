@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  27 MAR 2017 20:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  27 MAR 2017 20:37
 entering extended mode
 **paper.tex
 (paper.tex
@@ -607,24 +607,55 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 
  <./pictures/DailySept11ToNov152012_All.png> <./pictures/InnerCircleSept11ToNov
 152012_All.png> <./diamondrule.pdf>] [2]
-[3] [4] (paper.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 331.
- [5
+<pictures/SpiralNetworkFullTime.png, id=148, 395.97937pt x 309.40594pt>
+File: pictures/SpiralNetworkFullTime.png Graphic file (type png)
 
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 331.
+<use pictures/SpiralNetworkFullTime.png>
+Package pdftex.def Info: pictures/SpiralNetworkFullTime.png used on input line 
+225.
+(pdftex.def)             Requested size: 205.96634pt x 160.93922pt.
+
+<pictures/VolumeFullTime.png, id=149, 445.665pt x 274.77657pt>
+File: pictures/VolumeFullTime.png Graphic file (type png)
+
+<use pictures/VolumeFullTime.png>
+Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 230.
+(pdftex.def)             Requested size: 205.96634pt x 126.98991pt.
+
+<pictures/DailyFullTime.png, id=150, 444.91219pt x 275.52937pt>
+File: pictures/DailyFullTime.png Graphic file (type png)
+
+<use pictures/DailyFullTime.png>
+Package pdftex.def Info: pictures/DailyFullTime.png used on input line 235.
+(pdftex.def)             Requested size: 205.96634pt x 127.55225pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3 <./pictures/SpiralNetworkFullTime.png> <./pictures/VolumeFullTime.png>]
+<pictures/ExemptionsFullTime.png, id=158, 438.8897pt x 279.29344pt>
+File: pictures/ExemptionsFullTime.png Graphic file (type png)
+
+<use pictures/ExemptionsFullTime.png>
+Package pdftex.def Info: pictures/ExemptionsFullTime.png used on input line 242
+.
+(pdftex.def)             Requested size: 205.96634pt x 131.07188pt.
+ [4 <./pictures/DailyFullTime.png> <./pictures/ExemptionsFullTime.png>] (paper.
+bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 339.
+ [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 339.
  (paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 331.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 331.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 339.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 339.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: AD8565C86D53E06BCA2DFBC1B79A3128;1041.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 331.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 339.
  ) 
 Here is how much of TeX's memory you used:
- 8969 strings out of 493698
- 133464 string characters out of 3144413
+ 8989 strings out of 493698
+ 134094 string characters out of 3144413
  265170 words of memory out of 3000000
- 11860 multiletter control sequences out of 15000+200000
+ 11876 multiletter control sequences out of 15000+200000
  47942 words of font info for 241 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  41i,15n,35p,2082b,414s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -633,9 +664,9 @@ s/MiKTeX 2.9/fonts/type1/public/txfonts/txtt.pfb><C:/Program Files/MiKTeX 2.9/f
 onts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw
 /helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.
 pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (5 pages, 199028 bytes).
+Output written on paper.pdf (5 pages, 282660 bytes).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
+ 208 PDF objects out of 1000 (max. 8388607)
  53 named destinations out of 1000 (max. 500000)
- 44192 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 44212 words of extra memory for PDF output out of 51595 (max. 10000000)
 
