@@ -165,8 +165,7 @@ What is critically missing from either site is a facility to learn summary, or s
 
 In this paper, we describe an implementation of the missing visual analytic service and illustrate it on Secretary Clinton's e-mails.  The implementation is located at  \texttt{rshiny.math.uwaterloo.ca/clinton} where any visitor may interactively explore summary features  of the entire corpus of emails.   Different visual displays present different salient features from all selected emails; emails can be selected via a variety of interactive filters.   All displays are reactive and update simultaneously in response to user interaction with the data filters.  Together, filters and displays provide a visual analysis service that can be used to quickly learn more about, and to discover some (possibly unanticipated) patterns in the emails. 
 
-The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} ... 
-\TODO{paper overview now}
+The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} which discusses the source of the data, the extraction and cleaning process in Subsection \ref{sect:data:extrclean}, the details of the metadata in Subsection \ref{sect:data:metadata}, the use of redaction codes in Subsection \ref{sect:data:redact} and content data used in Subsection \ref{sect:data:contentinfo}. The displays of the data and their patterns over the entire unfiltered data are then described in Section \ref{sect:Displays}. Within this section, Subsection \ref{sect:Displays:circle} describes the spoked network plot, Subsection \ref{sect:Displays:volume} addresses the email volume time series plot, Subsection \ref{sect:Displays:times} discusses the scatterplot of daily sending times, Subsection \ref{sect:Displays:FOIA} outlines the exemption code barplot, and Subsection \ref{sect:Displays:TFIDF} explains the content tf-idf and frequency information. Interactive filters which are implemented in the application are discussed in Section \ref{sect:Filters}. Finally, brief analysis of some interesting findings is included in Section \ref{sect:Analysis}, alongside a summary of the timeline of the Clinton email imbroglio in Subsection \ref{sect:Analysis:Timeline}.
 
 \section{The data}
 \label{sect:data}
@@ -175,12 +174,14 @@ As of March 3, 2017, a total of 32,795 available emails, either to or from Hilla
 Wikileaks \cite{Wikileaks} has provided the same redacted pdfs and, more usefully for analysis purposes, an HTML version of each pdf.  Consequently, have used the Wikileaks database as our data source.   All data extraction, cleaning, analysis, and presentation is done using the open source statistical programming language \texttt{R}~\cite{Rsystem}.
 
 \subsection{Data extraction and cleaning}
-The raw HTML of each message was programmatically downloaded from the Wikileaks archive using \texttt{R} packages  \texttt{RCurl}~\cite{RCurl2016package} and \texttt{XML}~\cite{XML2016package}.  This took several hours and required the use of manually inserted system pauses to prevent timeouts in the connection, most likely due to Wikileaks DDoS protection software. Besides avoiding such timeouts, these pauses are considered web-scraping etiquette and best practice.
+\label{sect:data:extrclean}
+The raw HTML of each message was programmatically downloaded from the Wikileaks archive using \texttt{R} packages  \texttt{RCurl}~\cite{RCurl2016package} and \texttt{XML}~\cite{XML2016package}.  This took several hours and required the use of manually inserted system pauses to prevent time-outs in the connection, most likely due to Wikileaks DDoS (distributed denial of service) protection software. Besides avoiding such DDoS protection, these pauses are considered web-scraping etiquette and best practice.
 Once downloaded, the HTML data were processed using the \texttt{R} packages \texttt{tm}~\cite{tm2008paper, tm2017package}, \texttt{stringr}~\cite{stringr2016package}, and \texttt{SnowballC}~\cite{snowballc2014package}.   
 
 After downloading the raw HTML and extracting the data of interest, the resulting data was stored in \texttt{csv} files to provide the flexibility to load the data into any architecture or analysis tool desired.  These will be transferred to a relational data base should our server traffic warrant it.
 
 \subsection{Metadata}
+\label{sect:data:metadata}
 For each email, from the HTML we extract as best we can the identity of the persons sending and receiving the email as well as the date and time at which the email was processed by the server. The fields used were the address to, address from, contact name to, contact name from, subject line, and time. As well, forwarding chains of email addresses were captured through the identification of any to or from fields followed by emails within the text. In cases where no contact name was present the address was substituted. When the address was missing no imputation was completed. Carbon copy information was not extracted.
 
 The HTML was constructed from email printed out, redacted, and then provided as pdfs by the State Department.  Consequently, detailed email header information as would normally be available electronically is mostly missing.   All time stamps appear to be the local date and time at which the server sent or received that email (e.g. no time zone or other source time or IP chain information is available).  Moreover, because of redaction (typically FOIA exemption B6 ~\cite{FOIA}),  sender and receiver emails may have truncated domains,  contain only the person's name, or be missing altogether.  In cases where both \texttt{From} and \texttt{To} are entirely missing, but there is an email chain within the message, we do not impute values. \TODO{I could implement the earlier mentioned forward chain extraction, I thought I had already implemented it but it seems I did not}  (e.g. see \texttt{https://wikileaks.org/clinton-emails/emailid/31599}).
@@ -189,8 +190,10 @@ Using regular expressions to extract the metadata was occasionally challenging a
 
 Where possible, the email addresses have also been parsed so that they may be classified into one of four categories: those which are \texttt{.gov},  those which are \texttt{.mil},  those which are identifiable as coming from a domain that is neither  \texttt{.gov} nor  \texttt{.mil}, and those whose domain was not identifiable from the data.
 \subsection{Redaction information}
+\label{sect:data:redact}
 Emails that are redacted are marked as such by the string ``RELEASE IN PART'' and by the presence of one or more of nine FOIA exemption codes B1, B2, \ldots, B9  marking the place where text is missing (redacted).  This provides two further pieces of quasi-metadata (since it is not actual email content) that can be used in analysis.
 \subsection{Content information}
+\label{sect:data:contentinfo}
 The entire (redacted) content of each email is available on the State Department and Wikileaks sites and the user is encouraged to view it there (the pdf forms are more informative, especially in appreciating the extent of the redactions).  To provide some coarse statistical summaries of the content, all word tokens are extracted and partially processed to reduce their number.  For example,  ``stopwords'', as identified by the\texttt{stopwords} function under either the "en" and "SMART" settings, or a set of custom stopwords, were removed. The remaining words were stemmed by the \texttt{stemDocument} function from \texttt{tm} and \texttt{SnowballC}.   While neither the stopword lists nor the stemming tools are particularly well tuned to this corpus of emails, they nevertheless provide some insight as to the topics covered.  
 
 \section{Displays}
@@ -198,7 +201,8 @@ The entire (redacted) content of each email is available on the State Department
 \TODO{Each of these four displays is described and commented on in context of whole time line}
 Four displays of the metadata and quasi-metadata 
 
-\subsection{Inner circle} 
+\subsection{Inner circle}
+\label{sect:Displays:circle} 
 The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. Finally, all edges and points are coloured according to a simple scheme: if the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, their node is coloured blue; nodes with email addresses which are identifiably not hosted at a '.gov' domain are coloured red; nodes with '.mil' accounts are coloured black; and nodes unidentifiable hosts are coloured orange. It is important to note that for those individuals with orange spokes, the most likely reason the email is not identifiable is the redaction of the email by the state department. Such a redaction is not a guarantee that the email of the individual is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain.
 
 \begin{center}
@@ -207,6 +211,7 @@ The spokes are separated into two groups by the radial length of the spokes, the
 
 
 \subsection{Email volume}
+\label{sect:Displays:volume}
 This plot has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
 
 \begin{center}
@@ -215,6 +220,7 @@ This plot has two lines, the first is a line showing the total volume of emails 
 
 
 \subsection{Email times}
+\label{sect:Displays:times}
 This plot takes advantage of the time-stamps on every email and then plots the emails as points with times on the vertical axis and the day sent on the horizontal axis. The points in this scatterplot are then coloured according to whether the corresponding email was redacted, in which case the point is coloured red, or released in full, in which case the point is coloured blue. Alpha blending and transparency of these points was utilized to make the patterns present more obvious and prevent overplotting from obscuring any interesting results. 
 
 \begin{center}
@@ -224,12 +230,14 @@ This plot takes advantage of the time-stamps on every email and then plots the e
 One such result which is immediately obvious is the strange pattern of sending times. Email communications occur with the highest frequency between midnight and 3 am, and with the lowest frequency between 4 pm and 10 pm. This pattern, which is persistent through filters of emails sent to Clinton and by Clinton, is surprising as it indicates that the highest level of communication was occurring at a time typically devoted to sleep. Another pattern immediately obvious is the alternating modes at 2 and 3 am, with alternations occurring on the dates of daylight savings in North America. The regularity of this pattern in the emails suggests some server function performed early in the morning, perhaps some maintenance operation performed every 24 hours.
 
 \subsection{FOIA exemptions}
+\label{sect:Displays:FOIA}
 The United States Freedom of Information Act (FOIA) exemption codes \cite{FOIA} are used by the United States Federal Government to remove sensitive information from released documents accessed using a Freedom of Information Act request. The sensitive matters being addressed by the codes are national security and foreign policy matters for B1, personnel practices for B2, exempted by statute for B3, trade secrets or financial information obtained in confidence for B4, inter- or intra-agency memorandums for B5, personal privacy for B6, records compiled for law enforcement for B7, prepared in relation to financial monitoring institutions for B8, and geophysical and geological information concerning wells for B9 exemptions. The frequencies of each of these codes within filtered emails are shown in the final display. Note that as emails can have numerous redaction codes, this barplot can be useful to identify which codes co-occur over a selection.
 \begin{center}
 \includegraphics[width=0.95\linewidth]{ExemptionsFullTime}
 \end{center}
 
 \subsection{Term frequency and TFIDF}
+\label{sect:Displays:TFIDF}
 The term frequency and tf-idf displays for this data are perhaps the least directly useful. As mentioned above, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} proved inadequate for the messy and non-standard data. In particular, the omission of many common and uninformative action verbs such as 'will' and 'can' from the stopwords used led to very unsatisfactory results. A set of custom stopwords was therefore applied in an attempt to remove some of these uninformative words. The tf-idf was more informative, but the stemming algorithm, when coupled with the typos and abbreviations which are incredibly common in the emails, meant that the results are still incredibly unclear. The terms with the highest scores over any interval do not seem to communicate anything particularly useful about the content of emails sent in that range, with one notable exception in the case of the term 'windrush.' This term appeared with a high tf-idf in a number of selections which contained communications with Tony Blair (email contact "aclb" in the spiral plot), and seems to refer to Windrush Ventures, a company owned by Blair which appears vital in managing Blair's complicated and opaque finances since he left the office of the Prime Minister of the United Kingdom. \cite{windrushTelegraph, windrushGuardian}
 
 \section{Filters}
