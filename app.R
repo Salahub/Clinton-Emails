@@ -50,8 +50,8 @@ ClintNet <- sort(table(c(as.character(ClintonCom$To.name),
                  decreasing = TRUE)[-1]
 # extract state mail information, information pertaining to whether an email is .gov or not
 # first get all names from above network
-allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
-                               levels(ClintonCom$From.name))))
+allnames <- levels(as.factor(c(levels(as.factor(ClintonCom$To.name)),
+                               levels(as.factor(ClintonCom$From.name)))))
 # generate storage in advance
 stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
@@ -197,9 +197,9 @@ ui <- fluidPage(
                                  c("From Clinton", "To Clinton", "All Emails"),
                                  selected = "All Emails", multiple = FALSE)),
             fluidRow(selectInput("ClassFilter", "FOIA Codes: ",
-                                 c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"),
-                                 selected = c("None", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
-                                              "B8", "B9"),
+                                 c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "None"),
+                                 selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", 
+                                              "B9", "None"),
                                  multiple = TRUE)),
             fluidRow(h4("20 Highest TFIDF Terms")),
             fluidRow(textOutput("tfidf")),
@@ -255,6 +255,7 @@ server <- function(input, output) {
   })
   # memoise the above function for caching
   inter <- inputProc(input)
+  # now define all outputs
    output$Times <- renderPlot({
      # first determine whether adjusted or unadjusted times are to be used
      if (inter()$adjVar) {
@@ -263,8 +264,7 @@ server <- function(input, output) {
        xlab <- "Adjusted Date (dd/mm/yy)"
        main <- paste("Adjusted Email", inter()$toFromLab, "Times")
        labelset <- c('22:00', '02:00', '06:00', '10:00', '14:00')
-     }
-     else {
+     } else {
        timevalues <- AsSec$Hour[AsSec$ID %in% inter()$selIDs]*60 + 
          AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
        xlab <- "Date (dd/mm/yy)"
