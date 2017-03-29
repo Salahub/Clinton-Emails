@@ -203,11 +203,13 @@ Four displays of the metadata and quasi-metadata
 
 \subsection{Inner circle}
 \label{sect:Displays:circle} 
-The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. Finally, all edges and points are coloured according to a simple scheme: if the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, their node is coloured blue; nodes with email addresses which are identifiably not hosted at a '.gov' domain are coloured red; nodes with '.mil' accounts are coloured black; and nodes unidentifiable hosts are coloured orange. It is important to note that for those individuals with orange spokes, the most likely reason the email is not identifiable is the redaction of the email by the state department. Such a redaction is not a guarantee that the email of the individual is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain.
+The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. For brevity, the plot displays nodes for only the top 20 correspondents at most. Finally, all edges and points are coloured according to a simple scheme: if the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, their node is coloured blue; nodes with email addresses which are identifiably not hosted at a '.gov' domain are coloured red; nodes with '.mil' accounts are coloured black; and nodes unidentifiable hosts are coloured orange. It is important to note that for those individuals with orange spokes, the most likely reason the email is not identifiable is the redaction of the email by the state department. Such a redaction is not a guarantee that the email of the individual is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain.
 
 \begin{center}
 \includegraphics[width=0.95\linewidth]{SpiralNetworkFullTime}
 \end{center}
+
+While most of Clinton's top 20 correspondents have identifiable state accounts, three do not. One of these, Sidney Blumenthal, is of particular interest, as the advisory nature of his communications with Clinton despite lacking official state department clearance has already generated significant controversy \cite{BlumenthalControversy}.
 
 
 \subsection{Email volume}
@@ -218,6 +220,7 @@ This plot has two lines, the first is a line showing the total volume of emails 
 \includegraphics[width=0.95\linewidth]{VolumeFullTime}
 \end{center}
 
+This plot shows highly variable nature of the daily email volumes, with a number of peaks and troughs suggesting regions in which further investigation might be insightful.
 
 \subsection{Email times}
 \label{sect:Displays:times}
@@ -236,6 +239,8 @@ The United States Freedom of Information Act (FOIA) exemption codes \cite{FOIA} 
 \includegraphics[width=0.95\linewidth]{ExemptionsFullTime}
 \end{center}
 
+It is clear that redactions made for national security and foreign policy reasons account for only a small portion of redactions made. The most frequent redactions are those made to protect personal privacy, which occur in almost half of all emails, and those made with the vague B5 exemption code, which occur in roughly a quarter of all emails. The other codes appear in very few emails and just over a third of the emails are not redacted at all.
+
 \subsection{Term frequency and TFIDF}
 \label{sect:Displays:TFIDF}
 The term frequency and tf-idf displays for this data are perhaps the least directly useful. As mentioned above, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} proved inadequate for the messy and non-standard data. In particular, the omission of many common and uninformative action verbs such as 'will' and 'can' from the stopwords used led to very unsatisfactory results. A set of custom stopwords was therefore applied in an attempt to remove some of these uninformative words. The tf-idf was more informative, but the stemming algorithm, when coupled with the typos and abbreviations which are incredibly common in the emails, meant that the results are still incredibly unclear. The terms with the highest scores over any interval do not seem to communicate anything particularly useful about the content of emails sent in that range, with one notable exception in the case of the term 'windrush.' This term appeared with a high tf-idf in a number of selections which contained communications with Tony Blair (email contact "aclb" in the spiral plot), and seems to refer to Windrush Ventures, a company owned by Blair which appears vital in managing Blair's complicated and opaque finances since he left the office of the Prime Minister of the United Kingdom. \cite{windrushTelegraph, windrushGuardian}
@@ -245,10 +250,13 @@ The term frequency and tf-idf displays for this data are perhaps the least direc
 \TODO{Each filter is described and displayed }
 \subsection{Time filtering}
 Time filtering within the app can be completed at the level of individual days. The use of the mouse to click and drag the slider boundaries allows for large, rapid changes in the date range specified, while clicking on one of the boundaries and using the arrow keys allows for fine selection of the date range via single days. As well, clicking and dragging the blue bar in between the boundaries allows the user to sweep the data with an interval of a fixed width. Clicking the middle bar and using the arrow keys allows the user to shift the range selected by individual days, analogously to the boundaries.
+\includegraphics{DateSliderImage}
 \subsection{Sent or received}
 A drop down menu allows users to select emails by those sent to Clinton, sent by Clinton, or by the entire email database.
+\includegraphics{ToFromImage}
 \subsection{FOIA exemptions}
-Multiple filtering by FOIA exemption codes is supported in the app with a box selection area. Users can add FOIA exemption codes currently not included to the data by clicking the box with their mouse and selecting a code from the menu which is then displayed below the box. To remove codes, the user simply clicks the code within the display box and presses delete, which moves the code to the selection menu. The box therefore displays all codes currently included in the data displayed.
+Multiple filtering by FOIA exemption codes is supported in the app with a box selection area. Users can add FOIA exemption codes currently not included to the data by clicking the box and selecting a code from the menu which is then displayed below the box. To remove codes, the user simply clicks the code within the display box and presses delete, which moves the code to the selection menu. The box therefore displays all codes currently included in the filter.
+\includegraphics{FOIABoxImage}
 \subsection{Auxiliary information}
 \TODO{e.g. Clinton's foreign schedule}
 A number of cosmetic adjustments using auxiliary information can also be made. Users can choose to adjust the scatterplot of time by day, which re-defines 6 pm as the time at which the day changes. This simply groups the emails best, placing all emails into one mostly uninterrupted region by redefining the day about the midsection of the region of lowest email traffic. Another cosmetic adjustment is the inclusion of Clinton's foreign trip schedule as blue regions on the email volume plot. This schedule was taken from the official State Department website \cite{ForeignSched} and allows users to distinguish periods spent out of the United States (coloured in blue) from those spent within the United States (uncoloured).

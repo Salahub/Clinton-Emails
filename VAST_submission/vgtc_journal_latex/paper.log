@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  28 MAR 2017 19:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.7)  28 MAR 2017 20:39
 entering extended mode
 **paper.tex
 (paper.tex
@@ -622,60 +622,86 @@ Package pdftex.def Info: pictures/SpiralNetworkFullTime.png used on input line
 209.
 (pdftex.def)             Requested size: 238.75226pt x 195.61084pt.
 
-<pictures/VolumeFullTime.png, id=154, 445.665pt x 274.77657pt>
+<pictures/VolumeFullTime.png, id=155, 445.665pt x 274.77657pt>
 File: pictures/VolumeFullTime.png Graphic file (type png)
 
 <use pictures/VolumeFullTime.png>
-Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 218.
+Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 220.
 (pdftex.def)             Requested size: 238.75226pt x 147.20316pt.
 
-<pictures/DailyFullTime.png, id=155, 444.91219pt x 275.52937pt>
+<pictures/DailyFullTime.png, id=156, 444.91219pt x 275.52937pt>
 File: pictures/DailyFullTime.png Graphic file (type png)
 
 <use pictures/DailyFullTime.png>
-Package pdftex.def Info: pictures/DailyFullTime.png used on input line 227.
+Package pdftex.def Info: pictures/DailyFullTime.png used on input line 230.
 (pdftex.def)             Requested size: 238.75226pt x 147.85449pt.
 
-<pictures/ExemptionsFullTime.png, id=157, 438.8897pt x 279.29344pt>
+<pictures/ExemptionsFullTime.png, id=158, 438.8897pt x 279.29344pt>
 File: pictures/ExemptionsFullTime.png Graphic file (type png)
 
 <use pictures/ExemptionsFullTime.png>
-Package pdftex.def Info: pictures/ExemptionsFullTime.png used on input line 236
+Package pdftex.def Info: pictures/ExemptionsFullTime.png used on input line 239
 .
 (pdftex.def)             Requested size: 238.75226pt x 151.93703pt.
  [3 <./pictures/SpiralNetworkFullTime.png> <./pictures/VolumeFullTime.png> <./p
-ictures/DailyFullTime.png> <./pictures/ExemptionsFullTime.png>] [4] [5] (paper.
-bbl
+ictures/DailyFullTime.png> <./pictures/ExemptionsFullTime.png>]
+<pictures/DateSliderImage.png, id=170, 156.585pt x 109.1578pt>
+File: pictures/DateSliderImage.png Graphic file (type png)
+
+<use pictures/DateSliderImage.png>
+Package pdftex.def Info: pictures/DateSliderImage.png used on input line 253.
+(pdftex.def)             Requested size: 156.58461pt x 109.15753pt.
+
+<pictures/ToFromImage.png, id=171, 183.68625pt x 119.69719pt>
+File: pictures/ToFromImage.png Graphic file (type png)
+
+<use pictures/ToFromImage.png>
+Package pdftex.def Info: pictures/ToFromImage.png used on input line 256.
+(pdftex.def)             Requested size: 183.68578pt x 119.69688pt.
+
+Underfull \hbox (badness 1681) in paragraph at lines 255--257
+\OT1/ptm/m/n/9 (+20) to Clin-ton, sent by Clin-ton, or by the en-tire email dat
+abase.
+ []
+
+<pictures/FOIABoxImage.png, id=172, 175.40532pt x 70.01157pt>
+File: pictures/FOIABoxImage.png Graphic file (type png)
+
+<use pictures/FOIABoxImage.png>
+Package pdftex.def Info: pictures/FOIABoxImage.png used on input line 259.
+(pdftex.def)             Requested size: 175.40488pt x 70.01138pt.
+ [4 <./pictures/DateSliderImage.png> <./pictures/ToFromImage.png> <./pictures/F
+OIABoxImage.png>] [5] (paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 364.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 372.
  [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 364.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 372.
 
 (paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 364.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 364.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 372.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 372.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 0EDA4691BACC5304A6A9B44AE545CEC8;1335.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 364.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 372.
  ) 
 Here is how much of TeX's memory you used:
- 9093 strings out of 493698
- 135447 string characters out of 3144413
- 266331 words of memory out of 3000000
- 11910 multiletter control sequences out of 15000+200000
+ 9110 strings out of 493698
+ 135908 string characters out of 3144413
+ 267375 words of memory out of 3000000
+ 11923 multiletter control sequences out of 15000+200000
  52302 words of font info for 276 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 41i,15n,35p,1402b,416s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,15n,35p,1409b,416s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/txfonts/txtt.pfb><C:/Program Files/MiKTeX 2.9/f
 onts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw
 /helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.
 pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (6 pages, 378242 bytes).
+Output written on paper.pdf (6 pages, 389565 bytes).
 PDF statistics:
- 272 PDF objects out of 1000 (max. 8388607)
- 71 named destinations out of 1000 (max. 500000)
- 48340 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 280 PDF objects out of 1000 (max. 8388607)
+ 72 named destinations out of 1000 (max. 500000)
+ 48355 words of extra memory for PDF output out of 51595 (max. 10000000)
 
