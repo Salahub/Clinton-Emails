@@ -519,6 +519,9 @@ l_layer_line(mail, x =rep(as.numeric(ASDays[ASDays == "09/11/12"]), 2),
 # alternatively, we can use a double-sided slider and basic R, as shown below
 
 ### Keyword Analysis ####################################################################
+ExtraWords <- c("will", "state", "pm", "said", "secretari", "can", "call",
+                "depart", "time", "presid", "govern", "offic", "work", "usa", "also", "meet",
+                "new", tolower(LETTERS))
 # define a function which can be used to clean and process email content
 get_keywords <- function(Content, stem = TRUE, table = TRUE) {
   # first combine all the emails into one string
@@ -543,10 +546,8 @@ get_keywords <- function(Content, stem = TRUE, table = TRUE) {
   # split by singular spaces
   corpus <- unlist(str_split(corpus, " "))
   # remove common stopwords
-  Cust_stop <- c(stopwords(), "will", "state", "pm", "said", "secretari", "can", "call",
-                 "depart", "time", "presid", "govern", "offic", "work", "usa", "also", "meet",
-                 "new", tolower(LETTERS))
-  corpus <- removeWords(corpus, stopwords())
+  Cust_stop <- c(stopwords(), stopwords(kind = "SMART"), ExtraWords)
+  corpus <- removeWords(corpus, Cust_stop)
   # remove empty strings which may have occurred
   corpus <- corpus[corpus != ""]
   # stem the remaining terms
