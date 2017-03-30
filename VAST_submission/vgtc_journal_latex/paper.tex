@@ -130,7 +130,6 @@ The data are extracted from Wikileaks HTML files, cleaned, and stored in a form 
   {\small (a) Missing block of email: October 30 - November 9} & {\small (b) Inner Circle: Correspondent info by colour; volume by thickness.}
   \end{tabular}
   \caption{Metadata: Time, date, redaction, correspondents, volume, source type.  Filtered: Sept. 11 to Nov. 23, 2012.  
-  %Source: \href{https://wikileaks.org/clinton-emails/}{\texttt{https://wikileaks.org/clinton-emails/}}
   }
   
 	\label{fig:teaser}
@@ -184,7 +183,7 @@ After downloading the raw HTML and extracting the data of interest, the resultin
 \label{sect:data:metadata}
 For each email, from the HTML we extract as best we can the identity of the persons sending and receiving the email as well as the date and time at which the email was processed by the server. The fields used were the address to, address from, contact name to, contact name from, subject line, and time. As well, forwarding chains of email addresses were captured through the identification of any to or from fields followed by emails within the text. In cases where no contact name was present the address was substituted. When the address was missing no imputation was completed. Carbon copy information was not extracted.
 
-The HTML was constructed from email printed out, redacted, and then provided as pdfs by the State Department.  Consequently, detailed email header information as would normally be available electronically is mostly missing.   All time stamps appear to be the local date and time at which the server sent or received that email (e.g. no time zone or other source time or IP chain information is available).  Moreover, because of redaction (typically FOIA exemption B6 ~\cite{FOIA}),  sender and receiver emails may have truncated domains,  contain only the person's name, or be missing altogether.  In cases where both \texttt{From} and \texttt{To} are entirely missing, but there is an email chain within the message, we do not impute values. \TODO{I could implement the earlier mentioned forward chain extraction, I thought I had already implemented it but it seems I did not}  (e.g. see \texttt{https://wikileaks.org/clinton-emails/emailid/31599}).
+The HTML was constructed from email printed out, redacted, and then provided as pdfs by the State Department.  Consequently, detailed email header information as would normally be available electronically is mostly missing.   All time stamps appear to be the local date and time at which the server sent or received that email (e.g. no time zone or other source time or IP chain information is available).  Moreover, because of redaction (typically FOIA exemption B6 ~\cite{FOIA}),  sender and receiver emails may have truncated domains,  contain only the person's name, or be missing altogether.  In cases where both \texttt{From} and \texttt{To} are entirely missing, but there is an email chain within the message, we do not impute values  (e.g. see \texttt{https://wikileaks.org/clinton-emails/emailid/31599}).
 
 Using regular expressions to extract the metadata was occasionally challenging and it is always possible that some fringe cases have been mishandled.  On the whole the metadata is fairly consistent and only rarely do some impure and messy addresses and contact names arise  due to irregular spacing or placement of text within the HTML code.  One such fringe case is Huma Abedin's \texttt{clintonemail.com} email account which will show in the displays as an overly long string.  We have chosen not to special case this but leave it as is.
 
@@ -203,34 +202,46 @@ Four displays of the metadata and quasi-metadata
 
 \subsection{Inner circle}
 \label{sect:Displays:circle} 
-The spokes are separated into two groups by the radial length of the spokes, these groups are determined automatically by the largest difference in volume of correspondence present in the data between the ordered counts of number of emails sent between individuals. As well, the width of the edges of the graph is determined by the volume of correspondence which occurred between Clinton and the correspondent in either direction. For brevity, the plot displays nodes for only the top 20 correspondents at most. Finally, all edges and points are coloured according to a simple scheme: if the name associated with a node in the graph is at any point associated with an email address hosted at some '.gov' domain in the correspondences, their node is coloured blue; nodes with email addresses which are identifiably not hosted at a '.gov' domain are coloured red; nodes with '.mil' accounts are coloured black; and nodes unidentifiable hosts are coloured orange. It is important to note that for those individuals with orange spokes, the most likely reason the email is not identifiable is the redaction of the email by the state department. Such a redaction is not a guarantee that the email of the individual is not an official state email, but it is an indication that the email address is viewed as personal or private information, which suggests some email hosted outside of the '.gov' domain.
+This display takes up to the 20 most frequent correspondents in the selected emails and arranges their email addresses  at the ends of  equiangular spokes around the hub that is Secretary Clinton's email.  The hub is coloured red to show that this account is known not to be a government sponsored account (either \texttt{.gov} of \texttt{.mil}).  Every account that is identifiably not a government sponsored account is coloured red.  Those that are identifiably government are coloured either blue (for \texttt{.gov}) or black (for \texttt{.mil}, if any appear).  Those which can not be determined as either government or not, are coloured orange.
 
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{SpiralNetworkFullTime}
+\caption{Inner Circle over all correspondence}
+\label{fig:InnerCircleAll}
 \end{center}
+\end{figure}
+The figure shows the top 20 (or ``Inner Circle'')  hereover all emails in the collection.
+Note that Clinton aide Huma Abedin is seen to be using both a \texttt{.gov} account for some email and a \texttt{clintonemail} account for others and so appears as two different colour spokes.  The other identfiably non-government account is that of Sidney Blumenthal.  This is of particular interest, as his closeness to Clinton in providing advice on all kinds of matter has been the source of controversy \cite{BlumenthalControversy} given that he had been refused a State department position and so lacked  State Department clearance.  Wendy Sherman, though appointed by Clinton to  Under Secretary of State for Political Affairs in 2011, her email address could not be identified as either definitively government or definitively non-government and so is shown in orange.  It is important to note, however, that the most likely reason an email is not identifiable is that it has been redacted (likely B6).  While no guarantee that the email is not a government email, it is more likely that it was viewed as personal or private information and so probably not government.
 
-While most of Clinton's top 20 correspondents have identifiable state accounts, three do not. One of these, Sidney Blumenthal, is of particular interest, as the advisory nature of his communications with Clinton despite lacking official state department clearance has already generated significant controversy \cite{BlumenthalControversy}.
-
-
+The greater the number of emails between Clinton and the correspondent, the wider is the spoke.  Whenever the difference in volume is great enough the correspondents will also be separated into two groups.  Those with the greatest correspondence will have shorter spokes and hence be visually ``closer'' to Clinton.   As the display shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan. \TODO{Chris, can you be more precise about the algorithm?}
 \subsection{Email volume}
 \label{sect:Displays:volume}
-This plot has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
+Figure~\ref{fig:VolumeAll} has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
 
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{VolumeFullTime}
+\caption{Email Volume: All emails (top) ; Sent by Clinton (bottom)}
+\label{fig:VolumeAll}
 \end{center}
+\end{figure}
 
 This plot shows highly variable nature of the daily email volumes, with a number of peaks and troughs suggesting regions in which further investigation might be insightful.
 
 \subsection{Email times}
 \label{sect:Displays:times}
-This plot takes advantage of the time-stamps on every email and then plots the emails as points with times on the vertical axis and the day sent on the horizontal axis. The points in this scatterplot are then coloured according to whether the corresponding email was redacted, in which case the point is coloured red, or released in full, in which case the point is coloured blue. Alpha blending and transparency of these points was utilized to make the patterns present more obvious and prevent overplotting from obscuring any interesting results. 
-
+As shown in Figure~\ref{fig:TimesAll}, this display shows the time stamp of each email separated into its calendar date on the horizontal axis and its (24hr) time of day on the vertical.  
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{DailyFullTime}
+\caption{Email time patterns: all emails}
+\label{fig:TimesAll}
 \end{center}
-
-One such result which is immediately obvious is the strange pattern of sending times. Email communications occur with the highest frequency between midnight and 3 am, and with the lowest frequency between 4 pm and 10 pm. This pattern, which is persistent through filters of emails sent to Clinton and by Clinton, is surprising as it indicates that the highest level of communication was occurring at a time typically devoted to sleep. Another pattern immediately obvious is the alternating modes at 2 and 3 am, with alternations occurring on the dates of daylight savings in North America. The regularity of this pattern in the emails suggests some server function performed early in the morning, perhaps some maintenance operation performed every 24 hours.
+\end{figure}
+Each email is a point in the plot and is coloured red if any part of that email was redacted, and blue if it was released in full.   Alpha blending prevents over-plotting from obscuring patterns.
+ 
+A few patterns are easily discerned.  For example, the least amount of email appears for a few hours around  20:00 hours, or 8 PM.  Evenings appear to be when email traffic is lightest.  Otherwise, for the most part, it seems fairly uniformly distributed throughout.  Midnight is at the top (and bottom) of the plot, so it would seem that email will occur mainly from midnight until about 4 or 5 PM.   Note also the surprisingly regular horizontal lines that appear across the top of the plot.  This regularity is suggestive of some automated schedule for the server which causes the email to stack up before being recorded at either 2 or 3 AM.  The location of these lines switches exactly whenever daylight savings time switches in North America.  
 
 \subsection{FOIA exemptions}
 \label{sect:Displays:FOIA}
@@ -243,19 +254,57 @@ It is clear that redactions made for national security and foreign policy reason
 
 \subsection{Term frequency and TFIDF}
 \label{sect:Displays:TFIDF}
-The term frequency and tf-idf displays for this data are perhaps the least directly useful. As mentioned above, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} proved inadequate for the messy and non-standard data. In particular, the omission of many common and uninformative action verbs such as 'will' and 'can' from the stopwords used led to very unsatisfactory results. A set of custom stopwords was therefore applied in an attempt to remove some of these uninformative words. The tf-idf was more informative, but the stemming algorithm, when coupled with the typos and abbreviations which are incredibly common in the emails, meant that the results are still incredibly unclear. The terms with the highest scores over any interval do not seem to communicate anything particularly useful about the content of emails sent in that range, with one notable exception in the case of the term 'windrush.' This term appeared with a high tf-idf in a number of selections which contained communications with Tony Blair (email contact "aclb" in the spiral plot), and seems to refer to Windrush Ventures, a company owned by Blair which appears vital in managing Blair's complicated and opaque finances since he left the office of the Prime Minister of the United Kingdom. \cite{windrushTelegraph, windrushGuardian}
+The 20 terms (stemmed words excluding stopwords) which appear in the greatest number of the emails selected are displayed as those having ``Highest Frequency''.  
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[width=0.4\linewidth]{HighFreqAll} &
+$~~~~$ &
+\includegraphics[width=0.4\linewidth]{HighTFIDFAll} 
+\end{tabular}
+\end{center}
+\end{figure}
+Those terms which appear frequently within some emails but less frequently across emails will have a high tf-idf (term frequency - inverse document frequency) score.  The top 20 scoring of these in the selected emails are shown in the ``TFIDF'' display. \TODO{Chris, check that I have described these two measures correctly}
+The top 20 shown here are for all emails in the corpus; these will change depending on the filtering.
+
+The terms give some limited insight into the contents of the email.  As seen here, for example, the first names of two of Clinton's closest aides, Jake Sullivan and Cheryl Mills,  appear under TFIDF but not  as high frequency terms.  One problem with tf-idf for this e-mail corpus is that many emails contain email chains which grow as each person replies which could magnify the within email frequency for some terms.
+
+As mentioned in Section~\ref{sect:data:contentinfo}, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} is also challenged by this messy and non-standard data. The list of stopwords had to be supplemented so as to avoid uninformative action verbs such as 'will' and 'can'. The stemming algorithm was also challenged by typographical errors in emails and the proliferation of acronyms (e.g. for individuals and government abbreviations).   Even so,  the terms nevertheless occasionally turn up something of interest as in the case of ``windrush'',  which turned out to refer to ``Windrush Ventures'' (e.g. see  \cite{windrushTelegraph, windrushGuardian}),  a company owned by former U.K. Prime Minister Tony Blair .  ``Windrush'' appears at the end of emails as part of Mr. Blair's electronic signature for his email id ``aclb''  (e.g. see the ``Inner Circle''  of Figure~\ref{fig:teaser}, b).
 
 \section{Filters}
 \label{sect:Filters}
+There are only three filters but each one affects all data displays.  As each filter is changed, every display redraws itself on the filtered data, immediately in reaction to the change.  In this way, the filters can be used together to focus on particular subsets of the emails or simply to observe how the display patterns change with the filter being applied.
 \subsection{Time filtering}
-Time filtering within the app can be completed at the level of individual days. The use of the mouse to click and drag the slider boundaries allows for large, rapid changes in the date range specified, while clicking on one of the boundaries and using the arrow keys allows for fine selection of the date range via single days. As well, clicking and dragging the blue bar in between the boundaries allows the user to sweep the data with an interval of a fixed width. Clicking the middle bar and using the arrow keys allows the user to shift the range selected by individual days, analogously to the boundaries.
-\includegraphics{DateSliderImage}
+A sliding time window 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.35\linewidth]{DateSliderImage}
+\end{center}
+\end{figure}
+filters the emails displayed to those whose date lies between the two end points.
+The size of the time window is changed by  moving either end, either by mouse click and drag or by selecting an end to move with the arrow keys. The whole time window is moved by selecting the middle bar and either dragging it or moving it with the arrow keys.
+
+This filter is simple but powerful.  All emails are displayed when the range covers all dates.  Moving the end points towards one another allows the user to focus the displays on any particular range, down to as fine as all emails on a single day.  With a fixed range of days, for example a two week period,  dragging the middle bar from left to right will have each display smoothly update over time.
+%
+%Time filtering within the app can be completed at the level of individual days. The use of the mouse to click and drag the slider boundaries allows for large, rapid changes in the date range specified, while clicking on one of the boundaries and using the arrow keys allows for fine selection of the date range via single days. As well, clicking and dragging the blue bar in between the boundaries allows the user to sweep the data with an interval of a fixed width. Clicking the middle bar and using the arrow keys allows the user to shift the range selected by individual days, analogously to the boundaries.
 \subsection{Sent or received}
-A drop down menu allows users to select emails by those sent to Clinton, sent by Clinton, or by the entire email database.
-\includegraphics{ToFromImage}
+A drop down menu 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.35\linewidth]{ToFromImage}
+\end{center}
+\end{figure}
+is used to select those emails which Clinton sent, or received, or either sent or received.  The default is ``All Emails'', which is the same as no filter being applied for sent or received.  Choosing ``From Clinton'' selects for display only those mails sent by Secretary Clinton, choosing ``To  Clinton'' selects only those emails which she received.  This might be used, for example, to explore whether the inner circle of correspondents changes depending on whether Secretary Clinton is emailing them, or they are emailing her.
+
+
 \subsection{FOIA exemptions}
-Multiple filtering by FOIA exemption codes is supported in the app with a box selection area. Users can add FOIA exemption codes currently not included to the data by clicking the box and selecting a code from the menu which is then displayed below the box. To remove codes, the user simply clicks the code within the display box and presses delete, which moves the code to the selection menu. The box therefore displays all codes currently included in the filter.
-\includegraphics{FOIABoxImage}
+Multiple filtering by FOIA exemption codes is supported in the app with a box selection area. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.35\linewidth]{FOIABoxImage}
+\end{center}
+\end{figure}
+Users can add FOIA exemption codes currently not included to the data by clicking the box and selecting a code from the menu which is then displayed below the box. To remove codes, the user simply clicks the code within the display box and presses delete, which moves the code to the selection menu. The box therefore displays all codes currently included in the filter.
 \subsection{Auxiliary information}
 \TODO{e.g. Clinton's foreign schedule}
 A number of cosmetic adjustments using auxiliary information can also be made. Users can choose to adjust the scatterplot of time by day, which re-defines 6 pm as the time at which the day changes. This simply groups the emails best, placing all emails into one mostly uninterrupted region by redefining the day about the midsection of the region of lowest email traffic. Another cosmetic adjustment is the inclusion of Clinton's foreign trip schedule as blue regions on the email volume plot. This schedule was taken from the official State Department website \cite{ForeignSched} and allows users to distinguish periods spent out of the United States (coloured in blue) from those spent within the United States (uncoloured).
@@ -361,6 +410,9 @@ This work was supported in part by
 a Discovery grant from the Natural Sciences and Engineering Research Council of Canada..}
 
 \newpage
+$~~~$
+\newpage
+
 \bibliographystyle{abbrv}
 %\bibliographystyle{abbrv-doi}
 %\bibliographystyle{abbrv-doi-narrow}
