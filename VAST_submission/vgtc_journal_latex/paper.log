@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  29 MAR 2017 14:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  30 MAR 2017 00:26
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -418,55 +418,55 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 
 Package hyperref Warning: Option `pdftex' has already been used,
-(hyperref)                setting the option has no effect on input line 146.
+(hyperref)                setting the option has no effect on input line 145.
 
 
 Package hyperref Warning: Option `pagebackref' has already been used,
-(hyperref)                setting the option has no effect on input line 146.
+(hyperref)                setting the option has no effect on input line 145.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\\' on input line 146.
+(hyperref)                removing `\\' on input line 145.
 
-Package hyperref Info: Option `pageanchor' set `true' on input line 146.
-Package hyperref Info: Option `plainpages' set `false' on input line 146.
-Package hyperref Info: Option `hypertexnames' set `false' on input line 146.
+Package hyperref Info: Option `pageanchor' set `true' on input line 145.
+Package hyperref Info: Option `plainpages' set `false' on input line 145.
+Package hyperref Info: Option `hypertexnames' set `false' on input line 145.
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 146.
+(hyperref)                setting the option has no effect on input line 145.
 
-Package hyperref Info: Option `bookmarksnumbered' set `false' on input line 146
+Package hyperref Info: Option `bookmarksnumbered' set `false' on input line 145
 .
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 146.
-Package hyperref Info: Option `breaklinks' set `true' on input line 146.
-Package hyperref Info: Option `colorlinks' set `false' on input line 146.
-Package hyperref Info: Option `nesting' set `true' on input line 146.
-Package hyperref Info: Option `linktocpage' set `true' on input line 146.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 145.
+Package hyperref Info: Option `breaklinks' set `true' on input line 145.
+Package hyperref Info: Option `colorlinks' set `false' on input line 145.
+Package hyperref Info: Option `nesting' set `true' on input line 145.
+Package hyperref Info: Option `linktocpage' set `true' on input line 145.
 (./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 156.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 156.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 155.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 155.
 
  (/usr/local/texlive/2015/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 156.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 155.
+LaTeX Font Info:    ... okay on input line 155.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 155.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ptm.fd
@@ -499,7 +499,7 @@ Package grfext Info: Graphics extension search list:
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \microtypecontext on input line 156.
+LaTeX Info: Redefining \microtypecontext on input line 155.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -515,7 +515,7 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
 \big@size=\dimen140
 \AtBeginShipoutBox=\box32
-Package hyperref Info: Link coloring OFF on input line 156.
+Package hyperref Info: Link coloring OFF on input line 155.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -525,15 +525,15 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count118
 )
-LaTeX Info: Redefining \ref on input line 156.
-LaTeX Info: Redefining \pageref on input line 156.
-LaTeX Info: Redefining \nameref on input line 156.
+LaTeX Info: Redefining \ref on input line 155.
+LaTeX Info: Redefining \pageref on input line 155.
+LaTeX Info: Redefining \nameref on input line 155.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write3
 \openout3 = `paper.out'.
 
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 160.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 159.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1phv.fd
@@ -543,8 +543,8 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `phv' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 16
-0.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 15
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
@@ -553,30 +553,30 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `ztmcm' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 16
-0.
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 15
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 16
-0.
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 15
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 16
-0.
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 15
+9.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 160.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 160.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 160.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 \abstractwidth=\skip54
 
 <pictures/EmailSentRecdSept11toNov23.png, id=92, 705.63625pt x 465.74pt>
@@ -584,7 +584,7 @@ File: pictures/EmailSentRecdSept11toNov23.png Graphic file (type png)
 
 <use pictures/EmailSentRecdSept11toNov23.png>
 Package pdftex.def Info: pictures/EmailSentRecdSept11toNov23.png used on input 
-line 160.
+line 159.
 (pdftex.def)             Requested size: 231.85933pt x 153.03256pt.
 
 <pictures/InnerCircleSept11ToNov23.png, id=94, 727.71875pt x 504.88625pt>
@@ -592,16 +592,16 @@ File: pictures/InnerCircleSept11ToNov23.png Graphic file (type png)
 
 <use pictures/InnerCircleSept11ToNov23.png>
 Package pdftex.def Info: pictures/InnerCircleSept11ToNov23.png used on input li
-ne 160.
+ne 159.
 (pdftex.def)             Requested size: 220.57143pt x 153.03256pt.
 
-Overfull \hbox (9.20547pt too wide) in paragraph at lines 160--160
+Overfull \hbox (9.20547pt too wide) in paragraph at lines 159--159
  [][] 
  []
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 160.
-LaTeX Font Info:    Try loading font information for OT1+txtt on input line 160
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 159.
+LaTeX Font Info:    Try loading font information for OT1+txtt on input line 159
 .
 (/usr/local/texlive/2015/texmf-dist/tex/latex/txfonts/ot1txtt.fd
 File: ot1txtt.fd 2000/12/15 v3.1
@@ -614,17 +614,17 @@ Package microtype Info: Loading generic settings for font family
 <diamondrule.pdf, id=95, 213.79875pt x 12.045pt>
 File: diamondrule.pdf Graphic file (type pdf)
  <use diamondrule.pdf>
-Package pdftex.def Info: diamondrule.pdf used on input line 160.
+Package pdftex.def Info: diamondrule.pdf used on input line 159.
 (pdftex.def)             Requested size: 213.79822pt x 12.04495pt.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 160.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 160.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 160.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 160.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 160.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 159.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ts1ptm.fd
@@ -636,97 +636,119 @@ Underfull \vbox (badness 1354) has occurred while \output is active []
 
 
  <./pictures/EmailSentRecdSept11toNov23.png> <./pictures/InnerCircleSept11ToNov
-23.png> <./diamondrule.pdf>] [2]
-<pictures/SpiralNetworkFullTime.png, id=154, 366.61969pt x 300.3722pt>
+23.png> <./diamondrule.pdf>]
+<pictures/SpiralNetworkFullTime.png, id=143, 366.61969pt x 300.3722pt>
 File: pictures/SpiralNetworkFullTime.png Graphic file (type png)
 
 <use pictures/SpiralNetworkFullTime.png>
 Package pdftex.def Info: pictures/SpiralNetworkFullTime.png used on input line 
 209.
 (pdftex.def)             Requested size: 238.75226pt x 195.61084pt.
-
-<pictures/VolumeFullTime.png, id=156, 445.665pt x 274.77657pt>
+ [2]
+<pictures/VolumeFullTime.png, id=157, 774.895pt x 489.83pt>
 File: pictures/VolumeFullTime.png Graphic file (type png)
 
 <use pictures/VolumeFullTime.png>
-Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 220.
-(pdftex.def)             Requested size: 238.75226pt x 147.20316pt.
+Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 224.
+(pdftex.def)             Requested size: 238.75226pt x 150.91893pt.
 
-<pictures/DailyFullTime.png, id=157, 444.91219pt x 275.52937pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<pictures/DailyFullTime.png, id=159, 444.91219pt x 275.52937pt>
 File: pictures/DailyFullTime.png Graphic file (type png)
 
 <use pictures/DailyFullTime.png>
-Package pdftex.def Info: pictures/DailyFullTime.png used on input line 230.
+Package pdftex.def Info: pictures/DailyFullTime.png used on input line 237.
 (pdftex.def)             Requested size: 238.75226pt x 147.85449pt.
 
-<pictures/ExemptionsFullTime.png, id=159, 438.8897pt x 279.29344pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<pictures/ExemptionsFullTime.png, id=161, 438.8897pt x 279.29344pt>
 File: pictures/ExemptionsFullTime.png Graphic file (type png)
 
 <use pictures/ExemptionsFullTime.png>
-Package pdftex.def Info: pictures/ExemptionsFullTime.png used on input line 239
+Package pdftex.def Info: pictures/ExemptionsFullTime.png used on input line 250
 .
 (pdftex.def)             Requested size: 238.75226pt x 151.93703pt.
  [3 <./pictures/SpiralNetworkFullTime.png> <./pictures/VolumeFullTime.png> <./p
-ictures/DailyFullTime.png> <./pictures/ExemptionsFullTime.png>]
-<pictures/DateSliderImage.png, id=172, 156.585pt x 109.1578pt>
+ictures/DailyFullTime.png>]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 260.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 260.
+
+<pictures/HighFreqAll.png, id=174, 216.81pt x 196.735pt>
+File: pictures/HighFreqAll.png Graphic file (type png)
+
+<use pictures/HighFreqAll.png>
+Package pdftex.def Info: pictures/HighFreqAll.png used on input line 261.
+(pdftex.def)             Requested size: 100.52605pt x 91.21965pt.
+
+<pictures/HighTFIDFAll.png, id=175, 216.81pt x 196.735pt>
+File: pictures/HighTFIDFAll.png Graphic file (type png)
+
+<use pictures/HighTFIDFAll.png>
+Package pdftex.def Info: pictures/HighTFIDFAll.png used on input line 263.
+(pdftex.def)             Requested size: 100.52605pt x 91.21965pt.
+
+<pictures/DateSliderImage.png, id=180, 156.585pt x 109.1578pt>
 File: pictures/DateSliderImage.png Graphic file (type png)
 
 <use pictures/DateSliderImage.png>
-Package pdftex.def Info: pictures/DateSliderImage.png used on input line 252.
-(pdftex.def)             Requested size: 156.58461pt x 109.15753pt.
+Package pdftex.def Info: pictures/DateSliderImage.png used on input line 281.
+(pdftex.def)             Requested size: 87.96317pt x 61.32281pt.
 
-<pictures/ToFromImage.png, id=173, 183.68625pt x 119.69719pt>
+<pictures/ToFromImage.png, id=181, 183.68625pt x 119.69719pt>
 File: pictures/ToFromImage.png Graphic file (type png)
 
 <use pictures/ToFromImage.png>
-Package pdftex.def Info: pictures/ToFromImage.png used on input line 255.
-(pdftex.def)             Requested size: 183.68578pt x 119.69688pt.
+Package pdftex.def Info: pictures/ToFromImage.png used on input line 294.
+(pdftex.def)             Requested size: 87.96317pt x 57.32066pt.
 
-Underfull \hbox (badness 1681) in paragraph at lines 254--256
-\OT1/ptm/m/n/9 (+20) to Clin-ton, sent by Clin-ton, or by the en-tire email dat
-abase.
- []
-
-<pictures/FOIABoxImage.png, id=174, 175.40532pt x 70.01157pt>
+<pictures/FOIABoxImage.png, id=182, 175.40532pt x 70.01157pt>
 File: pictures/FOIABoxImage.png Graphic file (type png)
 
 <use pictures/FOIABoxImage.png>
-Package pdftex.def Info: pictures/FOIABoxImage.png used on input line 258.
-(pdftex.def)             Requested size: 175.40488pt x 70.01138pt.
- [4 <./pictures/DateSliderImage.png> <./pictures/ToFromImage.png> <./pictures/F
-OIABoxImage.png>] [5] (./paper.bbl
+Package pdftex.def Info: pictures/FOIABoxImage.png used on input line 304.
+(pdftex.def)             Requested size: 87.96317pt x 35.11038pt.
+ [4 <./pictures/ExemptionsFullTime.png> <./pictures/HighFreqAll.png> <./picture
+s/HighTFIDFAll.png> <./pictures/DateSliderImage.png> <./pictures/ToFromImage.pn
+g> <./pictures/FOIABoxImage.png>] [5] [6]
+(./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 372.
- [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 372.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 424.
+ [7]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 424.
 
 (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 372.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 372.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 424.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 424.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 4D88DDAB351273F9AA289D09D6A93644;1313.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 372.
+(rerunfilecheck)             Checksum: CBC34FD6F818A4314011247062C44D29;1313.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 424.
  ) 
 Here is how much of TeX's memory you used:
- 9224 strings out of 493089
- 138962 string characters out of 6134842
- 272170 words of memory out of 5000000
- 12186 multiletter control sequences out of 15000+600000
- 52302 words of font info for 276 fonts, out of 8000000 for 9000
+ 9275 strings out of 493089
+ 139856 string characters out of 6134842
+ 272363 words of memory out of 5000000
+ 12221 multiletter control sequences out of 15000+600000
+ 57582 words of font info for 293 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,15n,35p,1408b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,15n,35p,1401b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/txfonts/txtt.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2015/te
 xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (6 pages, 367743 bytes).
+Output written on paper.pdf (7 pages, 774204 bytes).
 PDF statistics:
- 284 PDF objects out of 1000 (max. 8388607)
- 249 compressed objects within 3 object streams
- 72 named destinations out of 1000 (max. 500000)
- 48355 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 303 PDF objects out of 1000 (max. 8388607)
+ 263 compressed objects within 3 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 52461 words of extra memory for PDF output out of 61914 (max. 10000000)
 
