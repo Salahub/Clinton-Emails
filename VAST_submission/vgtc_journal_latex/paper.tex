@@ -127,7 +127,7 @@ The data are extracted from Wikileaks HTML files, cleaned, and stored in a form 
   \includegraphics[height=0.22\textheight]{EmailSentRecdSept11toNov23} &
   \includegraphics[height=0.22\textheight]{InnerCircleSept11ToNov23} \\
   &\\
-  {\small (a) Missing block of email: October 30 - November 9} & {\small (b) Inner Circle: Correspondent info by colour; volume by thickness.}
+  {\small (a) An empty email block: October 30 - November 9} & {\small (b) Inner Circle: Correspondent info by colour; volume by thickness.}
   \end{tabular}
   \caption{Metadata: Time, date, redaction, correspondents, volume, source type.  Filtered: Sept. 11 to Nov. 23, 2012.  
   }
@@ -162,9 +162,33 @@ On March 16, 2016 Wikileaks  published a searchable archive \cite{Wikileaks} con
 
 What is critically missing from either site is a facility to learn summary, or statistical, features across all, or groups of,  emails.   A separate site where visual displays of summary features of the emails, which can be filtered by user selection, will go a long way towards filling this need.  The site would be \emph{complementary} to the more typical ``content search and record display'' site as provided by either online archive.   Add general internet search in a third browser, and the three combined would provide the means to actively explore the contents of any email archive.    One imagines, for example, having three browsers open simultaneously, one for the data base search (e.g. Wikileaks), one for statistical visualization and exploration (proposed here), and one for internet search (to provide important context for the other two services).  Each fills a need not met by the other two; the synergy of all three provide the user a powerful set of investigative tools.
 
-In this paper, we describe an implementation of the missing visual analytic service and illustrate it on Secretary Clinton's e-mails.  The implementation is located at  \texttt{rshiny.math.uwaterloo.ca/clinton} where any visitor may interactively explore summary features  of the entire corpus of emails.   Different visual displays present different salient features from all selected emails; emails can be selected via a variety of interactive filters.   All displays are reactive and update simultaneously in response to user interaction with the data filters.  Together, filters and displays provide a visual analysis service that can be used to quickly learn more about, and to discover some (possibly unanticipated) patterns in the emails. 
+In this paper, we describe an implementation of such a visual analytic service and illustrate it on the Secretary Clinton's e-mail archive.  The implementation is located at  \texttt{rshiny.math.uwaterloo.ca/clinton} where any visitor may interactively explore summary features  of the entire corpus of emails.   Different visual displays present different salient features from all selected emails; emails can be selected via a variety of interactive filters.   All displays are reactive and update simultaneously in response to user interaction with the data filters.  Together, filters and displays provide a visual analysis service that can be used to quickly learn more about, and to discover some (possibly unanticipated) patterns in the emails. 
 
-The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} which discusses the source of the data, the extraction and cleaning process in Subsection \ref{sect:data:extrclean}, the details of the metadata in Subsection \ref{sect:data:metadata}, the use of redaction codes in Subsection \ref{sect:data:redact} and content data used in Subsection \ref{sect:data:contentinfo}. The displays of the data and their patterns over the entire unfiltered data are then described in Section \ref{sect:Displays}. Within this section, Subsection \ref{sect:Displays:circle} describes the spoked network plot, Subsection \ref{sect:Displays:volume} addresses the email volume time series plot, Subsection \ref{sect:Displays:times} discusses the scatterplot of daily sending times, Subsection \ref{sect:Displays:FOIA} outlines the exemption code barplot, and Subsection \ref{sect:Displays:TFIDF} explains the content tf-idf and frequency information. Interactive filters which are implemented in the application are discussed in Section \ref{sect:Filters}. Finally, brief analysis of some interesting findings is included in Section \ref{sect:Analysis}, alongside a summary of the timeline of the Clinton email imbroglio in Subsection \ref{sect:Analysis:Timeline}.
+The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} which discusses the source of the data, the extraction and cleaning process in Subsection \ref{sect:data:extrclean}, the details of the metadata in Subsection \ref{sect:data:metadata}, the use of redaction codes in Subsection \ref{sect:data:redact} and content data used in Subsection \ref{sect:data:contentinfo}. The displays of the data and their patterns over the entire unfiltered data are then described in Section \ref{sect:Displays}. Within this section, Subsection \ref{sect:Displays:circle} describes the spoked network plot, Subsection \ref{sect:Displays:volume} addresses the email volume time series plot, Subsection \ref{sect:Displays:times} discusses the scatterplot of daily sending times, Subsection \ref{sect:Displays:FOIA} outlines the exemption code barplot, and Subsection \ref{sect:Displays:TFIDF} explains the content tf-idf and frequency information. Interactive filters which are implemented in the application are discussed in Section \ref{sect:Filters}. Finally, brief analysis of some interesting findings is included in Section \ref{sect:Analysis}, alongside a summary of the timeline of the Clinton email imbroglio in Section \ref{sect:Timeline}.
+
+%\section{Background}
+%\label{sect:Background}
+%
+%\subsection{A brief timeline on the private email server}
+%\label{sect:Background:Timeline}
+\section{A brief timeline on the private email server}
+\label{sect:Timeline}
+While the following timeline is somewhat abbreviated, it should serve to raise some of the major issues and concerns related to the private email server and its contents.  It also introduces some of the principal characters involved.  More complete and in depth timelines are readily available elsewhere (e.g. \cite{attkissonTimeline, thompsonTimeline, WashPostTimeline, clintonWikipedia, TimeMagEverything}).
+
+On November 21, 2008, the New York Times reported that Hillary Clinton had decided to accept the position of U.S. Secretary of State.  On January 13, 2009 the internet domain name \texttt{clintonemail.com} was registered \cite{whoisClintonserver}; eight days later Senator Clinton was confirmed as Secretary of State.  
+
+Public knowledge that a private email server being used by Secretary Clinton and others for State Department and personal communications did not surface until March 2015 \cite{NewYorkTimes2015} during the course of a U.S. Congressional investigation \cite{BenghaziReport} of the September 11, 2012 attack by militants on U.S. compounds in Benghazi Libya.  
+
+The State Department had difficulty fulfilling public FOIA and House Benghazi Committee requests \cite{TakingRootWashPost} for Secretary Clinton's government emails because she had exclusively used the private server for all her email.  On March 10, 2015,  Clinton told reporters that she turned over 30,490 emails to the State Department and deleted 31,830 emails deemed to be personal \cite{WashPostTimeline}.    Clinton had tasked three lawyers Cheryl Mills (Clinton's former chief of staff),  David Kendall (Clinton's personal lawyer), and Heather Samuelson (a State Department staffer during Clinton's tenure) to make the determinations as to which emails were work related and which were not \cite{emailVetting, thompsonTimeline}.   
+
+On March 10, 2015 the House Benghazi Committee requested that the private email server be turned over to a neutral third party to determine which emails are personal and which are government records \cite{serverRequest}, but was informed March 27 by David Kendall that no emails remained on the private server for any kind of review \cite{serverScrubbedLawyer}.
+Between March 25 and 31, 2015, Paul Combetta (then the server's system administrator), erased all backup copies using \texttt{BleachBit} (see \texttt{www.bleachbit.org}).    
+
+Combetta, Mills, and Samuelson will later be granted partial immunity by the Justice Department during the FBI investigations into the private email server, as were two others: Bryan Pagliano (original server manager) and  John Bentel (former director of Information Resources Management for the State Department's Executive Secretariat) \cite{immunityPolitico, immunityDailyCaller, immunityIT}.  
+
+On April 12, 2015 Clinton announces that she is running for the U.S. Presidency.  On July 24, 2015, inspectors general for the State Department  and the national intelligence agencies announce finding classified information in the emails and that the information they found was classified at the time sent \cite{serverClassified}, though her campaign declared that they must have been classified after the fact. On August 19, 2015, Clinton calls the allegation of mishandling classified information a ``disagreement between agencies'' \cite{clintonDenialGuardian}.
+
+Nearly one year later, July 5, 2016,  FBI Director James Comey recommended that no charges be laid against Clinton on use of private email server \cite{nochargeFBI}.  On October 28, 2016, Comey revealed that in a separate investigation into former Congressman Anthony Weiner, that emails belonging to his wife Huma Abedin have been found on his laptop.  Since Abedin was a close aid to former Secretary Clinton, FBI investigations were reopened into the private server usage but closed again by Comey on November 6, 2016 without charges being laid \cite{nochargeFBINov}.  In both cases, Comey and the FBI are criticized by pundits from different political parties.
 
 \section{The data}
 \label{sect:data}
@@ -193,7 +217,7 @@ Where possible, the email addresses have also been parsed so that they may be cl
 Emails that are redacted are marked as such by the string ``RELEASE IN PART'' and by the presence of one or more of nine FOIA exemption codes B1, B2, \ldots, B9  marking the place where text is missing (redacted).  This provides two further pieces of quasi-metadata (since it is not actual email content) that can be used in analysis.
 \subsection{Content information}
 \label{sect:data:contentinfo}
-The entire (redacted) content of each email is available on the State Department and Wikileaks sites and the user is encouraged to view it there (the pdf forms are more informative, especially in appreciating the extent of the redactions).  To provide some coarse statistical summaries of the content, all word tokens are extracted and partially processed to reduce their number.  For example,  ``stopwords'', as identified by the\texttt{stopwords} function under either the "en" and "SMART" settings, or a set of custom stopwords, were removed. The remaining words were stemmed by the \texttt{stemDocument} function from \texttt{tm} and \texttt{SnowballC}.   While neither the stopword lists nor the stemming tools are particularly well tuned to this corpus of emails, they nevertheless provide some insight as to the topics covered.  
+The entire (redacted) content of each email is available on the State Department and Wikileaks sites and the user is encouraged to view it there (the pdf forms are more informative, especially in appreciating the extent of the redactions).  To provide some coarse statistical summaries of the content, all word tokens are extracted and partially processed to reduce their number.  For example,  ``stopwords'', as identified by the \texttt{stopwords} function (with both  \texttt{kind = "en"} and  \texttt{kind = "SMART"}), or as from a set of custom stopwords, were removed.  Remaining words were stemmed by the \texttt{stemDocument} function from \texttt{tm} and \texttt{SnowballC}.   While neither the stopword lists nor the stemming tools are particularly well tuned to this corpus of emails, they nevertheless provide some hints about the topics covered.  
 
 \section{Displays}
 \label{sect:Displays}
@@ -202,7 +226,7 @@ Four displays of the metadata and quasi-metadata
 
 \subsection{Inner circle}
 \label{sect:Displays:circle} 
-This display takes up to the 20 most frequent correspondents in the selected emails and arranges their email addresses  at the ends of  equiangular spokes around the hub that is Secretary Clinton's email.  The hub is coloured red to show that this account is known not to be a government sponsored account (either \texttt{.gov} of \texttt{.mil}).  Every account that is identifiably not a government sponsored account is coloured red.  Those that are identifiably government are coloured either blue (for \texttt{.gov}) or black (for \texttt{.mil}, if any appear).  Those which can not be determined as either government or not, are coloured orange.
+This display takes the most frequent correspondents (max. 20) in the selected emails and arranges their email addresses  at the ends of  equiangular spokes having Secretary Clinton as hub.  The hub is coloured red to show that this account is known not to be a government sponsored account (either \texttt{.gov} of \texttt{.mil}).  Every account that is identifiably not a government sponsored account is coloured red.  Those that are identifiably government are coloured either blue (for \texttt{.gov}) or black (for \texttt{.mil}, if any appear).  Those which can not be determined as either government or not, are coloured orange.
 
 \begin{figure}[h]
 \begin{center}
@@ -211,46 +235,61 @@ This display takes up to the 20 most frequent correspondents in the selected ema
 \label{fig:InnerCircleAll}
 \end{center}
 \end{figure}
-The figure shows the top 20 (or ``Inner Circle'')  hereover all emails in the collection.
-Note that Clinton aide Huma Abedin is seen to be using both a \texttt{.gov} account for some email and a \texttt{clintonemail} account for others and so appears as two different colour spokes.  The other identfiably non-government account is that of Sidney Blumenthal.  This is of particular interest, as his closeness to Clinton in providing advice on all kinds of matter has been the source of controversy \cite{BlumenthalControversy} given that he had been refused a State department position and so lacked  State Department clearance.  Wendy Sherman, though appointed by Clinton to  Under Secretary of State for Political Affairs in 2011, her email address could not be identified as either definitively government or definitively non-government and so is shown in orange.  It is important to note, however, that the most likely reason an email is not identifiable is that it has been redacted (likely B6).  While no guarantee that the email is not a government email, it is more likely that it was viewed as personal or private information and so probably not government.
+Figure~\ref{fig:InnerCircleAll} shows the top 20 correspondents (or ``Inner Circle'')  over all emails in the collection.
+Note that Huma Abedin appears both as a blue  \texttt{.gov} account and as a red non-government (\texttt{clintonemail.com}) account.   The other red account is that of Sidney Blumenthal.  This has been a source of some controversy  \cite{BlumenthalControversy, NYTBlumenthalBenghazi}, since he had been rejected by the State Department yet appears to provide Clinton advice throughout her tenure.  Wendy Sherman appears as orange. Sherman was appointed by Clinton to be Under Secretary of State for Political Affairs in 2011 and the high frequency of Sherman emails dates from this time.  Nevertheless, from this archive the email address could not be identified definitively as being either government or non-government.  Either the address was redacted for privacy reasons (a B6 FOIA exemption), or it was simply unavailable in the header provided.
 
-The greater the number of emails between Clinton and the correspondent, the wider is the spoke. Spoke width is scaled linearly relative to the greatest number of emails for all correspondents in the selection, with a constant minimum width for visibility.  The correspondents are also separated into two groups by the greatest difference in ordered email volumes.  Those which appear before this difference when all are ordered by decreasing email volume have nodes placed at half the distance from the centre. will have shorter spokes and hence be visually ``closer'' to Clinton.   As the display shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan. \TODO{Chris, can you be more precise about the algorithm?}
+The greater the number of emails between correspondents, the wider is their connecting spoke.  Whenever the difference in volume is great enough,  correspondents are separated into two groups: those with the greatest correspondence have shorter spokes visually placing them ``closer'' to Clinton.   As Figure~\ref{fig:InnerCircleAll} shows shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan. \TODO{Chris, can you be more precise about the algorithm?}
 \subsection{Email volume}
 \label{sect:Displays:volume}
-Figure~\ref{fig:VolumeAll} has two lines, the first is a line showing the total volume of emails for each day, and the second shows the number of emails satisfying the classification filter criteria for a given day. This allows users to view which days have an exceptionally high or low number of classified conversations. Returning to the motivation of hypothesis generation, referencing world events on any days of interest provides a number of interesting insights on how public figures like Clinton react and respond to world events.
-
+Figure~\ref{fig:VolumeAll} 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{VolumeFullTime}
-\caption{Email Volume: All emails (top) ; Sent by Clinton (bottom)}
+\caption{Email Volume: All emails (top) ; Those sent by Clinton (bottom)}
 \label{fig:VolumeAll}
 \end{center}
 \end{figure}
+presents two time series showing the volume of emails for each day.  In grey at top is the daily total; in magenta at bottom is the total for the subset chosen by the filters.  In Figure~\ref{fig:VolumeAll}, the bottom series is the total daily emails sent from Clinton to others.
 
-This plot shows highly variable nature of the daily email volumes, with a number of peaks and troughs suggesting regions in which further investigation might be insightful.
+Over the four year scale shown in Figure~\ref{fig:VolumeAll}, the display is quite busy.  Even so, a few features stand out.  For example, there is a notable lack of email from the first few months of Clinton's tenure;  there is essentially no email from Clinton at the beginning and very little to her.   
+
+One also notices the spikes of email activity.  These can be checked against world events to generate hypotheses about what might be occurring to cause such spikes.  For example, the largest spike occurs on August 21, 2011, the beginning day of the battle for Tripoli and on which it was reported that two of Qaddafi's sons had been captured \cite{battleTripoli}.  It is also the day on which the famous ``tick tock Libya'' email is composed by Jake Sullivan providing a timeline crediting Secretary Clinton with leading the U.S.  policy on Libya ``from start to finish'' \cite{tickTockLibya}.  Much of the email that day is redacted (B5 primarily).   Other peaks (and valleys) of activity could be similarly investigated.
 
 \subsection{Email times}
 \label{sect:Displays:times}
-As shown in Figure~\ref{fig:TimesAll}, this display shows the time stamp of each email separated into its calendar date on the horizontal axis and its (24hr) time of day on the vertical.  
+Figure~\ref{fig:TimesAll}  
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.95\linewidth]{DailyFullTime}
-\caption{Email time patterns: all emails}
+\includegraphics[width=0.95\linewidth]{DailyFullTimeFromClinton}
+\caption{Email time patterns: all emails sent from Clinton}
 \label{fig:TimesAll}
 \end{center}
 \end{figure}
-Each email is a point in the plot and is coloured red if any part of that email was redacted, and blue if it was released in full.   Alpha blending prevents over-plotting from obscuring patterns.
+shows all emails sent by Clinton over the four year period.  Each email appears as a point determined by the time shown that it was sent.  The calendar date determines the position on the horizontal axis,  the (24hr) time of day determines the vertical.   Points are coloured red if any part of that email was redacted, and blue if it was released in full.   Alpha blending is used to minimize the effect of over-plotting.
  
-A few patterns are easily discerned.  For example, the least amount of email appears for a few hours around  20:00 hours, or 8 PM.  Evenings appear to be when email traffic is lightest.  Otherwise, for the most part, it seems fairly uniformly distributed throughout.  Midnight is at the top (and bottom) of the plot, so it would seem that email will occur mainly from midnight until about 4 or 5 PM.   Note also the surprisingly regular horizontal lines that appear across the top of the plot.  This regularity is suggestive of some automated schedule for the server which causes the email to stack up before being recorded at either 2 or 3 AM.  The location of these lines switches exactly whenever daylight savings time switches in North America.  
+A few patterns are easily discerned.  For example, the least amount of email appears for a few hours around  20:00 hours, or 8 PM.  Evenings appear to be when email traffic is lightest.  Otherwise, for the most part, it seems fairly uniformly distributed throughout.  Midnight is at the top (and bottom) of the plot, so it would seem that email will occur mainly from midnight until about 4 or 5 PM.   
+
+If these are the actual times Secretary Clinton composed and sent email, it suggests that much of that activity occurred in the middle of the night.  To reflect the low email activity period as actual ``downtime'' between ``days'' (now interpreted as separable 24 hour email cycles),  we offer the possibility of choosing 6 PM as the ``end'' of a day rather than midnight.   This places the least active email period as a ``quiet'' boundary between days.   Unfortunately, though it better represents the rhythm of correspondence, it can be confusing since it means that the ``next day''  begins just after 6 PM. 
+
+Note also the surprisingly regular horizontal lines that appear across the top of the plot.  This regularity is suggestive of some automated schedule for the server which causes the email to stack up before being recorded at either 2 or 3 AM.  The location of these lines switches exactly whenever daylight savings time switches in North America.  
+
+When the received emails are added to the plot, the pattern is essentially the same (though much denser) and the horizontal lines where the server has scheduled something are even clearer.
 
 \subsection{FOIA exemptions}
 \label{sect:Displays:FOIA}
-The United States Freedom of Information Act (FOIA) exemption codes \cite{FOIA} are used by the United States Federal Government to remove sensitive information from released documents accessed using a Freedom of Information Act request. The sensitive matters being addressed by the codes are national security and foreign policy matters for B1, personnel practices for B2, exempted by statute for B3, trade secrets or financial information obtained in confidence for B4, inter- or intra-agency memorandums for B5, personal privacy for B6, records compiled for law enforcement for B7, prepared in relation to financial monitoring institutions for B8, and geophysical and geological information concerning wells for B9 exemptions. The frequencies of each of these codes within filtered emails are shown in the final display. Note that as emails can have numerous redaction codes, this barplot can be useful to identify which codes co-occur over a selection.
+U.S. Freedom of Information Act (FOIA) exemption codes B1 through B9 are used in each place in an email where information has been redacted.  For the authoritative definition the act itself should be consulted \cite{FOIA}.  Briefly, they mark each redaction as B1 for national security and foreign policy matters,  B2 for personnel practices, B3 for statutory exemptions,  B4 for trade secrets or financial information obtained in confidence,  B5 for inter- or intra-agency memorandums,  B6 for personal privacy,  B7 for records compiled for law enforcement,  B8 for records prepared in relation to financial monitoring institutions, and B9 for geophysical and geological information concerning oil and gas wells.   Each email can contain redactions for any number of exemption codes.
+
+Figure \ref{fig:FOIAcodes}
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{ExemptionsFullTime}
+\caption{FOIA barplot: Exemption codes from all email}
+\label{fig:FOIAcodes}
 \end{center}
+\end{figure}
+is a barplot of all FOIA exemption codes found in all of the emails.  As can be seen, B1 redactions made for national security and foreign policy reasons account for a small portion of all redactions made though affect more than 2,000 emails in the collection.   Nearly half of the emails contain B6 exemptions, those made to protect personal privacy.   The inter-agency, intra-agency exemption B5 is used in more than 8,000 emails.  This code has come under some criticism from advocates for transparent government as being overly applied \cite{unredactedB5}.  The remaining codes appear in very few emails and about 12,000 emails, or about a third of them, are not redacted at all.
 
-It is clear that redactions made for national security and foreign policy reasons account for only a small portion of redactions made. The most frequent redactions are those made to protect personal privacy, which occur in almost half of all emails, and those made with the vague B5 exemption code, which occur in roughly a quarter of all emails. The other codes appear in very few emails and just over a third of the emails are not redacted at all.
+As with all other displays, the FOIA barplot will update in reaction to all filters making it a useful tool to identify how codes co-occur over any selection of emails.  Conversely, filtering on FOIA codes can be interesting to see who sees correspondence of varying sensitivities, especially B1 and B5.
 
 \subsection{Term frequency and TFIDF}
 \label{sect:Displays:TFIDF}
@@ -262,14 +301,16 @@ The 20 terms (stemmed words excluding stopwords) which appear in the greatest nu
 $~~~~$ &
 \includegraphics[width=0.4\linewidth]{HighTFIDFAll} 
 \end{tabular}
+\caption{Top 20 terms appearing in all emails}
+\label{fig:top20all}
 \end{center}
 \end{figure}
-Those terms which appear frequently within some emails but less frequently across emails will have a high tf-idf (term frequency - inverse document frequency) score.  The top 20 scoring of these in the selected emails are shown in the ``TFIDF'' display.
-The top 20 shown here are for all emails in the corpus; these will change depending on the filtering.
+Those terms which appear frequently within some emails but less frequently across emails will have a high tf-idf (term frequency - inverse document frequency) score.  The top 20 scoring of these in the selected emails are shown in the ``TFIDF'' display. \TODO{Chris, check that I have described these two measures correctly}
+The top 20 shown in Figure~\ref{fig:top20all} are for all emails in the corpus; these will change depending on the filtering.
 
-The terms give some limited insight into the contents of the email.  As seen here, for example, the first names of two of Clinton's closest aides, Jake Sullivan and Cheryl Mills,  appear under TFIDF but not  as high frequency terms.  One problem with tf-idf for this e-mail corpus is that many emails contain email chains which grow as each person replies which could magnify the within email frequency for some terms.
+The terms give some limited insight into the contents of the email.  As seen in Figure~\ref{fig:top20all}, for example, the first names of two of Clinton's closest aides, Jake Sullivan and Cheryl Mills,  appear under TFIDF but not  as high frequency terms.  One problem with tf-idf for this e-mail corpus is that many emails contain email chains which grow as each person replies which could magnify the within email frequency for some terms.
 
-As mentioned in Section~\ref{sect:data:contentinfo}, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} is also challenged by this messy and non-standard data. The list of stopwords had to be supplemented so as to avoid uninformative action verbs such as 'will' and 'can'. The stemming algorithm was also challenged by typographical errors in emails and the proliferation of acronyms (e.g. for individuals and government abbreviations).   Even so,  the terms nevertheless occasionally turn up something of interest as in the case of ``windrush'',  which turned out to refer to ``Windrush Ventures'' (e.g. see  \cite{windrushTelegraph, windrushGuardian}),  a company owned by former U.K. Prime Minister Tony Blair .  ``Windrush'' appears at the end of emails as part of Mr. Blair's electronic signature for his email id ``aclb''  (e.g. see the ``Inner Circle''  of Figure~\ref{fig:teaser}, b).
+As mentioned in Section~\ref{sect:data:contentinfo}, the stemming and stopword removal provided by the package \texttt{tm} in \texttt{R} is also challenged by this messy and non-standard data. The list of stopwords had to be supplemented so as to avoid uninformative action verbs such as 'will' and 'can'. The stemming algorithm was also challenged by typographical errors in emails and the proliferation of acronyms (e.g. for individuals and government abbreviations).   
 
 \section{Filters}
 \label{sect:Filters}
@@ -279,7 +320,9 @@ A sliding time window
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.35\linewidth]{DateSliderImage}
+\caption{Time slider: move either end, or move the interval}
 \end{center}
+\label{fig:timeSlider}
 \end{figure}
 filters the emails displayed to those whose date lies between the two end points.
 The size of the time window is changed by  moving either end, either by mouse click and drag or by selecting an end to move with the arrow keys. The whole time window is moved by selecting the middle bar and either dragging it or moving it with the arrow keys.
@@ -292,55 +335,125 @@ A drop down menu
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.35\linewidth]{ToFromImage}
+\caption{Filtering on whether Clinton sent or received the email, or either}
+\label{fig:toFromFilter}
 \end{center}
 \end{figure}
 is used to select those emails which Clinton sent, or received, or either sent or received.  The default is ``All Emails'', which is the same as no filter being applied for sent or received.  Choosing ``From Clinton'' selects for display only those mails sent by Secretary Clinton, choosing ``To  Clinton'' selects only those emails which she received.  This might be used, for example, to explore whether the inner circle of correspondents changes depending on whether Secretary Clinton is emailing them, or they are emailing her.
 
 
 \subsection{FOIA exemptions}
-Multiple filtering by FOIA exemption codes is supported in the app with a box selection area. 
+Multiple filtering by FOIA exemption codes is supported using a box selection area. 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.35\linewidth]{FOIABoxImage}
+\includegraphics[width=0.55\linewidth]{FOIABoxImage}
+\caption{FOIA codes:  Emails containing any of these codes appear}
+\label{fig:selectFOIA}
 \end{center}
 \end{figure}
-Users can add FOIA exemption codes currently not included to the data by clicking the box and selecting a code from the menu which is then displayed below the box. To remove codes, the user simply clicks the code within the display box and presses delete, which moves the code to the selection menu. The box therefore displays all codes currently included in the filter.
+Figure~\ref{fig:selectFOIA} displays the codes that are selected for email display.  Any email having one or more of these codes will appear in the displays.  To not have emails display with a B1 exemption code, for example, then the user selects and deletes the B1 from the list.  Or to have only the emails that  contain B1 redactions displayed, all other codes can deleted from the list.  Codes are returned to active display at any time by clicking in the display box and selecting them again from a drop down menu of the excluded codes.  Any number of codes  (one or more) can be selected to be included in the displays.
+
 \subsection{Auxiliary information}
-\TODO{e.g. Clinton's foreign schedule}
-A number of cosmetic adjustments using auxiliary information can also be made. Users can choose to adjust the scatterplot of time by day, which re-defines 6 pm as the time at which the day changes. This simply groups the emails best, placing all emails into one mostly uninterrupted region by redefining the day about the midsection of the region of lowest email traffic. Another cosmetic adjustment is the inclusion of Clinton's foreign trip schedule as blue regions on the email volume plot. This schedule was taken from the official State Department website \cite{ForeignSched} and allows users to distinguish periods spent out of the United States (coloured in blue) from those spent within the United States (uncoloured).
+To demonstrate how other sources of information can easily be used to supplement the metadata found in the email archive, we consulted the State Department website and retrieved Secretary Clinton's official foreign travel schedule  \cite{ForeignSched}.  This information was added to the display as a simple check box ``Display Foreign Travel Schedule''.  When checked, light blue vertical bars appear on the  email volume time series display.  Appearing underneath the series, these mark time periods when Secretary Clinton was travelling outside the U.S. on State Department business.
 
-\section{Analysis}
+\section{Some interactive analyses}
 \label{sect:Analysis}
+Each of the displays and filters described in the previous sections gives a slightly different and informative view of summary features of the email archive.  However, their analytic power is considerably amplified when used together.  Rather complex queries can be formed involving date, classification code, and whether Clinton is sending or receiving email.  Moreover, given a particular pattern in one display, its relation to that in another can be of considerable interest.   Together with access to the archive contents and an internet search engine, an enormous amount can be learned from these visual analytic tools.
 
-\subsection{Context: A brief timeline on the private email server}
-\label{sect:Analysis:Timeline}
-While the following timeline is somewhat abbreviated, it should serve to raise some of the major issues and concerns related to the private email server and its contents.  It also introduces some of the principal characters in the whole affair.  More complete and in depth timelines are readily available on the internet (e.g. \cite{attkissonTimeline, thompsonTimeline, WashPostTimeline, clintonWikipedia, TimeMagEverything}).
+In this section, we explore a few avenues of enquiry that might naturally arise.  At best this only hints at the analytic power that interactive filtering and display can bring to bear on an email archive.  To get a better appreciation, the user is encouraged to try it themselves at \texttt{rshiny.math.uwaterloo.ca/clinton}.  The tool is useful both for generating and for testing hypotheses.
 
-On November 21, 2008, the New York Times reported that Hillary Clinton had decided to accept the position of U.S. Secretary of State.  On January 13, 2009 the internet domain name \texttt{clintonemail.com} was registered \cite{whoisClintonserver}; eight days later Senator Clinton was confirmed as Secretary of State.  
+\subsection{The last two years}
+One might begin an interactive analysis by looking at the email patterns in the last two years of Clinton's tenure as Secretary of State.  This is done by simply having the right end of the time slider of Figure~\ref{fig:timeSlider} as far right as possible and then moving the left most end towards the middle of the time period until January 1, 2011 is reached.  Figure~\ref{fig:lastTwoYears} 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{EmailVolumeB1LastTwoYears}
+\caption{Last two years:  Selected Emails are those that are B1 redacted}
+\label{fig:lastTwoYears}
+\end{center}
+\end{figure}
+shows the resulting email volume time series over this period.  Note, however, that in addition to filtering on time we have chosen to also filter on FOIA exemption code, selecting only those emails containing one or more B1 (national security and foreign policy matters) redactions.  The magenta time series at the bottom then shows all emails, sent or received by Clinton, in the last two years of her tenure which were redacted in part by the State Department (after the fact, not at the time) as being B1 FOIA exempt.  As can be seen, there are relatively few of these.
 
-Public knowledge that a private email server being used by Secretary Clinton and others for State Department and personal communications did not surface until March 2015 \cite{NewYorkTimes2015} during the course of a U.S. Congressional investigation \cite{BenghaziReport} of the September 11, 2012 attack by militants on U.S. compounds in Benghazi Libya.  
+Recall from Section~\ref{sect:Displays:circle} that the tallest spike of Figure~\ref{fig:lastTwoYears} corresponds to the beginning of the battle for Tripoli (August 21, 2011).   Another series of the next largest spikes appear at the far left of this time window, at the beginning of 2011.  We might choose to compress the time window more, to focus on this section of the emails.
 
-The State Department had difficulty fulfilling public FOIA and House Benghazi Committee requests \cite{TakingRootWashPost} for Secretary Clinton's government emails because she had exclusively used the private server for all her email.  On March 10, 2015,  Clinton told reporters that she turned over 30,490 emails to the State Department and deleted 31,830 emails deemed to be personal \cite{WashPostTimeline}.    Clinton had tasked three lawyers Cheryl Mills (Clinton's former chief of staff),  David Kendall (Clinton's personal lawyer), and Heather Samuelson (a State Department staffer during Clinton's tenure) to make the determinations as to which emails were work related and which were not \cite{emailVetting, thompsonTimeline}.   
+Bringing the right end of the time slider in to April 15, 2011 produces the series of Figure~\ref{fig:early2011B1}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{EmailVolumeB1JanApril2011}
+\caption{Jan. 1 -- Apr 15, 2011:  Selected Emails are those that are B1 redacted}
+\label{fig:early2011B1}
+\end{center}
+\end{figure}
+As can be seen, there continue to be highs and lows of email activity.   The highest peak now is at the far left.  This is January 29, 2011, the day after President Mubarak of Egypt has ordered the army into the streets of Cairo to quell protests \cite{cairoTanks2011, cairoResponse2011}.  Dipping into the contents of the Wikileaks email archive, much of the email on this day is seen to be about managing the Egyptian Crisis.  
 
-On March 10, 2015 the House Benghazi Committee requested that the private email server be turned over to a neutral third party to determine which emails are personal and which are government records \cite{serverRequest}, but was informed March 27 by David Kendall that no emails remained on the private server for any kind of review \cite{serverScrubbedLawyer}.
-Between March 25 and 31, 2015, Paul Combetta (then the server's system administrator), erased all backup copies using \texttt{BleachBit} (see \texttt{www.bleachbit.org}).    
+Slightly to the right of this peak, there are several more.   At this time, international forces are gathering to consider Libya and its leader Muammar Gaddafi.  Consulting Jake Sullivan's ``tick tock on Libya'' timeline describing Secretary Clinton's leadership on this, we move the sliders in to focus on the time range from February 25 when Secretary Clinton announced the suspension of the Libyan embassy in Washington, to March 18, the day after Secretary Clinton had secured ``\ldots Russian abstention and Portuguese and African support for UNSC 1973, ensuring that  it passes. 1973 authorizes a no-fly zone over Libya and `all necessary measures' - code for military action - to protect civilians against Gaddafi's army \ldots'' \cite{tickTockLibya}.  On March 19, 2011 NATO military operations in Libya began \cite{LibyaTimelineWiki}.
 
-Combetta, Mills, and Samuelson will later be granted partial immunity by the Justice Department during the FBI investigations into the private email server, as were two others: Bryan Pagliano (original server manager) and  John Bentel (former director of Information Resources Management for the State Department's Executive Secretariat) \cite{immunityPolitico, immunityDailyCaller, immunityIT}.  
+The readjusted time series are shown in Figure~\ref{fig:EmailVolumeB1LibyaBuildup}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{EmailVolumeB1LibyaBuildup}
+\caption{Feb. 25 -- March 15, 2011:  Selected Emails are those that are B1 redacted}
+\label{fig:EmailVolumeB1LibyaBuildup}
+\end{center}
+\end{figure}
+The left most spike is the rightmost spike of approximately 80 emails from Figure~{EmailVolumeB1JanApril2011}.   
+Of course all other displays have been updating every time the time slider is adjusted.  
 
-On April 12, 2015 Clinton announces that she is running for the U.S. Presidency.  On July 24, 2015, inspectors general for the State Department  and the national intelligence agencies announce finding classified information in the emails and that the information they found was classified at the time sent \cite{serverClassified}, though her campaign declared that they must have been classified after the fact. On August 19, 2015, Clinton calls the allegation of mishandling classified information a ``disagreement between agencies'' \cite{clintonDenialGuardian}.
+Some sense of the content of the emails can be had from the updated term frequency displays shown in Figure~\ref{fig:TermFreqB1LibyaBuildup}.
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[width=0.4\linewidth]{TFIDFB1LibyaBuildup} &
+$~~~~$ &
+\includegraphics[width=0.4\linewidth]{TermFreqB1LibyaBuildup} 
+\end{tabular}
+\caption{Frequent terms: B1 only emails, Feb. 25 -- March 18, 2011}
+\label{fig:TermFreqB1LibyaBuildup}
+\end{center}
+\end{figure}
+Not surprisingly,  Libya and its leader figure prominently in this restricted set of emails.  
 
-Nearly one year later, July 5, 2016,  FBI Director James Comey recommended that no charges be laid against Clinton on use of private email server \cite{nochargeFBI}.  On October 28, 2016, Comey revealed that in a separate investigation into former Congressman Anthony Weiner, that emails belonging to his wife Huma Abedin have been found on his laptop.  Since Abedin was a close aid to former Secretary Clinton, FBI investigations were reopened into the private server usage but closed again by Comey on November 6, 2016 without charges being laid \cite{nochargeFBINov}.  In both cases, Comey and the FBI are criticized by pundits from different political parties.
+Perhaps more surprising is a term like ``windrush''.  A little investigation shows that this is a reference to ``Windrush Ventures'' (e.g. see  \cite{windrushTelegraph, windrushGuardian}),  a company owned by former U.K. Prime Minister Tony Blair .  ``Windrush'' appears at the end of emails as part of Mr. Blair's electronic signature.   Mr. Blair is part of this B1 selected correspondence.
 
-\subsection{Highest peak}
-Within the plot of email volume over time, one very large peak stands out in the later half of 2011. Using the time filtering function the date of this peak can be identified as August 21, 2011. A quick internet search of this date reveals that it was the start of the Battle of Tripoli, the final battle in the 2011 Libyan Civil War in which the NATO-backed National Transitional Council \cite{NATONTCSupport,LibyaContactGroup} toppled the regime of Muammar Gaddafi. \cite{BattleforTripoli,AlJazeeraTripoli} This suggests that the spike in emails was a response by the State Department as a whole to the news of the National Transitional Council's final attacks on Tripoli. The tf-idf and term frequencies over this time frame support the suggestion that this event was the focus of most of the communication.
+What other restrictions, as measured by the FOIA exemption codes, can be seen in Figure~\ref{fig:FOIAB12011LibyaBuildup}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{FOIAB12011LibyaBuildup}
+\caption{FOIA code distribution: All  B1 redacted, Feb. 25 -- March 18, 2011}
+\label{fig:FOIAB12011LibyaBuildup}
+\end{center}
+\end{figure}
+There appear to be about 100 emails in the selected set.  In addition to having B1 redactions, many of them also have B5 (inter- or intra-agency) and B6 (personal) redactions.
 
-Terms included in this selection such as "tnc" (the abbreviation for the National Transitional Council rebels used by Clinton), "jalil" (the head of the National Transitional Council \cite{Jalil}), "libya", "tripoli", and "qadhafi" clearly refer to the Libyan Civil War. Of greater interest are some of the less clearly connected terms, such as "davutoglu," "tarhouni," and "jupp." Searching for these terms gives some immediate and obvious connections. "Davutoglu" appears to refer to Ahmet Davutoglu, the Turkish Minister of Foreign Affairs at the time. "Jupp" seems to be a reference to Alain Juppe, the French Minister of Foreign Affairs. Finally, "tarhouni" likely refers to Ali Tarhouni, the Minister for Oil and Finance within the National Transitional Council. The mention of these particular names gives insight into the individuals the State Department likely viewed as most significant during the Battle of Tripoli and transition of the Libyan government.
+We might now consider the composition of the inner circle for this set of emails.  Figure~\ref{fig:InnerCircle2011B1LibyaBuildup} 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{InnerCircle2011B1LibyaBuildup}
+\caption{Inner Circle: All  B1 redacted, Jan. 1 -- Apr 15, 2011}
+\label{fig:InnerCircle2011B1LibyaBuildup}
+\end{center}
+\end{figure}
+shows the set of correspondents.  Not surprisingly, Jake Sullivan is the principal correspondent.  Huma Abedin is next, though she is using two emails, one a government account the other a personal \texttt{clintonemail.com} account.  Melanie Verveer has the least amount of traffic (judging by the lightness of her spoke colour).  Sidney Blumenthal, a non-government employee, is in this inner circle of B1 exempted emails.  So too is former U.K. Prime Minister Tony Blair; this is the unidentifiable domain account \texttt{aclb}.
+It should be noted that there could be other accounts which do not appear in the inner circle because their emails were not present in the email record.  See Section~\ref{sect:data:metadata}.
 
+We could continue to drill down into this information, checking the (unredacted) contents of the emails themselves from either the Wikileaks or State Department sources.  We might also more closely connect email dates and correspondents with world events.   Instead, we now turn our attention to another feature which appears in Figure~\ref{fig:lastTwoYears}.
 
 \subsection{No email sent by Clinton}
+Towards the very right of Figure~\ref{fig:lastTwoYears} there appears to be an anomaly in both time series.  There is a noticeable flat area at zero in both series.  If we move the leftmost time sliders to the June 1, 2012, and the rightmost to the end, February 1, 2013, we have the email volumes for the last 8 months of the archive.  The resulting series are shown in Figure~\ref{fig:EmailVolumeB1Jun1On}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\linewidth]{EmailVolumeB1Jun1On}
+\caption{June 1, 2012 -- February 1, 2013:  Selected Emails are those that are B1 redacted}
+\label{fig:EmailVolumeB1Jun1On}
+\end{center}
+\end{figure}
+There appears to be no emails for a fairly large chunk of time.  In fact, there are few or no emails in the archive from October 30 to November 9, 2012.  This seems curious, given that the archive is supposed to be complete in Secretary Clinton's work-related email during this time period.  
+The block of no email appears as an even more unusual pattern in Figure~\ref{fig:teaser}(a).  There the block is conspicuous by the absence amongst the emails from September 11 to November 23, 2012.  The email on which the displays of Figure~\ref{fig:teaser} are based, is no longer filtered by FOIA code.  It contains all email in the archive in this time period.  Direct examination of the archives at Wikileaks and the State Department show no mail in this empty block beyond that seen in Figure~\ref{fig:teaser}(a).
 
+The inner circle for all emails from September 11 to November 23, 2012 is shown in Figure~\ref{fig:teaser}(b).  Those closest to Clinton in terms of volume of correspondence are Clinton aides Jake Sullivan, Cheryl Mills, and Monica Hanley.  Monica Hanley is also an account whose identity as government or not could not be determined.  Tony Blair and Sidney Blumenthal both appear in the inner circle, as does Wendy Sherman (though the account could not be identified as government or not).  Oscar Flores is an assistant to the Clintons, often working at their home.  The rest are identified as corresponding through government accounts.
+
+One might ask what is happening around this time period?  By far and away the most significant event to the U.S. administration was the attack on the U.S. diplomatic compound in Benghazi on September 11, 2012.  The aftermath of this, particularly in a U.S. Presidential Election year (November, 2012), consumed much of the energy of the U.S. administration and Congress, not to mention the ensuing media frenzy. 
+\subsubsection{Are there other zeros?}
 Using 1 month window slider and looking for flat spots at zero
-
 Dates:
 \begin{itemize}
 \item None until mid April 2009
@@ -410,12 +523,6 @@ Discovery from visualization \& connecting discovery sources
     ... 
 - House Select Committee on Benghazi (Summer 2014) 
    Trey Gowdy, Chair
-
-\section{Old stuff}
-\TODO{This material is to be reused wherever}
-An interactive web application in \texttt{R} \texttt{shiny} was constructed utilizing these visualizations and the extracted data. Incorporated in this app was a short article explaining the use of the app, providing links to background information, and outlining some of the findings of the more interesting trends observed. This framework provides any individual with interest the ability to generate hypotheses by exploring the data without necessarily searching for any particular conclusion. 
-
-In generating and exploring this data, a considerable amount of respect is gained for the power of the often overlooked metadata of emails, especially with public figures. Simply having access to the network of communications, simple indicators of identifiable features of the individuals communicating, and times sent is enough to generate interesting questions which simple Google searches of important events and days can shed a great deal of light on. Leveraging data beyond this metadata, including the Freedom of Information Act (FOIA) exemption codes (see https://vault.fbi.gov/explanation-of-exemptions) used to redact the emails, only bolsters this simple metadata driven investigation. Metadata is often viewed as less significant or somehow less intrusive data, but the exploration performed in this paper demonstrated, at the very least to the authors, what a powerful tool metadata is for generating hypotheses about data. Given the lack of privacy present in the modern internet age and the amount of information most individuals make publicly available, there is a clear warning here about the utility of metadata for bad or for good. For a public official like Hillary Clinton, the data become even more interesting due to a number of contentious issues which arose during her tenure as the Secretary of State, independent of and as a result of her use of a private server.
 \section{Concluding Remarks}
 In providing the service, we purposely focused the displays (for the most part) on simple characteristics of the emails, the so-called metadata.  There are several related reasons for this focus.  
 
