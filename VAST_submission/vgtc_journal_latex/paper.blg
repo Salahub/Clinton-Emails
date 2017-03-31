@@ -1,13 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: paper.aux
 The style file: abbrv.bst
 Database file #1: clinton.bib
-I was expecting a `,' or a `}'---line 733 of file clinton.bib
+I was expecting a `,' or a `}'---line 816 of file clinton.bib
  :  
  :  Journaltitle = {The British Boradcasting Corporation},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--to sort, need author or key in AlJazeeraTripoli
-Warning--empty author in AlJazeeraTripoli
-Warning--empty title in Jalil
-Warning--empty year in Jalil
+Warning--empty journal in BenghaziLetter
 (There was 1 error message)

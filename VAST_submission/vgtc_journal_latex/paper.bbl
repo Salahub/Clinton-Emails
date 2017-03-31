@@ -1,9 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{AlJazeeraTripoli}
-Libyan rebels in 'final push' for capital.
-\newblock {\em AlJazeera}, August 21, 2011.
-
 \bibitem{attkissonTimeline}
 S.~Attkisson.
 \newblock {Hillary Clinton's} email: the definitive timeline.
@@ -15,9 +11,11 @@ Automatic.
 \newblock clintonemail.com.
 \newblock {\em WHOis.net}, March 2017.
 
-\bibitem{Jalil}
-BBC.
-\newblock {\em The British Broadcasting Corporation}.
+\bibitem{cairoTanks2011}
+A.~Bloomfield.
+\newblock Egypt protests: troops and tanks ordered out in bid to quell
+  protests.
+\newblock {\em The Telegraph}, January 28, 2011.
 
 \bibitem{snowballc2014package}
 M.~Bouchet-Valat.
@@ -63,10 +61,15 @@ U.~S. Congress.
   104-231, 110 STAT. 3048.
 \newblock {U.S. Department of Justice}, 1996.
 
-\bibitem{clintonWikipedia}
-Crowdsource.
-\newblock {Hillary Clinton} email controversy.
-\newblock {\em Wikipedia}, March 2017.
+\bibitem{BenghaziTroublingSurveillance}
+H.~Doornbros and J.~Moussa.
+\newblock {'Troubling' Surveillance Before Benghazi Attack}.
+\newblock {\em Foreign Policy}, November 1, 2012.
+
+\bibitem{BenghaziLetter}
+M.~K. et. al.
+\newblock Letter by members of congress to {Clinton} and {Obama}.
+\newblock November 2, 2012.
 
 \bibitem{tm2017package}
 I.~Feinerer and K.~Hornik.
@@ -89,6 +92,12 @@ A.~Goldman and M.~S. Schmidt.
 \newblock Justice dept. granted immunity to specialist who deleted {Hillary
   Clinton's} emails.
 \newblock {\em The New York Times}, September 8, September 2016.
+
+\bibitem{unredactedB5}
+N.~Jones.
+\newblock The next {FOIA} fight: The {B(5)} ``withold it because you want to''
+  exemption.
+\newblock {\em UNREDACTED: The National Security Archive}, 2014.
 
 \bibitem{WashPostTimeline}
 G.~Kessler.
@@ -126,11 +135,6 @@ R.~Mendick.
 \newblock {Blair Inc: How Tony Blair} makes his fortune.
 \newblock {\em The Telegraph}, January 7, 2012.
 
-\bibitem{NATONTCSupport}
-NATO.
-\newblock {NATO and Libya (Archived)}.
-\newblock {\em The North Atlantic Treaty Organization}, November 9, 2015.
-
 \bibitem{ObamaMetadata}
 B.~Obama.
 \newblock {Statement by the President on the Section 215 Bulk Metadata
@@ -159,11 +163,6 @@ M.~Pompeo and D.~B. {Rivkin Jr.}
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
 
-\bibitem{LibyaContactGroup}
-Reuters.
-\newblock {TEXT-Excerpts from Libya Contact Group Chair's Statement}.
-\newblock {\em Reuters}, July 15, 2011.
-
 \bibitem{immunityDailyCaller}
 C.~Ross.
 \newblock The immunized five: Meet the people covering for {Hillary}.
@@ -173,6 +172,11 @@ C.~Ross.
 A.~Rusbridger.
 \newblock {The Snowden Leaks and the Public}.
 \newblock {\em The New York Review of Books}, November 21, 2013.
+
+\bibitem{NYTBlumenthalBenghazi}
+M.~S. Schmidt.
+\newblock A closer look at {Hillary Clinton's} emails on {Benghazi}.
+\newblock {\em The New York Times}, May 21, 2015.
 
 \bibitem{serverRequest}
 M.~S. Schmidt.
@@ -195,10 +199,17 @@ M.~T. Schmidt.
   possibly breaking rules.
 \newblock {\em The New York Times}, March 2, March 2015.
 
-\bibitem{BattleforTripoli}
-U.~Sehgal and C.~Simpson.
-\newblock {Qaddafi Is Missing as Rebels Gain Control of Most of Tripoli}.
-\newblock {\em The Atlantic}, August 21, 2011.
+\bibitem{tickTockLibya}
+J.~Sullivan.
+\newblock tick tock on {Libya}
+  {https://wikileaks.org/clinton-emails/emailid/23898}.
+\newblock In {\em {Hillary Clinton} Email Archive}. WikiLeaks, 2017.
+
+\bibitem{cairoResponse2011}
+{Telegraph Staff}.
+\newblock {Egypt protests: World leaders call on Egypt to address its citizens'
+  grievances}.
+\newblock {\em The Telegraph}, January 28, 2011.
 
 \bibitem{thompsonTimeline}
 P.~Thompson.
@@ -225,6 +236,21 @@ H.~Wickham.
 Wikileaks.
 \newblock {Hillary Clinton} email archive.
 \newblock {\em https://wikileaks.org/clinton-emails/}, March 2017.
+
+\bibitem{battleTripoli}
+{Wikipedia Contributors}.
+\newblock {Battle of Tripoli (2011)}.
+\newblock {\em Wikipedia, The Free Encyclopedia}, 2017 Web.
+
+\bibitem{clintonWikipedia}
+{Wikipedia Contributors}.
+\newblock {Hillary Clinton} email controversy.
+\newblock {\em Wikipedia, The Free Encyclopedia}, March 2017 Web.
+
+\bibitem{LibyaTimelineWiki}
+{Wikipedia Contributors}.
+\newblock Timeline of the 2011 {Libyan Civil War}.
+\newblock {\em Wikipedia, The Free Encyclopedia}, 2017 Web.
 
 \bibitem{clintonDenialGuardian}
 A.~Yuhas.

@@ -1,23 +1,23 @@
 \BOOKMARK [1][]{section.2}{Introduction}{}% 1
-\BOOKMARK [1][]{section.4}{The data}{}% 2
-\BOOKMARK [2][]{subsection.5}{Data extraction and cleaning}{section.4}% 3
-\BOOKMARK [2][]{subsection.6}{Metadata}{section.4}% 4
-\BOOKMARK [2][]{subsection.7}{Redaction information}{section.4}% 5
-\BOOKMARK [2][]{subsection.8}{Content information}{section.4}% 6
-\BOOKMARK [1][]{section.9}{Displays}{}% 7
-\BOOKMARK [2][]{subsection.10}{Inner circle}{section.9}% 8
-\BOOKMARK [2][]{subsection.12}{Email volume}{section.9}% 9
-\BOOKMARK [2][]{subsection.14}{Email times}{section.9}% 10
-\BOOKMARK [2][]{subsection.16}{FOIA exemptions}{section.9}% 11
-\BOOKMARK [2][]{subsection.17}{Term frequency and TFIDF}{section.9}% 12
-\BOOKMARK [1][]{section.18}{Filters}{}% 13
-\BOOKMARK [2][]{subsection.19}{Time filtering}{section.18}% 14
-\BOOKMARK [2][]{subsection.20}{Sent or received}{section.18}% 15
-\BOOKMARK [2][]{subsection.21}{FOIA exemptions}{section.18}% 16
-\BOOKMARK [2][]{subsection.22}{Auxiliary information}{section.18}% 17
-\BOOKMARK [1][]{section.23}{Analysis}{}% 18
-\BOOKMARK [2][]{subsection.24}{Context: A brief timeline on the private email server}{section.23}% 19
-\BOOKMARK [2][]{subsection.25}{Highest peak}{section.23}% 20
-\BOOKMARK [2][]{subsection.26}{No email sent by Clinton}{section.23}% 21
-\BOOKMARK [1][]{section.27}{Old stuff}{}% 22
-\BOOKMARK [1][]{section.28}{Concluding Remarks}{}% 23
+\BOOKMARK [1][]{section.4}{A brief timeline on the private email server}{}% 2
+\BOOKMARK [1][]{section.5}{The data}{}% 3
+\BOOKMARK [2][]{subsection.6}{Data extraction and cleaning}{section.5}% 4
+\BOOKMARK [2][]{subsection.7}{Metadata}{section.5}% 5
+\BOOKMARK [2][]{subsection.8}{Redaction information}{section.5}% 6
+\BOOKMARK [2][]{subsection.9}{Content information}{section.5}% 7
+\BOOKMARK [1][]{section.10}{Displays}{}% 8
+\BOOKMARK [2][]{subsection.11}{Inner circle}{section.10}% 9
+\BOOKMARK [2][]{subsection.13}{Email volume}{section.10}% 10
+\BOOKMARK [2][]{subsection.15}{Email times}{section.10}% 11
+\BOOKMARK [2][]{subsection.17}{FOIA exemptions}{section.10}% 12
+\BOOKMARK [2][]{subsection.19}{Term frequency and TFIDF}{section.10}% 13
+\BOOKMARK [1][]{section.21}{Filters}{}% 14
+\BOOKMARK [2][]{subsection.22}{Time filtering}{section.21}% 15
+\BOOKMARK [2][]{subsection.24}{Sent or received}{section.21}% 16
+\BOOKMARK [2][]{subsection.26}{FOIA exemptions}{section.21}% 17
+\BOOKMARK [2][]{subsection.28}{Auxiliary information}{section.21}% 18
+\BOOKMARK [1][]{section.29}{Some interactive analyses}{}% 19
+\BOOKMARK [2][]{subsection.30}{The last two years}{section.29}% 20
+\BOOKMARK [2][]{subsection.37}{No email sent by Clinton}{section.29}% 21
+\BOOKMARK [3][-]{subsubsection.39}{Are there other zeros?}{subsection.37}% 22
+\BOOKMARK [1][]{section.40}{Concluding Remarks}{}% 23

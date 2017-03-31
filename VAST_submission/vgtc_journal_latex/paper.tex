@@ -95,7 +95,7 @@ table% for coloring matrix entries
 \shortauthortitle{Salahub and Oldford: Filter and Display of Clinton's Emails}
 %\shortauthortitle{Firstauthor \MakeLowercase{\textit{et al.}}: Paper Title}
 
-\abstract{We present a web-based visualization that allows the user to interactively filter and display characteristics of 32,795 Hillary Clinton's emails as provided by Wikileaks.
+\abstract{We present a web-based visualization that allows the user to interactively filter and display characteristics of 32,795 of Hillary Clinton's emails as provided by Wikileaks.
 
 The visualization focuses on the meta-data of each email, including its senders, receivers, and the timestamp the email appeared on the Clinton server.  An interactive time range slider filters all email and all displays automatically update to changes in the slider.  The main display shows Clinton's most frequent correspondents arranged as nodes of a spoked graph with Clinton at the centre.  Volume determines the thickness of each spoke and high volume determines an inner circle whose spokes are shortened.  Correspondents and their edges are coloured according to whether that email account could be identified as being an approved Federal government account or not.  A second display shows two daily time series: the total number of emails for that day, and the number meeting selection criteria.  A third display shows a scatterplot of the time of day versus the day on which that email appeared.  Scatterplot points are coloured by whether the email was redacted or not.  
 
@@ -164,7 +164,7 @@ What is critically missing from either site is a facility to learn summary, or s
 
 In this paper, we describe an implementation of such a visual analytic service and illustrate it on the Secretary Clinton's e-mail archive.  The implementation is located at  \texttt{rshiny.math.uwaterloo.ca/clinton} where any visitor may interactively explore summary features  of the entire corpus of emails.   Different visual displays present different salient features from all selected emails; emails can be selected via a variety of interactive filters.   All displays are reactive and update simultaneously in response to user interaction with the data filters.  Together, filters and displays provide a visual analysis service that can be used to quickly learn more about, and to discover some (possibly unanticipated) patterns in the emails. 
 
-The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} which discusses the source of the data, the extraction and cleaning process in Subsection \ref{sect:data:extrclean}, the details of the metadata in Subsection \ref{sect:data:metadata}, the use of redaction codes in Subsection \ref{sect:data:redact} and content data used in Subsection \ref{sect:data:contentinfo}. The displays of the data and their patterns over the entire unfiltered data are then described in Section \ref{sect:Displays}. Within this section, Subsection \ref{sect:Displays:circle} describes the spoked network plot, Subsection \ref{sect:Displays:volume} addresses the email volume time series plot, Subsection \ref{sect:Displays:times} discusses the scatterplot of daily sending times, Subsection \ref{sect:Displays:FOIA} outlines the exemption code barplot, and Subsection \ref{sect:Displays:TFIDF} explains the content tf-idf and frequency information. Interactive filters which are implemented in the application are discussed in Section \ref{sect:Filters}. Finally, brief analysis of some interesting findings is included in Section \ref{sect:Analysis}, alongside a summary of the timeline of the Clinton email imbroglio in Section \ref{sect:Timeline}.
+The implementation is described over the next three sections, beginning with discussion of the data in Section \ref{sect:data} which addresses the source of the data, the extraction and cleaning process in Subsection \ref{sect:data:extrclean}, the details of the metadata in Subsection \ref{sect:data:metadata}, the use of redaction codes in Subsection \ref{sect:data:redact} and content data used in Subsection \ref{sect:data:contentinfo}. The displays of the data and their patterns over the entire unfiltered data are then described in Section \ref{sect:Displays}. Within this section, Subsection \ref{sect:Displays:circle} describes the spoked network plot, Subsection \ref{sect:Displays:volume} addresses the email volume time series plot, Subsection \ref{sect:Displays:times} discusses the scatterplot of daily sending times, Subsection \ref{sect:Displays:FOIA} outlines the exemption code barplot, and Subsection \ref{sect:Displays:TFIDF} explains the content tf-idf and frequency information. Interactive filters which are implemented in the application are discussed in Section \ref{sect:Filters}. Finally, brief analysis of some interesting findings is included in Section \ref{sect:Analysis}, alongside a summary of the timeline of the Clinton email imbroglio in Section \ref{sect:Timeline}.
 
 %\section{Background}
 %\label{sect:Background}
@@ -188,13 +188,13 @@ Combetta, Mills, and Samuelson will later be granted partial immunity by the Jus
 
 On April 12, 2015 Clinton announces that she is running for the U.S. Presidency.  On July 24, 2015, inspectors general for the State Department  and the national intelligence agencies announce finding classified information in the emails and that the information they found was classified at the time sent \cite{serverClassified}, though her campaign declared that they must have been classified after the fact. On August 19, 2015, Clinton calls the allegation of mishandling classified information a ``disagreement between agencies'' \cite{clintonDenialGuardian}.
 
-Nearly one year later, July 5, 2016,  FBI Director James Comey recommended that no charges be laid against Clinton on use of private email server \cite{nochargeFBI}.  On October 28, 2016, Comey revealed that in a separate investigation into former Congressman Anthony Weiner, that emails belonging to his wife Huma Abedin have been found on his laptop.  Since Abedin was a close aid to former Secretary Clinton, FBI investigations were reopened into the private server usage but closed again by Comey on November 6, 2016 without charges being laid \cite{nochargeFBINov}.  In both cases, Comey and the FBI are criticized by pundits from different political parties.
+Nearly one year later, July 5, 2016,  FBI Director James Comey recommended that no charges be laid against Clinton on use of private email server \cite{nochargeFBI}.  On October 28, 2016, Comey revealed that in a separate investigation into former Congressman Anthony Weiner, that emails belonging to his wife Huma Abedin have been found on his laptop.  Since Abedin was a close aide to former Secretary Clinton, FBI investigations were reopened into the private server usage but closed again by Comey on November 6, 2016 without charges being laid \cite{nochargeFBINov}.  In both cases, Comey and the FBI are criticized by pundits from different political parties.
 
 \section{The data}
 \label{sect:data}
 As of March 3, 2017, a total of 32,795 available emails, either to or from Hillary Clinton, have been made publicly available in pdf form as a searchable database \cite{StateDeptFOIA}.  Many of these have been redacted according to the FOIA exemption codes \cite{FOIA}.  
 
-Wikileaks \cite{Wikileaks} has provided the same redacted pdfs and, more usefully for analysis purposes, an HTML version of each pdf.  Consequently, have used the Wikileaks database as our data source.   All data extraction, cleaning, analysis, and presentation is done using the open source statistical programming language \texttt{R}~\cite{Rsystem}.
+Wikileaks \cite{Wikileaks} has provided the same redacted pdfs and, more usefully for analysis purposes, an HTML version of each pdf.  Consequently, we have used the Wikileaks database as our data source.   All data extraction, cleaning, analysis, and presentation is done using the open source statistical programming language \texttt{R}~\cite{Rsystem}.
 
 \subsection{Data extraction and cleaning}
 \label{sect:data:extrclean}
@@ -209,7 +209,7 @@ For each email, from the HTML we extract as best we can the identity of the pers
 
 The HTML was constructed from email printed out, redacted, and then provided as pdfs by the State Department.  Consequently, detailed email header information as would normally be available electronically is mostly missing.   All time stamps appear to be the local date and time at which the server sent or received that email (e.g. no time zone or other source time or IP chain information is available).  Moreover, because of redaction (typically FOIA exemption B6 ~\cite{FOIA}),  sender and receiver emails may have truncated domains,  contain only the person's name, or be missing altogether.  In cases where both \texttt{From} and \texttt{To} are entirely missing, but there is an email chain within the message, we do not impute values  (e.g. see \texttt{https://wikileaks.org/clinton-emails/emailid/31599}).
 
-Using regular expressions to extract the metadata was occasionally challenging and it is always possible that some fringe cases have been mishandled.  On the whole the metadata is fairly consistent and only rarely do some impure and messy addresses and contact names arise  due to irregular spacing or placement of text within the HTML code.  One such fringe case is Huma Abedin's \texttt{clintonemail.com} email account which will show in the displays as an overly long string.  We have chosen not to special case this but leave it as is.
+Using regular expressions to extract the metadata was occasionally challenging and it is always possible that some fringe cases have been mishandled.  On the whole the metadata is fairly consistent and only rarely do some impure and messy addresses and contact names arise  due to irregular spacing or placement of text within the HTML code.  One such fringe case is Huma Abedin's \texttt{clintonemail.com} email account which will show in the displays as an overly long string.  We have chosen not to edit this special case but leave it as is.
 
 Where possible, the email addresses have also been parsed so that they may be classified into one of four categories: those which are \texttt{.gov},  those which are \texttt{.mil},  those which are identifiable as coming from a domain that is neither  \texttt{.gov} nor  \texttt{.mil}, and those whose domain was not identifiable from the data.
 \subsection{Redaction information}
@@ -221,8 +221,6 @@ The entire (redacted) content of each email is available on the State Department
 
 \section{Displays}
 \label{sect:Displays}
-\TODO{Each of these four displays is described and commented on in context of whole time line}
-Four displays of the metadata and quasi-metadata 
 
 \subsection{Inner circle}
 \label{sect:Displays:circle} 
@@ -238,7 +236,7 @@ This display takes the most frequent correspondents (max. 20) in the selected em
 Figure~\ref{fig:InnerCircleAll} shows the top 20 correspondents (or ``Inner Circle'')  over all emails in the collection.
 Note that Huma Abedin appears both as a blue  \texttt{.gov} account and as a red non-government (\texttt{clintonemail.com}) account.   The other red account is that of Sidney Blumenthal.  This has been a source of some controversy  \cite{BlumenthalControversy, NYTBlumenthalBenghazi}, since he had been rejected by the State Department yet appears to provide Clinton advice throughout her tenure.  Wendy Sherman appears as orange. Sherman was appointed by Clinton to be Under Secretary of State for Political Affairs in 2011 and the high frequency of Sherman emails dates from this time.  Nevertheless, from this archive the email address could not be identified definitively as being either government or non-government.  Either the address was redacted for privacy reasons (a B6 FOIA exemption), or it was simply unavailable in the header provided.
 
-The greater the number of emails between correspondents, the wider is their connecting spoke.  Whenever the difference in volume is great enough,  correspondents are separated into two groups: those with the greatest correspondence have shorter spokes visually placing them ``closer'' to Clinton.   As Figure~\ref{fig:InnerCircleAll} shows shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan. \TODO{Chris, can you be more precise about the algorithm?}
+The width of the connecting spoke between Clinton and a correspondent is proportional to the number of emails sent between them, scaled relative to the maximum number of correspondences for all connections and adjusted by a constant minimum width for visibility. As well, correspondents are separated into two groups: those with the greatest correspondence have shorter spokes visually placing them ``closer'' to Clinton. To determine these shortened spokes, the correspondents are arranged in decreasing order by number of correspondences with Clinton. The greatest difference between adjacent correspondence counts is determined, and all individuals which appear before the lower correspondent in this difference are given shortened spokes. As Figure~\ref{fig:InnerCircleAll} shows shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan.
 \subsection{Email volume}
 \label{sect:Displays:volume}
 Figure~\ref{fig:VolumeAll} 
@@ -253,7 +251,7 @@ presents two time series showing the volume of emails for each day.  In grey at 
 
 Over the four year scale shown in Figure~\ref{fig:VolumeAll}, the display is quite busy.  Even so, a few features stand out.  For example, there is a notable lack of email from the first few months of Clinton's tenure;  there is essentially no email from Clinton at the beginning and very little to her.   
 
-One also notices the spikes of email activity.  These can be checked against world events to generate hypotheses about what might be occurring to cause such spikes.  For example, the largest spike occurs on August 21, 2011, the beginning day of the battle for Tripoli and on which it was reported that two of Qaddafi's sons had been captured \cite{battleTripoli}.  It is also the day on which the famous ``tick tock Libya'' email is composed by Jake Sullivan providing a timeline crediting Secretary Clinton with leading the U.S.  policy on Libya ``from start to finish'' \cite{tickTockLibya}.  Much of the email that day is redacted (B5 primarily).   Other peaks (and valleys) of activity could be similarly investigated.
+One also notices the spikes of email activity.  These can be checked against world events to generate hypotheses about what might be occurring to cause such spikes.  For example, the largest spike occurs on August 21, 2011, the beginning day of the battle for Tripoli and the day on which it was reported that two of Qaddafi's sons had been captured \cite{battleTripoli}.  It is also the day on which the famous ``tick tock Libya'' email is composed by Jake Sullivan providing a timeline crediting Secretary Clinton with leading the U.S.  policy on Libya ``from start to finish'' \cite{tickTockLibya}.  Much of the email that day is redacted (B5 primarily).   Other peaks (and valleys) of activity could be similarly investigated.
 
 \subsection{Email times}
 \label{sect:Displays:times}
@@ -289,7 +287,7 @@ Figure \ref{fig:FOIAcodes}
 \end{figure}
 is a barplot of all FOIA exemption codes found in all of the emails.  As can be seen, B1 redactions made for national security and foreign policy reasons account for a small portion of all redactions made though affect more than 2,000 emails in the collection.   Nearly half of the emails contain B6 exemptions, those made to protect personal privacy.   The inter-agency, intra-agency exemption B5 is used in more than 8,000 emails.  This code has come under some criticism from advocates for transparent government as being overly applied \cite{unredactedB5}.  The remaining codes appear in very few emails and about 12,000 emails, or about a third of them, are not redacted at all.
 
-As with all other displays, the FOIA barplot will update in reaction to all filters making it a useful tool to identify how codes co-occur over any selection of emails.  Conversely, filtering on FOIA codes can be interesting to see who sees correspondence of varying sensitivities, especially B1 and B5.
+As with all other displays, the FOIA barplot will update in reaction to all filters making it a useful tool to identify how codes co-occur over any selection of emails.  Conversely, filtering on FOIA codes can be interesting to see who is privy to correspondence of varying sensitivities, especially B1 and B5.
 
 \subsection{Term frequency and TFIDF}
 \label{sect:Displays:TFIDF}
@@ -305,7 +303,7 @@ $~~~~$ &
 \label{fig:top20all}
 \end{center}
 \end{figure}
-Those terms which appear frequently within some emails but less frequently across emails will have a high tf-idf (term frequency - inverse document frequency) score.  The top 20 scoring of these in the selected emails are shown in the ``TFIDF'' display. \TODO{Chris, check that I have described these two measures correctly}
+Those terms which appear frequently within some emails but less frequently across emails will have a high tf-idf (term frequency - inverse document frequency) score.  The top 20 scoring of these in the selected emails are shown in the ``TFIDF'' display.
 The top 20 shown in Figure~\ref{fig:top20all} are for all emails in the corpus; these will change depending on the filtering.
 
 The terms give some limited insight into the contents of the email.  As seen in Figure~\ref{fig:top20all}, for example, the first names of two of Clinton's closest aides, Jake Sullivan and Cheryl Mills,  appear under TFIDF but not  as high frequency terms.  One problem with tf-idf for this e-mail corpus is that many emails contain email chains which grow as each person replies which could magnify the within email frequency for some terms.
@@ -373,7 +371,7 @@ One might begin an interactive analysis by looking at the email patterns in the 
 \end{figure}
 shows the resulting email volume time series over this period.  Note, however, that in addition to filtering on time we have chosen to also filter on FOIA exemption code, selecting only those emails containing one or more B1 (national security and foreign policy matters) redactions.  The magenta time series at the bottom then shows all emails, sent or received by Clinton, in the last two years of her tenure which were redacted in part by the State Department (after the fact, not at the time) as being B1 FOIA exempt.  As can be seen, there are relatively few of these.
 
-Recall from Section~\ref{sect:Displays:circle} that the tallest spike of Figure~\ref{fig:lastTwoYears} corresponds to the beginning of the battle for Tripoli (August 21, 2011).   Another series of the next largest spikes appear at the far left of this time window, at the beginning of 2011.  We might choose to compress the time window more, to focus on this section of the emails.
+Recall from Section~\ref{sect:Displays:volume} that the tallest spike of Figure~\ref{fig:lastTwoYears} corresponds to the beginning of the battle for Tripoli (August 21, 2011).   Another series of the next largest spikes appear at the far left of this time window, at the beginning of 2011.  We might choose to compress the time window more, to focus on this section of the emails.
 
 Bringing the right end of the time slider in to April 15, 2011 produces the series of Figure~\ref{fig:early2011B1}.
 \begin{figure}[h]
@@ -395,7 +393,7 @@ The readjusted time series are shown in Figure~\ref{fig:EmailVolumeB1LibyaBuildu
 \label{fig:EmailVolumeB1LibyaBuildup}
 \end{center}
 \end{figure}
-The left most spike is the rightmost spike of approximately 80 emails from Figure~{EmailVolumeB1JanApril2011}.   
+The left most spike is the rightmost spike of approximately 80 emails near the centre of Figure~\ref{fig:early2011B1}.   
 Of course all other displays have been updating every time the time slider is adjusted.  
 
 Some sense of the content of the emails can be had from the updated term frequency displays shown in Figure~\ref{fig:TermFreqB1LibyaBuildup}.
@@ -414,7 +412,7 @@ Not surprisingly,  Libya and its leader figure prominently in this restricted se
 
 Perhaps more surprising is a term like ``windrush''.  A little investigation shows that this is a reference to ``Windrush Ventures'' (e.g. see  \cite{windrushTelegraph, windrushGuardian}),  a company owned by former U.K. Prime Minister Tony Blair .  ``Windrush'' appears at the end of emails as part of Mr. Blair's electronic signature.   Mr. Blair is part of this B1 selected correspondence.
 
-What other restrictions, as measured by the FOIA exemption codes, can be seen in Figure~\ref{fig:FOIAB12011LibyaBuildup}.
+What other restrictions are present in this period, as measured by the FOIA exemption codes, can be seen in Figure~\ref{fig:FOIAB12011LibyaBuildup}.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.95\linewidth]{FOIAB12011LibyaBuildup}
@@ -432,7 +430,7 @@ We might now consider the composition of the inner circle for this set of emails
 \label{fig:InnerCircle2011B1LibyaBuildup}
 \end{center}
 \end{figure}
-shows the set of correspondents.  Not surprisingly, Jake Sullivan is the principal correspondent.  Huma Abedin is next, though she is using two emails, one a government account the other a personal \texttt{clintonemail.com} account.  Melanie Verveer has the least amount of traffic (judging by the lightness of her spoke colour).  Sidney Blumenthal, a non-government employee, is in this inner circle of B1 exempted emails.  So too is former U.K. Prime Minister Tony Blair; this is the unidentifiable domain account \texttt{aclb}.
+shows the set of correspondents.  Not surprisingly, Jake Sullivan is the principal correspondent.  Huma Abedin is next, though she is using two emails, one a government account the other a personal \texttt{clintonemail.com} account.  Melanie Verveer has the least email traffic (judging by the lightness of her spoke colour).  Sidney Blumenthal, a non-government employee, is in this inner circle of B1 exempted emails.  So too is former U.K. Prime Minister Tony Blair; this is the unidentifiable domain account \texttt{aclb}.
 It should be noted that there could be other accounts which do not appear in the inner circle because their emails were not present in the email record.  See Section~\ref{sect:data:metadata}.
 
 We could continue to drill down into this information, checking the (unredacted) contents of the emails themselves from either the Wikileaks or State Department sources.  We might also more closely connect email dates and correspondents with world events.   Instead, we now turn our attention to another feature which appears in Figure~\ref{fig:lastTwoYears}.
@@ -451,7 +449,12 @@ The block of no email appears as an even more unusual pattern in Figure~\ref{fig
 
 The inner circle for all emails from September 11 to November 23, 2012 is shown in Figure~\ref{fig:teaser}(b).  Those closest to Clinton in terms of volume of correspondence are Clinton aides Jake Sullivan, Cheryl Mills, and Monica Hanley.  Monica Hanley is also an account whose identity as government or not could not be determined.  Tony Blair and Sidney Blumenthal both appear in the inner circle, as does Wendy Sherman (though the account could not be identified as government or not).  Oscar Flores is an assistant to the Clintons, often working at their home.  The rest are identified as corresponding through government accounts.
 
-One might ask what is happening around this time period?  By far and away the most significant event to the U.S. administration was the attack on the U.S. diplomatic compound in Benghazi on September 11, 2012.  The aftermath of this, particularly in a U.S. Presidential Election year (November, 2012), consumed much of the energy of the U.S. administration and Congress, not to mention the ensuing media frenzy. 
+One might ask what is happening around this time period?  By far the most significant event to the U.S. administration was the attack on the U.S. diplomatic compound in Benghazi on September 11, 2012.  The aftermath of this, particularly in a U.S. Presidential Election year (November, 2012), consumed much of the energy of the U.S. administration and Congress, not to mention the ensuing media frenzy.
+
+More specifically, the date of the U.S. Presidential Election in 2012 was November 6. The period between October 30 and November 9 also saw the discovery of controversial surveillance information in the diplomatic compound ruins \cite{BenghaziTroublingSurveillance} and a call by 53 members of the U.S. House of Representatives for official responses by the White House and the State Department to questions of oversight, addressed to Obama and Clinton personally. \cite{BenghaziLetter} It seems highly implausible that Clinton and her aides within the State Department would have nothing to email about in this period given these events. This makes the email gap present in the data all the more intriguing.
+
+Of course, the nature of the communications during this period and the reason for such a gap cannot be addressed by exploration within these visual analytic tools. Indeed, even web searches can only identify events of interest within this period, providing no definitive answer to the question begged by the existence of a period of such low communication. Without these visual tools, however, identifying this gap would have been difficult and unintuitive. In contrast, the identification of such a striking pattern arises naturally out of simple exploration using these tools.
+
 \subsubsection{Are there other zeros?}
 Using 1 month window slider and looking for flat spots at zero
 Dates:
