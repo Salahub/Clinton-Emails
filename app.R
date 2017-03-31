@@ -196,7 +196,7 @@ ui <- fluidPage(
             fluidRow(selectInput("ToFromFilter", "Show Emails: ", 
                                  c("From Clinton", "To Clinton", "All Emails"),
                                  selected = "All Emails", multiple = FALSE)),
-            fluidRow(selectInput("ClassFilter", "FOIA Codes: ",
+            fluidRow(selectInput("ClassFilter", "Emails Including Any of the FOIA Codes: ",
                                  c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "None"),
                                  selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", 
                                               "B9", "None"),
@@ -275,7 +275,7 @@ server <- function(input, output) {
      plot(x = as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs])),
           y = timevalues, xlab = xlab,
           ylab = paste("Time", inter()$toFromLab), yaxt = 'n', xaxt = 'n', pch = 19,
-          main = main,
+          main = paste(main, " (", inter()$DateRange, ")", sep = ""),
           col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
                             alpha.f = 0.5),
           cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
@@ -291,7 +291,7 @@ server <- function(input, output) {
    output$DaySum <- renderPlot({
      plot(x = inter()$selDays, y = inter()$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails', pch = 19,
-          main = "Number of Emails by Date",
+          main = paste("Number of Emails by Date (", inter()$DateRange, ")", sep = ""),
           ylim = extendrange(AScounts), col = adjustcolor("black", alpha.f = 0.6))
      # add the schedule if it has been selected
      if (inter()$dispSched) {
@@ -319,7 +319,8 @@ server <- function(input, output) {
      spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% inter()$selIDs]),
                                 as.character(ClintonCom$From.name[ClintonCom$ID %in% inter()$selIDs]))),
                         decreasing = TRUE)[-1],
-                   title = "Inner Circle by Volume of Communication")
+                   title = paste("Inner Circle by Volume of Communication (", 
+                                 inter()$DateRange, ")", sep = ""))
    })
    # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
@@ -336,7 +337,8 @@ server <- function(input, output) {
    # finally a barplot of classification codes used in the selection
    output$Class <- renderPlot(
      barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% inter()$selIDs], "-"))),
-                          main = "FOIA Exemption Codes Used for Redactions")
+                          main = paste("FOIA Exemption Codes Used for Redactions (",
+                                       inter()$DateRange, ")", sep = ""))
    )
    # record the user window size (still cannot use in ui)
    # output$winHeight <- reactive(input$height)
