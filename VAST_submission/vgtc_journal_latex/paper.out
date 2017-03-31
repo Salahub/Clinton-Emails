@@ -1,0 +1,24 @@
+\BOOKMARK [1][]{section.2}{Introduction}{}% 1
+\BOOKMARK [1][]{section.4}{A brief timeline on the private email server}{}% 2
+\BOOKMARK [1][]{section.5}{The data}{}% 3
+\BOOKMARK [2][]{subsection.6}{Data extraction and cleaning}{section.5}% 4
+\BOOKMARK [2][]{subsection.7}{Metadata}{section.5}% 5
+\BOOKMARK [2][]{subsection.8}{Redaction information}{section.5}% 6
+\BOOKMARK [2][]{subsection.9}{Content information}{section.5}% 7
+\BOOKMARK [1][]{section.10}{Displays}{}% 8
+\BOOKMARK [2][]{subsection.11}{Inner circle}{section.10}% 9
+\BOOKMARK [2][]{subsection.13}{Email volume}{section.10}% 10
+\BOOKMARK [2][]{subsection.15}{Email times}{section.10}% 11
+\BOOKMARK [2][]{subsection.17}{FOIA exemptions}{section.10}% 12
+\BOOKMARK [2][]{subsection.19}{Term frequency and TFIDF}{section.10}% 13
+\BOOKMARK [1][]{section.21}{Filters}{}% 14
+\BOOKMARK [2][]{subsection.22}{Time filtering}{section.21}% 15
+\BOOKMARK [2][]{subsection.24}{Sent or received}{section.21}% 16
+\BOOKMARK [2][]{subsection.26}{FOIA exemptions}{section.21}% 17
+\BOOKMARK [2][]{subsection.28}{Auxiliary information}{section.21}% 18
+\BOOKMARK [1][]{section.29}{Some interactive analyses}{}% 19
+\BOOKMARK [2][]{subsection.30}{The last two years}{section.29}% 20
+\BOOKMARK [2][]{subsection.37}{An email gap?}{section.29}% 21
+\BOOKMARK [2][]{subsection.40}{A hunt for no email}{section.29}% 22
+\BOOKMARK [3][-]{subsubsection.42}{You have no mail \203}{subsection.40}% 23
+\BOOKMARK [1][]{section.43}{Concluding Remarks}{}% 24
