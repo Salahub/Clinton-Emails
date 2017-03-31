@@ -437,7 +437,8 @@ It should be noted that there could be other accounts which do not appear in the
 
 We could continue to drill down into this information, checking the (unredacted) contents of the emails themselves from either the Wikileaks or State Department sources.  We might also more closely connect email dates and correspondents with world events.   Instead, we now turn our attention to another feature which appears in Figure~\ref{fig:lastTwoYears}.
 
-\subsection{No email sent by Clinton}
+\subsection{An email gap?}
+\label{sect:emailGap}
 Towards the very right of Figure~\ref{fig:lastTwoYears} there appears to be an anomaly in both time series.  There is a noticeable flat area at zero in both series.  If we move the leftmost time sliders to the June 1, 2012, and the rightmost to the end, February 1, 2013, we have the email volumes for the last 8 months of the archive.  The resulting series are shown in Figure~\ref{fig:EmailVolumeB1Jun1On}.
 \begin{figure}[h]
 \begin{center}
@@ -451,9 +452,52 @@ The block of no email appears as an even more unusual pattern in Figure~\ref{fig
 
 The inner circle for all emails from September 11 to November 23, 2012 is shown in Figure~\ref{fig:teaser}(b).  Those closest to Clinton in terms of volume of correspondence are Clinton aides Jake Sullivan, Cheryl Mills, and Monica Hanley.  Monica Hanley is also an account whose identity as government or not could not be determined.  Tony Blair and Sidney Blumenthal both appear in the inner circle, as does Wendy Sherman (though the account could not be identified as government or not).  Oscar Flores is an assistant to the Clintons, often working at their home.  The rest are identified as corresponding through government accounts.
 
-One might ask what is happening around this time period?  By far and away the most significant event to the U.S. administration was the attack on the U.S. diplomatic compound in Benghazi on September 11, 2012.  The aftermath of this, particularly in a U.S. Presidential Election year (November, 2012), consumed much of the energy of the U.S. administration and Congress, not to mention the ensuing media frenzy. 
-\subsubsection{Are there other zeros?}
-Using 1 month window slider and looking for flat spots at zero
+One might ask what is happening around this time period?  In a word, Benghazi.  Five days after the assault, The U.S. Ambassador to the United Nations, Susan Rice, made a series of television appearances explaining that the attack on the U.S. Benghazi mission was a spontaneous response a  ``hateful video''  which had hours earlier caused violent protests in Cairo against the U.S. Embassy \cite{faceTheNationSept16}.   Four years later, it will be revealed as part of the House Select Committee on Benghazi report \cite{BenghaziReport} that Secretary Clinton had as early as September 12, 2012, communicated to Egyptian Prime Minister Kandil that the attack was known to be planned by Al Qaeda affiliates, it was not a protest, and that it had nothing to do with the film \cite{ClintonAdmitsAttackSept12}.  By the end of September the U.S. administration was calling it a terrorist attack \cite{factCheckerBenghazi}.  A month after the attack the administration was defending itself against charges that it deliberately downplayed a terrorist attack in Libya for political reasons in a presidential election year \cite{susanRiceWashPost2012}.   In October, focus shifted to the security at Benghazi and whether it had been reduced prior to the attack  \cite{cbsSecurity}.  The House Committee on Oversight \& Government Reform began looking into the security aspect \cite{cbsNewsHouseOversight2012} in earnest and found evidence that security issues were known and that requests from the U.S. Embassy in Libya for additional security personnel had been turned down by the State Department \cite{BenghaziSecurityTestimony}.  On October 26, CIA operatives who had defended the Benghazi mission against the terrorist attacks came forward with their story of what went on, on the ground.  They maintain that it was an organized attack and tell reporters that they were told to ``stand down'' \cite{standDownOrder}.  From October 26 to November 9 2012, no email appears in the archive as being sent from Secretary Clinton.
+
+Moving the time sliders to cover either side of the email gap, October 22 to November 17, 2012, results in  the term frequency displays of Figure~\ref{fig:TermFreqOct22Nov17_2012}.
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[width=0.4\linewidth]{TFIDFOct22Nov17_2012} &
+$~~~~$ &
+\includegraphics[width=0.4\linewidth]{TermFreqOct22Nov17_2012} 
+\end{tabular}
+\caption{Around the gap: All emails, Oct. 22 to Nov.17, 2012}
+\label{fig:TermFreqOct22Nov17_2012}
+\end{center}
+\end{figure}
+It would seem that emails were very much related to the unfolding political crisis of Benghazi.  Even the name of the terrorist group, Ansar al-sharia, is picked up in the tf-idf terms.
+
+Whatever the reason for the gap seen in the archive, one thing is certain.
+The story of Benghazi and its aftermath, with its piecemeal and contentious disclosures, and unfolding as it did immediately before a U.S. Presidential election, would consume much of the attention and energy of the U.S. administration, Congress, and the U.S. electorate.  It was an event that would haunt Secretary Clinton for months and years  to come \cite{benghaziTimelineWikipedia}.
+
+\subsection{A hunt for no email}
+\label{sect:emailZeros}
+The discovery of the obvious email gap in November 2012 raises the possibility that there may be other, less obvious, gaps in the email archive.  
+
+To explore this possibility,  the time slider was adjusted to the relatively small span of thirty days.  This would allow us to detect gaps in email of smaller sizes.  To focus attention on Secretary Clinton's behaviour, only those emails sent from Secretary Clinton were displayed.  
+Moving the slider, from left to right, from early 2009 to early 2013, would allow us to move a one month wide magnifying glass across the whole of the archive.  A few contiguous days with no email from Clinton should appear visually as a small horizontal line at zero in the email volume (magenta coloured and lower) time series.  Any such horizontal patch will be identified by its date. 
+
+We found ten more patches, in addition to the original obvious email gap of Section~\ref{sect:emailGap}.  So as to get some idea of the context of the patch, and to illustrate the advantage of coupling a visual analytic tool with an internet search engine, for every patch we found we performed a coarse internet search to see what might turn up, if anything to explain it.  If, for example, we found a patch of no emails from Clinton in March 2009, then a Google search as shown in Figure~\ref{fig:googleSearch}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.75\linewidth]{googleSearch}
+\caption{A coarse Google search}
+\label{fig:googleSearch}
+\end{center}
+\end{figure}
+would be tried to see what might be found in the news that could relate to that date.
+
+\subsubsection{You have no mail \ldots}
+The first, and largest, patch occurs at the very beginning of Clinton's tenure as Secretary of State.  It is  obvious even from the full time series of Figure~\ref{fig:VolumeAll}.  Essentially no email from Secretary Clinton, and little from anyone else appears until mid to late April 2009.
+
+In time order, the patches and what we learned from each Google search was as follows.
+
+We found ten more places in the archive which we identified as gaps to be explored.  
+
+where there were zero emails from Clinton
+
+
 Dates:
 \begin{itemize}
 \item None until mid April 2009
