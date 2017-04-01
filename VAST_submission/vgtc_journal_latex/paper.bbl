@@ -5,6 +5,12 @@ S.~Attkisson.
 \newblock {Congress to probe security flaws for Libya diplomats}.
 \newblock {\em {CBS Evening News}}, October 18, 2012.
 
+\bibitem{AttkissonBenghaziBombshell}
+S.~Attkisson.
+\newblock {Benghazi} bombshell: {Clinton State Department} official reveals
+  details of alleged document review.
+\newblock {\em The Daily Signal}, September 15, September 2014.
+
 \bibitem{attkissonTimeline}
 S.~Attkisson.
 \newblock {Hillary Clinton's} email: the definitive timeline.
@@ -15,6 +21,11 @@ S.~Attkisson.
 Automatic.
 \newblock clintonemail.com.
 \newblock {\em WHOis.net}, March 2017.
+
+\bibitem{earlyEmails}
+P.~Beinart.
+\newblock The real scandal of {Hillary Clinton's} emails.
+\newblock {\em {The Atlantic}}, May 27, 2016.
 
 \bibitem{cairoTanks2011}
 A.~Bloomfield.
@@ -27,6 +38,11 @@ M.~Bouchet-Valat.
 \newblock {\em SnowballC: Snowball stemmers based on the C libstemmer UTF-8
   library}.
 \newblock {CRAN R-project}, 2014.
+
+\bibitem{WikileaksPull}
+M.~Burch.
+\newblock Get and analyze hillary clinton's email.
+\newblock {\em Wikileaks}, 2017.
 
 \bibitem{faceTheNationSept16}
 {CBS News}.
@@ -56,7 +72,7 @@ J.~Chia.
 
 \bibitem{ClintonAdmitsAttackSept12}
 H.~Clinton.
-\newblock The secretary's call with egyptian pm kandil.
+\newblock {The Secretary's Call with Egyptian PM Kandil}.
 \newblock In {\em {U}.{S}. {H}ouse of {R}epresentatives {S}elect {C}ommittee On
   the Events Surrounding the 2012 Terrorist Attack in {B}enghazi}, volume
   September 12. {U.S. Government Publishing Office}, 2012.
@@ -73,7 +89,7 @@ D.~Cole.
 
 \bibitem{BlumenthalControversy}
 N.~Confessore and M.~S. Schmidt.
-\newblock Clinton friend's memos on libya draw scrutiny to politics and
+\newblock Clinton friend's memos on {Libya} draw scrutiny to politics and
   business.
 \newblock {\em The New York Times}, May 18, 2015.
 
@@ -83,6 +99,12 @@ U.~S. Congress.
   amended by Public Law No. 104-231, 110 STAT. 3048}}, volume PUBLIC LAW NO.
   104-231, 110 STAT. 3048.
 \newblock {U.S. Department of Justice}, 1996.
+
+\bibitem{StevensUpdate}
+T.~T. Davis.
+\newblock Stevens update (important) {April 10, 2011}.
+\newblock In {\em {Secretary Clinton} Emails}. {U.S. Department of State},
+  2017.
 
 \bibitem{tm2017package}
 I.~Feinerer and K.~Hornik.
@@ -105,17 +127,35 @@ J.~Gerstein and N.~Gass.
   investigation.
 \newblock {\em Politico}, September 23, 2016.
 
+\bibitem{gilgovichBook}
+T.~Gilgovich.
+\newblock {\em How we know what isn't so: the fallibility of human reason in
+  everyday life}.
+\newblock The Free Press, New York, 1993.
+
 \bibitem{immunityIT}
 A.~Goldman and M.~S. Schmidt.
 \newblock Justice dept. granted immunity to specialist who deleted {Hillary
   Clinton's} emails.
 \newblock {\em The New York Times}, September 8, September 2016.
 
+\bibitem{staffVetEmail}
+A.~Goodman.
+\newblock Clinton's staff vetted public records, emails show: Top aide in
+  process meant to be free of political influence.
+\newblock {\em The Washington Free Beacon}, January 5, 2016.
+
 \bibitem{standDownOrder}
 J.~Griffin.
-\newblock Cia operators were denied request for help during benghazi attack,
-  sources say.
+\newblock {CIA} operators were denied request for help during {Benghazi}
+  attack, sources say.
 \newblock {\em Fox News Politics}, October 26, 2012.
+
+\bibitem{classifiedInPart}
+J.~Harper.
+\newblock {Despite Hillary Clinton's previous claims, 2012 private email had
+  classified marking: Report}.
+\newblock {\em The Washington Times}, June 11, 2016.
 
 \bibitem{unredactedB5}
 N.~Jones.
@@ -134,6 +174,11 @@ E.~Kiely.
   premeditated terrorist attack}.
 \newblock {\em FactCheck}, June 29, 2016.
 
+\bibitem{ClintonFracture2009}
+M.~Landler.
+\newblock Clinton to have surgery to repair elbow fractured in a fall.
+\newblock {\em The New York Times}, June 18, 2009.
+
 \bibitem{nochargeFBI}
 M.~Landler and E.~Lichtblau.
 \newblock {F.B.I. Director James Comey} recommends no charges for {Hillary
@@ -150,6 +195,12 @@ D.~T. Lang and the CRAN~Team.
 \newblock {\em XML: Tools for Parsing and Generating XML Within R and S-Plus}.
 \newblock {CRAN R-project}, 2016.
 
+\bibitem{russianHackers2}
+D.~Lawler.
+\newblock {Hackers with Russian ties 'tried to hack into Hillary Clinton's
+  email five times'}.
+\newblock {\em The Telegraph}, October 1, 2015.
+
 \bibitem{windrushGuardian}
 D.~Leigh and I.~Griffiths.
 \newblock The mystery of {Tony Blair's} finances.
@@ -160,15 +211,49 @@ J.~Linshi.
 \newblock What to know about the {H}illary {C}linton email controversy.
 \newblock {\em Time}, August 2015.
 
+\bibitem{RiceWithdraws}
+T.~McCarthy.
+\newblock {Susan Rice} withdraws from the running for secretary of state -- as
+  it happened.
+\newblock {\em The Guardian}, December 13, 2012.
+
 \bibitem{BenghaziSecurityTestimony}
 C.~McGreal.
 \newblock {Benghazi attack testimony claims state department ignored warnings}.
 \newblock {\em The Guardian}, October 10, 2012.
 
+\bibitem{fourResign}
+C.~McGreal.
+\newblock {Benghazi report forces resignation of four US state department
+  officials}.
+\newblock {\em The Guardian}, December 20, 2012.
+
+\bibitem{tightReinRecords}
+L.~Meckler.
+\newblock {Hillary Clinton's State Department} staff kept tight rein on
+  records.
+\newblock {\em The Wall Street Journal}, May 19, 2015.
+
 \bibitem{windrushTelegraph}
 R.~Mendick.
 \newblock {Blair Inc: How Tony Blair} makes his fortune.
 \newblock {\em The Telegraph}, January 7, 2012.
+
+\bibitem{clintonDonorSecurity}
+M.~Mosk, B.~Ross, and C.~Park.
+\newblock How {Clinton} donor got on sensitve intelligence board.
+\newblock {\em ABC News}, June 10, 2016.
+
+\bibitem{tripoliPostResign}
+{News Staff}.
+\newblock Three top {US State Department} officials resign over {Benghazi}
+  report.
+\newblock {\em The Tripoli Post}, December 20, 2012.
+
+\bibitem{confBias}
+R.~S. Nickerson.
+\newblock Confirmation bias: A ubiquitous phenomenon in many guises.
+\newblock {\em Review of general psychology}, 2(2):175--220, 1998.
 
 \bibitem{ObamaMetadata}
 B.~Obama.
@@ -198,15 +283,37 @@ M.~Pompeo and D.~B. {Rivkin Jr.}
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
 
+\bibitem{CREWFOIA}
+C.~Ross.
+\newblock {Hillary's State Dept.} aides ignored requests for her emails in
+  2012.
+\newblock {\em The Daily Caller}, August 10, 2016.
+
 \bibitem{immunityDailyCaller}
 C.~Ross.
 \newblock The immunized five: Meet the people covering for {Hillary}.
 \newblock {\em The Daily Caller}, September 23, 2016.
 
+\bibitem{FOIAcall}
+C.~Ross.
+\newblock What did {Hillary Clinton's} lawyer talk about in this {State
+  Department} conference call?
+\newblock {\em The Daily Caller}, November 7, 2016.
+
+\bibitem{visitRussia}
+{RT News}.
+\newblock {Clinton promises military cooperation with Russia - sort of}.
+\newblock {\em Russia Today (RT)}, October 15, 2009.
+
 \bibitem{NYRsnowdenLeaks}
 A.~Rusbridger.
 \newblock {The Snowden Leaks and the Public}.
 \newblock {\em The New York Review of Books}, November 21, 2013.
+
+\bibitem{securityResigns}
+R.~Sanchez.
+\newblock {US State Department's security chief resigns after Benghazi report}.
+\newblock {\em The Telegraph}, December 19, 2012.
 
 \bibitem{NYTBlumenthalBenghazi}
 M.~S. Schmidt.
@@ -239,6 +346,12 @@ J.~Sullivan.
 \newblock tick tock on {Libya}
   {https://wikileaks.org/clinton-emails/emailid/23898}.
 \newblock In {\em {Hillary Clinton} Email Archive}. WikiLeaks, 2017.
+
+\bibitem{gunsOfAugust}
+J.~Tapper.
+\newblock Documents back up claims of requests for greater security in
+  {Benghazi}.
+\newblock {\em ABCNEWS}, October 19, 2012.
 
 \bibitem{cairoResponse2011}
 {Telegraph Staff}.
@@ -291,6 +404,12 @@ Wikileaks.
 {Wikipedia Contributors}.
 \newblock {Timeline of the investigation into the 2012 Benghazi attack}.
 \newblock {\em Wikipedia, The Free Encyclopedia}, March, 2017 Web.
+
+\bibitem{concussion}
+M.~Williams.
+\newblock {Hillary Clinton recovering at home following concussion caused by
+  fall}.
+\newblock {\em The Guardian}, December 15, 2012.
 
 \bibitem{clintonDenialGuardian}
 A.~Yuhas.
