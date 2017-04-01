@@ -197,6 +197,86 @@ ui <- fluidPage(
                       style = "overflow-y:scroll; max-height: 800px", 
                       h3("A Brief Overview"),
                       h5("Christopher D. Salahub and R. Wayne Oldford"),
+                      h3("The Email Timeline"),
+                      p("While the following timeline is somewhat abbreviated, it should serve
+                        to raise some of the major issues and concerns related to Clinton’s
+                        private email server and its contents. It also introduces some of the
+                        principal characters involved. More complete and in depth timelines
+                        are readily available elsewhere (e.g. ", 
+                        a("Sharyl Attkisson",  
+                          href = "https://sharylattkisson.com/hillary-clintons-email-the-definitive-timeline/"),
+                        " or ", 
+                        a("The Washington Post",
+                          href = "https://www.washingtonpost.com/news/fact-checker/wp/2015/03/10/hillary-clintons-emails-a-timeline-of-actions-and-regulations/?utm_term=.dec3139a0542"),
+                        ") On November 21, 2008, the New York Times reported that Hillary
+                        Clinton had decided to accept the position of U.S. Secretary of State.
+                        On January 13, 2009 the internet domain name clintonemail.com
+                        was ",
+                        a("registered", href = "https://www.whois.net/"), 
+                        " and eight days later Senator Clinton was confirmed as
+                        Secretary of State."),
+                      p("Public knowledge that a private email server was being used by
+                        Secretary Clinton and others for State Department and personal communications
+                        did not surface until ",
+                        a("March 2015", href = "https://www.nytimes.com/2015/03/03/us/politics/hillary-clintons-use-of-private-email-at-state-department-raises-flags.html"),
+                        " during the course of a ", 
+                        a("U.S. Congressional investigation", href = "http://benghazi.house.gov/"), 
+                        " of the September 11, 2012 attack by militants on U.S. compounds in 
+                        Benghazi Libya. The State Department had ",
+                        a("difficulty fulfilling", href = "https://www.washingtonpost.com/investigations/how-clintons-email-scandal-took-root/2016/03/27/ee301168-e162-11e5-846c-10191d1fc4ec_story.html?utm_term=.95919beefdc0"),
+                        " public FOIA and House Benghazi Committee requests for Secretary Clinton’s
+                        government emails because she had exclusively used the private server
+                        for all her email. On March 10, 2015, Clinton told reporters that she
+                        turned over 30,490 emails to the State Department and deleted 31,830
+                        emails deemed to be personal. Clinton had tasked ",
+                        a("three lawyers", href = "http://www.dailymail.co.uk/news/article-3773393/Clinton-s-former-Chief-Staff-served-attorney-private-server-investigation.html"),
+                        " Cheryl Mills (Clinton’s former chief of staff), David Kendall (Clinton’s
+                        personal lawyer), and Heather Samuelson (a State Department staffer
+                        during Clinton’s tenure) to make the determinations as to which emails
+                        were work related and which were not."),
+                      p("On March 10, 2015 the House Benghazi Committee ",
+                        a("requested", href = "https://www.nytimes.com/politics/first-draft/2015/03/20/house-benghazi-committee-requests-hillary-clinton-email-server/"),
+                        " that the private email server be turned over to a neutral third party
+                        to determine which emails are personal and which are government
+                        records, but was informed March 27 by David Kendall that ",
+                        a("no emails remained", href = "https://www.nytimes.com/2015/03/28/us/politics/no-copies-of-hillary-clinton-emails-on-server-lawyer-says.html"),
+                        " on the private server for any kind of review.
+                        Between March 25 and 31, 2015, Paul Combetta (then the server’s
+                        system administrator), erased all backup copies using BleachBit (see
+                        www.bleachbit.org)."),
+                      p(a("Combetta,", href = "https://www.nytimes.com/2016/09/09/us/politics/hillary-clinton-emails-investigation.html"),
+                        a("Mills,", href = "http://www.politico.com/story/2016/09/mills-immunity-228580"),
+                        " and ",
+                        a("Samuelson", href = "http://dailycaller.com/2016/09/23/the-immunized-five-meet-the-people-covering-for-hillary/"),
+                        " were later granted partial immunity by the Justice Department during
+                        the FBI investigations into the private email server, as were two others: ",
+                        a("Bryan Pagliano", href = "http://dailycaller.com/2016/09/23/the-immunized-five-meet-the-people-covering-for-hillary/"),
+                        " (original server manager) and ",
+                        a("John Bentel", href = "http://dailycaller.com/2016/09/23/the-immunized-five-meet-the-people-covering-for-hillary/"),
+                        " (former director of Information Resources
+                        Management for the State Department’s Executive Secretariat)"),
+                      p("On April 12, 2015 Clinton announces that she is running for the
+                        U.S. Presidency. On July 24, 2015, inspectors general for the State
+                        Department and the national intelligence agencies announce that they ",
+                        a("found classified information", href = "https://www.nytimes.com/2015/07/25/us/politics/hillary-clinton-email-classified-information-inspector-general-intelligence-community.html"),
+                        "in the emails and that the information was classified at the time sent,
+                       though her campaign declared that they must have been classified after
+                       the fact. On August 19, 2015, Clinton calls the allegation of mishandling
+                       classified information a ",
+                        a("'disagreement between agencies'", href = "https://www.theguardian.com/us-news/2015/aug/19/hillary-clinton-dismisses-misconduct-private-email")),
+                      p("Nearly one year later, July 5, 2016, FBI Director James Comey
+                       recommended that ",
+                        a("no charges be laid", href = "https://www.nytimes.com/2016/07/06/us/politics/hillary-clinton-fbi-email-comey.html"),
+                        "against Clinton for her use of a private email server. On 
+                       October 28, 2016, Comey revealed that
+                       in a separate investigation into former Congressman Anthony Weiner,
+                       that emails belonging to his wife Huma Abedin had been found on
+                       his laptop. Since Abedin was a close aid to former Secretary Clinton,
+                       FBI investigations were reopened into the private server usage but
+                       closed again by Comey on November 6, 2016 ",
+                        a("without charges being laid.", href = "https://www.theguardian.com/us-news/2016/nov/06/fbi-director-hillary-clinton-email-investigation-criminal-james-comey"),
+                        "In both cases, Comey and the FBI are criticized by pundits
+                       from different political parties."),
                       h3("Wikipedia Articles of Key Players"),
                       dataTableOutput("links"))),
 
