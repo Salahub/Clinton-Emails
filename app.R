@@ -151,6 +151,15 @@ Vgrepl <- function(patterns, strings) {
   sapply(strings, function(str) any(sapply(patterns, function(pat) grepl(pat, str))))
 }
 
+# define links for important individuals
+createLink <- function(val) {
+  paste("<a href='https://en.wikipedia.org/wiki/",val,"'>",
+        str_replace(val, "_", " "),"</a>", sep = "")
+}
+linknames <- c("Hillary_Clinton", "Cheryl_Mills", "Huma_Abedin", "Sidney_Blumenthal",
+               "Jake_Sullivan", "Tony_Blair")
+links <- createLink(linknames)
+
 ### App #################################################################################
 # define some javascript code for extracting user window size data
 jscode <-'
@@ -186,7 +195,10 @@ ui <- fluidPage(
      column(width = 4,
             wellPanel(id = "WriteUp", 
                       style = "overflow-y:scroll; max-height: 800px", 
-                      h3("Write up Goes Here"))),
+                      h3("A Brief Overview"),
+                      h5("Christopher D. Salahub and R. Wayne Oldford"),
+                      h3("Wikipedia Articles of Key Players"),
+                      dataTableOutput("links"))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
@@ -342,6 +354,10 @@ server <- function(input, output) {
    )
    # record the user window size (still cannot use in ui)
    # output$winHeight <- reactive(input$height)
+   # add server link processing
+   output$links <- renderDataTable({inter <- as.matrix(links, ncol = 1)
+   colnames(inter) <- "Individual"
+   return(inter)}, escape = FALSE)
 }
 
 # Run the application
