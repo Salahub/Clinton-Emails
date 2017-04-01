@@ -278,7 +278,23 @@ ui <- fluidPage(
                         "In both cases, Comey and the FBI are criticized by pundits
                        from different political parties."),
                       h3("Wikipedia Articles of Key Players"),
-                      dataTableOutput("links"))),
+                      dataTableOutput("links"),
+                      h3("The Service"),
+                      p("This application provides the ability to interactively filter emails sent
+                       during Hillary Clinton's tenure as the United States Secretary of State and
+                       display features of the selected subset.The data is extracted from
+                       HTML representations of the ",
+                        a("official State Department release", href = "https://foia.state.gov/Search/Results.aspx?collection=Clinton_Email"),
+                        "provided in a ",
+                        a("Wikileaks data base.", href = "https://wikileaks.org/clinton-emails/")),
+                      p("This service is not meant to provide stand-alone means of analyzing this
+                       controversial data set. It is most powerful when used simultaneously with
+                       both internet searches and the Wikileaks data base or official State 
+                       Department site. The latter two services provide indispensable context
+                       and precision respectively; two services which the primarily 
+                       metadata-driven displays cannot provide. Rather, the intended use of this
+                       application is the exploration of patterns present in the data to
+                       generate and explore different hypotheses."))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
