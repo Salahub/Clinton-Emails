@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  31 MAR 2017 18:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 APR 2017 11:12
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -579,7 +579,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 \abstractwidth=\skip54
 
-<pictures/EmailSentRecdSept11toNov23.png, id=104, 705.63625pt x 465.74pt>
+<pictures/EmailSentRecdSept11toNov23.png, id=128, 705.63625pt x 465.74pt>
 File: pictures/EmailSentRecdSept11toNov23.png Graphic file (type png)
 
 <use pictures/EmailSentRecdSept11toNov23.png>
@@ -587,7 +587,7 @@ Package pdftex.def Info: pictures/EmailSentRecdSept11toNov23.png used on input
 line 159.
 (pdftex.def)             Requested size: 231.85933pt x 153.03256pt.
 
-<pictures/InnerCircleSept11ToNov23.png, id=106, 727.71875pt x 504.88625pt>
+<pictures/InnerCircleSept11ToNov23.png, id=130, 727.71875pt x 504.88625pt>
 File: pictures/InnerCircleSept11ToNov23.png Graphic file (type png)
 
 <use pictures/InnerCircleSept11ToNov23.png>
@@ -611,7 +611,7 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-<diamondrule.pdf, id=107, 213.79875pt x 12.045pt>
+<diamondrule.pdf, id=131, 213.79875pt x 12.045pt>
 File: diamondrule.pdf Graphic file (type pdf)
  <use diamondrule.pdf>
 Package pdftex.def Info: diamondrule.pdf used on input line 159.
@@ -637,7 +637,7 @@ Underfull \vbox (badness 1354) has occurred while \output is active []
 
  <./pictures/EmailSentRecdSept11toNov23.png> <./pictures/InnerCircleSept11ToNov
 23.png> <./diamondrule.pdf>] [2]
-<pictures/SpiralNetworkFullTime.png, id=196, 366.61969pt x 300.3722pt>
+<pictures/SpiralNetworkFullTime.png, id=220, 366.61969pt x 300.3722pt>
 File: pictures/SpiralNetworkFullTime.png Graphic file (type png)
 
 <use pictures/SpiralNetworkFullTime.png>
@@ -648,14 +648,14 @@ Package pdftex.def Info: pictures/SpiralNetworkFullTime.png used on input line
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<pictures/VolumeFullTime.png, id=203, 774.895pt x 489.83pt>
+<pictures/VolumeFullTime.png, id=227, 774.895pt x 489.83pt>
 File: pictures/VolumeFullTime.png Graphic file (type png)
 
 <use pictures/VolumeFullTime.png>
 Package pdftex.def Info: pictures/VolumeFullTime.png used on input line 245.
 (pdftex.def)             Requested size: 238.75226pt x 150.91893pt.
  [3 <./pictures/SpiralNetworkFullTime.png> <./pictures/VolumeFullTime.png>]
-<pictures/DailyFullTimeFromClinton.png, id=221, 756.8275pt x 482.80376pt>
+<pictures/DailyFullTimeFromClinton.png, id=245, 756.8275pt x 482.80376pt>
 File: pictures/DailyFullTimeFromClinton.png Graphic file (type png)
 
 <use pictures/DailyFullTimeFromClinton.png>
@@ -663,7 +663,7 @@ Package pdftex.def Info: pictures/DailyFullTimeFromClinton.png used on input li
 ne 261.
 (pdftex.def)             Requested size: 238.75226pt x 152.305pt.
 
-<pictures/ExemptionsFullTime.png, id=224, 438.8897pt x 279.29344pt>
+<pictures/ExemptionsFullTime.png, id=248, 438.8897pt x 279.29344pt>
 File: pictures/ExemptionsFullTime.png Graphic file (type png)
 
 <use pictures/ExemptionsFullTime.png>
@@ -675,14 +675,14 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 297.
 
-<pictures/HighFreqAll.png, id=226, 216.81pt x 196.735pt>
+<pictures/HighFreqAll.png, id=250, 216.81pt x 196.735pt>
 File: pictures/HighFreqAll.png Graphic file (type png)
 
 <use pictures/HighFreqAll.png>
 Package pdftex.def Info: pictures/HighFreqAll.png used on input line 298.
 (pdftex.def)             Requested size: 100.52605pt x 91.21965pt.
 
-<pictures/HighTFIDFAll.png, id=227, 216.81pt x 196.735pt>
+<pictures/HighTFIDFAll.png, id=251, 216.81pt x 196.735pt>
 File: pictures/HighTFIDFAll.png Graphic file (type png)
 
 <use pictures/HighTFIDFAll.png>
@@ -690,21 +690,21 @@ Package pdftex.def Info: pictures/HighTFIDFAll.png used on input line 300.
 (pdftex.def)             Requested size: 100.52605pt x 91.21965pt.
  [4 <./pictures/DailyFullTimeFromClinton.png> <./pictures/ExemptionsFullTime.pn
 g> <./pictures/HighFreqAll.png> <./pictures/HighTFIDFAll.png>] <pictures/DateSl
-iderImage.png, id=244, 156.585pt x 109.1578pt>
+iderImage.png, id=268, 156.585pt x 109.1578pt>
 File: pictures/DateSliderImage.png Graphic file (type png)
 
 <use pictures/DateSliderImage.png>
 Package pdftex.def Info: pictures/DateSliderImage.png used on input line 320.
 (pdftex.def)             Requested size: 87.96317pt x 61.32281pt.
 
-<pictures/ToFromImage.png, id=245, 183.68625pt x 119.69719pt>
+<pictures/ToFromImage.png, id=269, 183.68625pt x 119.69719pt>
 File: pictures/ToFromImage.png Graphic file (type png)
 
 <use pictures/ToFromImage.png>
 Package pdftex.def Info: pictures/ToFromImage.png used on input line 335.
 (pdftex.def)             Requested size: 87.96317pt x 57.32066pt.
 
-<pictures/FOIABoxImage.png, id=246, 175.40532pt x 70.01157pt>
+<pictures/FOIABoxImage.png, id=270, 175.40532pt x 70.01157pt>
 File: pictures/FOIABoxImage.png Graphic file (type png)
 
 <use pictures/FOIABoxImage.png>
@@ -714,7 +714,7 @@ Package pdftex.def Info: pictures/FOIABoxImage.png used on input line 347.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<pictures/EmailVolumeB1LastTwoYears.png, id=250, 745.78625pt x 457.71pt>
+<pictures/EmailVolumeB1LastTwoYears.png, id=274, 745.78625pt x 457.71pt>
 File: pictures/EmailVolumeB1LastTwoYears.png Graphic file (type png)
 
 <use pictures/EmailVolumeB1LastTwoYears.png>
@@ -723,7 +723,7 @@ ine 368.
 (pdftex.def)             Requested size: 238.75226pt x 146.52606pt.
  [5 <./pictures/DateSliderImage.png> <./pictures/ToFromImage.png> <./pictures/F
 OIABoxImage.png> <./pictures/EmailVolumeB1LastTwoYears.png>]
-<pictures/EmailVolumeB1JanApril2011.png, id=268, 745.78625pt x 457.71pt>
+<pictures/EmailVolumeB1JanApril2011.png, id=292, 745.78625pt x 457.71pt>
 File: pictures/EmailVolumeB1JanApril2011.png Graphic file (type png)
 
 <use pictures/EmailVolumeB1JanApril2011.png>
@@ -731,7 +731,7 @@ Package pdftex.def Info: pictures/EmailVolumeB1JanApril2011.png used on input l
 ine 381.
 (pdftex.def)             Requested size: 238.75226pt x 146.52606pt.
 
-<pictures/EmailVolumeB1LibyaBuildup.png, id=274, 745.78625pt x 457.71pt>
+<pictures/EmailVolumeB1LibyaBuildup.png, id=298, 745.78625pt x 457.71pt>
 File: pictures/EmailVolumeB1LibyaBuildup.png Graphic file (type png)
 
 <use pictures/EmailVolumeB1LibyaBuildup.png>
@@ -742,7 +742,7 @@ ine 393.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<pictures/TFIDFB1LibyaBuildup.png, id=277, 284.06125pt x 189.70876pt>
+<pictures/TFIDFB1LibyaBuildup.png, id=301, 284.06125pt x 189.70876pt>
 File: pictures/TFIDFB1LibyaBuildup.png Graphic file (type png)
 
 <use pictures/TFIDFB1LibyaBuildup.png>
@@ -750,7 +750,7 @@ Package pdftex.def Info: pictures/TFIDFB1LibyaBuildup.png used on input line 40
 5.
 (pdftex.def)             Requested size: 100.52605pt x 67.13431pt.
 
-<pictures/TermFreqB1LibyaBuildup.png, id=278, 284.06125pt x 181.67876pt>
+<pictures/TermFreqB1LibyaBuildup.png, id=302, 284.06125pt x 181.67876pt>
 File: pictures/TermFreqB1LibyaBuildup.png Graphic file (type png)
 
 <use pictures/TermFreqB1LibyaBuildup.png>
@@ -761,7 +761,7 @@ Package pdftex.def Info: pictures/TermFreqB1LibyaBuildup.png used on input line
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<pictures/FOIAB12011LibyaBuildup.png, id=282, 688.5725pt x 432.61626pt>
+<pictures/FOIAB12011LibyaBuildup.png, id=306, 688.5725pt x 432.61626pt>
 File: pictures/FOIAB12011LibyaBuildup.png Graphic file (type png)
 
 <use pictures/FOIAB12011LibyaBuildup.png>
@@ -769,7 +769,7 @@ Package pdftex.def Info: pictures/FOIAB12011LibyaBuildup.png used on input line
  420.
 (pdftex.def)             Requested size: 238.75226pt x 149.9987pt.
 
-<pictures/InnerCircle2011B1LibyaBuildup.png, id=284, 735.74875pt x 477.785pt>
+<pictures/InnerCircle2011B1LibyaBuildup.png, id=308, 735.74875pt x 477.785pt>
 File: pictures/InnerCircle2011B1LibyaBuildup.png Graphic file (type png)
 
 <use pictures/InnerCircle2011B1LibyaBuildup.png>
@@ -783,7 +783,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [6 <./pictures/EmailVolumeB1JanApril2011.png> <./pictures/EmailVolumeB1LibyaBui
 ldup.png> <./pictures/TFIDFB1LibyaBuildup.png> <./pictures/TermFreqB1LibyaBuild
 up.png> <./pictures/FOIAB12011LibyaBuildup.png>]
-<pictures/EmailVolumeB1Jun1On.png, id=308, 755.82375pt x 457.71pt>
+<pictures/EmailVolumeB1Jun1On.png, id=332, 755.82375pt x 457.71pt>
 File: pictures/EmailVolumeB1Jun1On.png Graphic file (type png)
 
 <use pictures/EmailVolumeB1Jun1On.png>
@@ -791,7 +791,7 @@ Package pdftex.def Info: pictures/EmailVolumeB1Jun1On.png used on input line 44
 5.
 (pdftex.def)             Requested size: 238.75226pt x 144.58449pt.
 
-<pictures/TFIDFOct22Nov17_2012.png, id=323, 285.065pt x 176.66pt>
+<pictures/TFIDFOct22Nov17_2012.png, id=347, 285.065pt x 176.66pt>
 File: pictures/TFIDFOct22Nov17_2012.png Graphic file (type png)
 
 <use pictures/TFIDFOct22Nov17_2012.png>
@@ -799,7 +799,7 @@ Package pdftex.def Info: pictures/TFIDFOct22Nov17_2012.png used on input line 4
 61.
 (pdftex.def)             Requested size: 100.52605pt x 62.29556pt.
 
-<pictures/TermFreqOct22Nov17_2012.png, id=324, 285.065pt x 176.66pt>
+<pictures/TermFreqOct22Nov17_2012.png, id=348, 285.065pt x 176.66pt>
 File: pictures/TermFreqOct22Nov17_2012.png Graphic file (type png)
 
 <use pictures/TermFreqOct22Nov17_2012.png>
@@ -809,29 +809,29 @@ e 463.
  [7 <./pictures/InnerCircle2011B1LibyaBuildup.png> <./pictures/EmailVolumeB1Jun
 1On.png> <./pictures/TFIDFOct22Nov17_2012.png> <./pictures/TermFreqOct22Nov17_2
 012.png>]
-<pictures/ClintonZerosOctober2009AndForeignSchedule.png, id=355, 760.8425pt x 4
+<pictures/ClintonZerosOctober2009AndForeignSchedule.png, id=379, 760.8425pt x 4
 64.73625pt>
 File: pictures/ClintonZerosOctober2009AndForeignSchedule.png Graphic file (type
  png)
  <use pictures/ClintonZerosOctober2009AndForeignSchedule.png>
 Package pdftex.def Info: pictures/ClintonZerosOctober2009AndForeignSchedule.png
- used on input line 492.
+ used on input line 495.
 (pdftex.def)             Requested size: 238.75226pt x 145.83247pt.
 
-<pictures/ZeroEmailsDec2012.png, id=368, 756.8275pt x 452.69125pt>
+<pictures/ZeroEmailsDec2012.png, id=392, 756.8275pt x 452.69125pt>
 File: pictures/ZeroEmailsDec2012.png Graphic file (type png)
 
 <use pictures/ZeroEmailsDec2012.png>
-Package pdftex.def Info: pictures/ZeroEmailsDec2012.png used on input line 509.
+Package pdftex.def Info: pictures/ZeroEmailsDec2012.png used on input line 522.
 
 (pdftex.def)             Requested size: 238.75226pt x 142.80571pt.
  [8 <./pictures/ClintonZerosOctober2009AndForeignSchedule.png> <./pictures/Zero
 EmailsDec2012.png>]
-<pictures/googleSearch.png, id=412, 382.42876pt x 38.1425pt>
+<pictures/googleSearch.png, id=436, 382.42876pt x 38.1425pt>
 File: pictures/googleSearch.png Graphic file (type png)
 
 <use pictures/googleSearch.png>
-Package pdftex.def Info: pictures/googleSearch.png used on input line 537.
+Package pdftex.def Info: pictures/googleSearch.png used on input line 553.
 (pdftex.def)             Requested size: 188.48923pt x 18.7994pt.
  [9 <./pictures/googleSearch.png>] (./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -846,24 +846,24 @@ Underfull \hbox (badness 6461) in paragraph at lines 345--349
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 580.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 596.
 
 [11
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 580.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 596.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 580.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 580.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 596.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 596.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 28651A6DFDBBB4FBA277E17BC0870E0F;1537.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 580.
+(rerunfilecheck)             Checksum: E651DEC8D61A17F4F0A7777F1D1A6921;2050.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 596.
  ) 
 Here is how much of TeX's memory you used:
- 9479 strings out of 493089
- 144639 string characters out of 6134842
- 278385 words of memory out of 5000000
- 12331 multiletter control sequences out of 15000+600000
+ 9491 strings out of 493089
+ 144843 string characters out of 6134842
+ 278377 words of memory out of 5000000
+ 12337 multiletter control sequences out of 15000+600000
  59275 words of font info for 306 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,15n,35p,2060b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -873,10 +873,10 @@ exlive/2015/texmf-dist/fonts/type1/public/txfonts/txtt.pfb></usr/local/texlive/
 xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1455323 bytes).
+Output written on paper.pdf (11 pages, 1433567 bytes).
 PDF statistics:
- 496 PDF objects out of 1000 (max. 8388607)
- 424 compressed objects within 5 object streams
- 136 named destinations out of 1000 (max. 500000)
- 54086 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 521 PDF objects out of 1000 (max. 8388607)
+ 449 compressed objects within 5 object streams
+ 142 named destinations out of 1000 (max. 500000)
+ 54134 words of extra memory for PDF output out of 61914 (max. 10000000)
 
