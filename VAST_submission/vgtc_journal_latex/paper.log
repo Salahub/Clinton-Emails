@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  3 APR 2017 09:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  3 APR 2017 10:09
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -843,6 +843,12 @@ Underfull \hbox (badness 6461) in paragraph at lines 351--355
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 357--361
+[]\OT1/ptm/m/n/8 (+20) J. J. Sul-li-van.  Fw: Is-raeli Ur-gent `Strong Re-quest
+s`
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10])
@@ -860,23 +866,23 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 601.
  ) 
 Here is how much of TeX's memory you used:
- 9499 strings out of 493089
- 144925 string characters out of 6134842
- 278409 words of memory out of 5000000
- 12338 multiletter control sequences out of 15000+600000
+ 9501 strings out of 493089
+ 144960 string characters out of 6134842
+ 277446 words of memory out of 5000000
+ 12339 multiletter control sequences out of 15000+600000
  59677 words of font info for 310 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,15n,35p,2060b,449s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,15n,35p,2060b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/txfonts/txtt.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2015/te
 xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1426349 bytes).
+Output written on paper.pdf (11 pages, 1436989 bytes).
 PDF statistics:
- 523 PDF objects out of 1000 (max. 8388607)
- 451 compressed objects within 5 object streams
- 143 named destinations out of 1000 (max. 500000)
+ 525 PDF objects out of 1000 (max. 8388607)
+ 453 compressed objects within 5 object streams
+ 144 named destinations out of 1000 (max. 500000)
  54134 words of extra memory for PDF output out of 61914 (max. 10000000)
 
