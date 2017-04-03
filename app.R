@@ -70,10 +70,10 @@ for (name in allnames) {
 }
 
 # modify the spiral network plot function, improve it
-spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
+spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
                            levelNum = 2, nodeNum = 20, title = "Title") {
   # check the wgtTbl status
-  if (!all(is.na(wgtTbl))) {
+  if (!(length(wgtTbl) == 0)) {
     # trim wgtTbl
     if (length(wgtTbl) > nodeNum) wgtTbl <- wgtTbl[1:nodeNum]
     # start by generating state mail colouring
@@ -137,6 +137,18 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
+    # add a title
+    grid.text(title, x = 0, y = 0.98, just = "left",
+              gp = gpar(face = 2))
+    # add a legend
+    grid.text(".gov", x = 0, y = 0.02, just = "left", 
+              gp = gpar(face = 2, col = "steelblue"))
+    grid.text(".mil", x = 0.33, y = 0.02, just = "center",
+              gp = gpar(face = 2, col = "black"))
+    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
+              gp = gpar(face = 2, col = "firebrick"))
+    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
+              gp = gpar(face = 2, col = "darkorange"))
   }
 }
 
@@ -220,7 +232,7 @@ ui <- fluidPage(
                                a("Clinton's tenure as Secretary of State",
                                  href = "https://en.wikipedia.org/wiki/Hillary_Clinton%27s_tenure_as_Secretary_of_State"),
                                " | ",
-                               a("2011 Benghazi attack",
+                               a("2012 Benghazi attack",
                                  href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack#October_2012")),
                       fluidRow(id = "App", h3("The Service"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
@@ -316,6 +328,7 @@ server <- function(input, output) {
                                (EndDate < input$range[2] & EndDate >= input$range[1]))
     intermed$dispSched <- input$Schedule
     intermed$adjVar <- input$AdjVar == "18:00"
+    intermed$ZeroSel <- length(intermed$selIDs) == 0
     return(intermed)
   })
   # memoise the above function for caching
@@ -369,8 +382,8 @@ server <- function(input, output) {
      }
      axis.Date(side = 1, as.chron(inter()$selDays), format = "%d/%m/%y")
      countbyDate <- tally(group_by(AsSec[AsSec$ID %in% inter()$selIDs,], dates(as.chron(Date))))
-     tempDays <- seq(from = min(countbyDate$`dates(as.chron(Date))`),
-                   to = max(countbyDate$`dates(as.chron(Date))`),
+     tempDays <- seq(from = min(inter()$selDays),
+                   to = max(inter()$selDays),
                    by = 'days')
      tempcounts <- rep(0, length(tempDays))
      tempcounts[tempDays %in% countbyDate$`dates(as.chron(Date))`] <- countbyDate$n
@@ -401,16 +414,18 @@ server <- function(input, output) {
    output$Dates <- renderText(inter()$DateRange)
    # finally a barplot of classification codes used in the selection
    output$Class <- renderPlot(
-     barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% inter()$selIDs], "-"))),
-                          main = "FOIA Redaction Codes Appearing in Selected Emails",
-                          sub = inter()$DateRange)
-   )
+     if (!inter()$ZeroSel) {
+       barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% inter()$selIDs], "-"))),
+               main = "FOIA Redaction Codes Appearing in Selected Emails",
+               sub = inter()$DateRange)
+       } else {
+         plot(NA, xlim = 0:1, ylim = 0:1, xaxt = 'n', yaxt = 'n', ylab = "", xlab = "")
+         text("No Emails", x = 0.5, y = 0.5)
+    })
+   
    # record the user window size (still cannot use in ui)
    # output$winHeight <- reactive(input$height)
    # add server link processing
-   output$links <- renderDataTable({inter <- as.matrix(links, ncol = 1)
-   colnames(inter) <- "Individual"
-   return(inter)}, escape = FALSE)
 }
 
 # Run the application
