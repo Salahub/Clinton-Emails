@@ -250,7 +250,16 @@ ui <- fluidPage(
                                  and precision; two services which the primarily 
                                  metadata-driven displays cannot provide. Rather, the intended use of this
                                  application is the exploration of patterns present in the data to
-                                 generate and explore different hypotheses.")),
+                                 generate and explore different hypotheses."),
+                               p("It is hoped that this service will not simply provide you
+                                 with a means of exploring this particular data set, but will
+                                 demonstrate how much can be discovered about an individual
+                                 using visual analytic tools of uninformative metadata to
+                                 motivate searches of public data. The dissemination of data in
+                                 the modern world is a topic of heated discussion, and hopefully
+                                 experience firsthand exploring the way data can be leveraged
+                                 will prove informative to you and help you to inform your own
+                                 opinion on the subject.")),
                       fluidRow(id = "Data", h3("The Data"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                p("This application allows the user to view the senders, recipients, times, ",
@@ -329,11 +338,11 @@ ui <- fluidPage(
                                  "of four State Department officials due to the results of the
                                  Benghazi investigation."),
                                p("A number of other gaps of possible interest are not discussed
-                                 here, and users are encouraged to investigate any period of
-                                 interest they notice for themselves. However, users should
+                                 here, and you are encouraged to investigate any period of
+                                 interest you notice for yourself. However, you should
                                  always be mindful of the tendency for all of us to seek
                                  information which confirms preconceptions, and attempt as
-                                 much as possible to be honest and unbiased in these 
+                                 much as possible to be honest and unbiased in your 
                                  investigations.")),
                       fluidRow(id = "EmTimes",
                                h4("Email Times"),
