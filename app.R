@@ -262,7 +262,51 @@ ui <- fluidPage(
                                  "over the filtered region selected.")),
                       fluidRow(id = "Analysis", 
                                h3("Some Interesting Analyses"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>"))))),
+                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
+                               h4("Peak Email"),
+                               p("Focusing on the email volume plot, an obvious peak can be seen
+                                 near the centre of the time series. Using the date selection
+                                 slider, the day of highest email volume can be identified as
+                                 August 21, 2011, the beginning of the ",
+                                 a("Battle of Tripoli", href = "https://en.wikipedia.org/wiki/Battle_of_Tripoli_(2011)"),
+                                 "in the Libyan Civil War. Inspecting the term frequency and tf-idf
+                                 for this day reveals a host of terms related to this conflict. The ",
+                                 a("United States", href = "https://en.wikipedia.org/wiki/American_involvement_in_the_2011_Libyan_Civil_War"),
+                                 "and ",
+                                 a("NATO", href = "http://www.nato.int/cps/en/natohq/topics_71652.htm"),
+                                 "were both heavily involved in this conflict, so this peak makes
+                                 perfect sense."),
+                               h4("Email Gaps"),
+                               p("There are a number of conspicuous time periods where no emails
+                                 are recorded in this data set. The most obvious of these occurs
+                                 in early November 2012. This time period marks the beginning of 
+                                 much of the ",
+                                 a("increased controversy", href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack"),
+                                 "surrounding the ",
+                                 a("2012 attack", href = "https://en.wikipedia.org/wiki/2012_Benghazi_attack"),
+                                 "on the US Diplomatic compound in Benghazi, and also includes the 
+                                 2012 US Presidential Election."),
+                               p("Using the time slider to select a period surrounding this gap
+                                 from October 2 to November 20, mentions of terms related to 
+                                 this attack, such as Benghazi and Ansar al-Sharia, and to the
+                                 election, such as Romney, can be seen. The network plot also 
+                                 reveals one of the contentious points of interest in Clinton's 
+                                 emails, the nature and frequency of her contact with ",
+                                 a("Sidney Blumenthal", href = "https://en.wikipedia.org/wiki/Sidney_Blumenthal#Relationship_to_Hillary_Clinton_and_post.E2.80.932007_employment"),
+                                 "during the Benghazi attack and shortly thereafter. Finally, 
+                                 many of the emails surrounding this gap contain some FOIA 
+                                 redaction, as is clearly visible in the barplot of FOIA redaction 
+                                 codes."),
+                               h4("Email Times"),
+                               p("Filtering by the emails sent by Clinton during her tenure, we
+                                 can glimpse her email sending patterns by looking at the email
+                                 time plot. These patterns are fairly regular, with most activity
+                                 occurring at night and a gap between roughly 6 and 11 pm. There 
+                                 are also some strikingly consistent sending times visible in the 
+                                 data, alternatingly at 2 and 3 am. The switching between 2 and
+                                 3 am in these sending times matches exactly with the switching of
+                                 daylight savings time in North America, suggesting these
+                                 represent some server function performed every 24 hours.")))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
