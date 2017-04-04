@@ -169,7 +169,7 @@ createLink <- function(val) {
         str_replace(val, "_", " "),"</a>", sep = "")
 }
 linknames <- c("Hillary_Clinton", "Cheryl_Mills", "Huma_Abedin", "Sidney_Blumenthal",
-               "Jake_Sullivan", "Tony_Blair")
+               "Jake_Sullivan", "Tony_Blair", "Philippe_Reines")
 links <- createLink(linknames)
 
 ### App #################################################################################
@@ -263,7 +263,13 @@ ui <- fluidPage(
                       fluidRow(id = "Analysis", 
                                h3("Some Interesting Analyses"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
+                               p(HTML("<a href='#Peak'>Peak Email</a>")),
+                               p(HTML("<a href='#Gaps'>Email Gaps</a>")),
+                               p(HTML("<a href='#EmTimes'>Email Times</a>"))),
+                      fluidRow(id = "Peak",
                                h4("Peak Email"),
+                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
+                               p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Focusing on the email volume plot, an obvious peak can be seen
                                  near the centre of the time series. Using the date selection
                                  slider, the day of highest email volume can be identified as
@@ -275,8 +281,14 @@ ui <- fluidPage(
                                  "and ",
                                  a("NATO", href = "http://www.nato.int/cps/en/natohq/topics_71652.htm"),
                                  "were both heavily involved in this conflict, so this peak makes
-                                 perfect sense."),
+                                 perfect sense. In fact, many other local maxima correspond to 
+                                 events related to the ",
+                                 a("Arab Spring", href = "https://en.wikipedia.org/wiki/Arab_Spring"),
+                                 "and the countries affected by this revolutionary wave.")),
+                      fluidRow(id = "Gaps",
                                h4("Email Gaps"),
+                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
+                               p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("There are a number of conspicuous time periods where no emails
                                  are recorded in this data set. The most obvious of these occurs
                                  in early November 2012. This time period marks the beginning of 
@@ -286,18 +298,47 @@ ui <- fluidPage(
                                  a("2012 attack", href = "https://en.wikipedia.org/wiki/2012_Benghazi_attack"),
                                  "on the US Diplomatic compound in Benghazi, and also includes the 
                                  2012 US Presidential Election."),
-                               p("Using the time slider to select a period surrounding this gap
-                                 from October 2 to November 20, mentions of terms related to 
-                                 this attack, such as Benghazi and Ansar al-Sharia, and to the
-                                 election, such as Romney, can be seen. The network plot also 
-                                 reveals one of the contentious points of interest in Clinton's 
-                                 emails, the nature and frequency of her contact with ",
+                               p("The time slider can be used to select a period surrounding this 
+                                 gap which includes the Benghazi attack, take September 11 to 
+                                 November 23. In this selection mentions of terms related to 
+                                 this attack, such as Benghazi and Ansar al-Sharia, can be seen.
+                                 The network plot also reveals one of the contentious points of 
+                                 interest in Clinton's emails, the nature and frequency of her
+                                 contact with ",
                                  a("Sidney Blumenthal", href = "https://en.wikipedia.org/wiki/Sidney_Blumenthal#Relationship_to_Hillary_Clinton_and_post.E2.80.932007_employment"),
-                                 "during the Benghazi attack and shortly thereafter. Finally, 
-                                 many of the emails surrounding this gap contain some FOIA 
-                                 redaction, as is clearly visible in the barplot of FOIA redaction 
-                                 codes."),
+                                 "during the Benghazi attack and shortly thereafter. We can also
+                                 see contact with an account of unidentifiable domain with the
+                                 label 'aclb.' Utilizing internet searches and inspecting emails,
+                                 this account can be identified as that of Tony Blair, with the 
+                                 four letter string likely standing for his ",
+                                 a("full initials", href = "https://en.wikipedia.org/wiki/Tony_Blair"), 
+                                 "Finally, many of the emails surrounding this gap contain some
+                                 FOIA  redaction, as is clearly visible in the barplot of FOIA 
+                                 redaction codes."),
+                               p("Other gaps in the data can be found by narrowing the slider 
+                                 range, selecting the centre bar, and dragging this small window
+                                 across the whole time range with the 'Show Emails' filter set to
+                                 show only mail from Clinton. Doing this, a number of periods of
+                                 no email can be discovered. By selecting the foreign travel 
+                                 tickbox, some of these can be identified as corresponding to
+                                 official state visits. Other gaps occur near less typical events,
+                                 such as a gap in mid June 2009, likely due to Clinton ",
+                                 a("fracturing her elbow.", href = "http://www.nytimes.com/2009/06/19/us/politics/19clinton.html"),
+                                 "Another gap in December 2012 corresponds with the ",
+                                 a("resignation", href = "https://www.theguardian.com/world/2012/dec/19/benghazi-state-department-officials-resign"),
+                                 "of four State Department officials due to the results of the
+                                 Benghazi investigation."),
+                               p("A number of other gaps of possible interest are not discussed
+                                 here, and users are encouraged to investigate any period of
+                                 interest they notice for themselves. However, users should
+                                 always be mindful of the tendency for all of us to seek
+                                 information which confirms preconceptions, and attempt as
+                                 much as possible to be honest and unbiased in these 
+                                 investigations.")),
+                      fluidRow(id = "EmTimes",
                                h4("Email Times"),
+                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
+                               p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Filtering by the emails sent by Clinton during her tenure, we
                                  can glimpse her email sending patterns by looking at the email
                                  time plot. These patterns are fairly regular, with most activity
