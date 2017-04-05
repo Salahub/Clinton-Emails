@@ -169,7 +169,7 @@ createLink <- function(val) {
         str_replace(val, "_", " "),"</a>", sep = "")
 }
 linknames <- c("Hillary_Clinton", "Cheryl_Mills", "Huma_Abedin", "Sidney_Blumenthal",
-               "Jake_Sullivan", "Tony_Blair", "Philippe_Reines")
+               "Jake_Sullivan", "Philippe_Reines")
 links <- createLink(linknames)
 
 ### App #################################################################################
@@ -218,7 +218,10 @@ ui <- fluidPage(
                       fluidRow(id = "KeyPlayers", 
                                h3("Wikipedia Articles of Key Players"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               p(HTML(paste(links, collapse = " | ")))),
+                               p(HTML(paste(paste(links, collapse = " | "),
+                                            "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeline Albright ('pathfinder')</a>",
+                                            "<a href='https://en.wikipedia.org/wiki/Tony_Blair'>Tony Blair ('aclb')</a>",
+                                            sep = " | ")))),
                       fluidRow(id = "Timeline", h3("The Email Timeline"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                a("Sharyl Attkisson Timeline",  
