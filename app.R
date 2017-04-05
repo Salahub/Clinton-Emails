@@ -219,7 +219,7 @@ ui <- fluidPage(
                                h3("Wikipedia Articles of Key Players"),
                                p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                p(HTML(paste(paste(links, collapse = " | "),
-                                            "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeline Albright ('pathfinder')</a>",
+                                            "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeleine Albright ('pathfinder')</a>",
                                             "<a href='https://en.wikipedia.org/wiki/Tony_Blair'>Tony Blair ('aclb')</a>",
                                             sep = " | ")))),
                       fluidRow(id = "Timeline", h3("The Email Timeline"),
