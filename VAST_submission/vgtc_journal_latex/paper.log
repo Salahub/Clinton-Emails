@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 APR 2017 13:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 APR 2017 14:20
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -768,11 +768,11 @@ File: pictures/FOIAB12011LibyaBuildup.png Graphic file (type png)
 Package pdftex.def Info: pictures/FOIAB12011LibyaBuildup.png used on input line
  426.
 (pdftex.def)             Requested size: 238.75226pt x 149.9987pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<pictures/InnerCircle2011B1LibyaBuildup.png, id=310, 735.74875pt x 477.785pt>
+ [6 <./pictures/EmailVolumeB1LastTwoYears.png> <./pictures/EmailVolumeB1JanApri
+l2011.png> <./pictures/EmailVolumeB1LibyaBuildup.png> <./pictures/TFIDFB1LibyaB
+uildup.png> <./pictures/TermFreqB1LibyaBuildup.png> <./pictures/FOIAB12011Libya
+Buildup.png>]
+<pictures/InnerCircle2011B1LibyaBuildup.png, id=329, 735.74875pt x 477.785pt>
 File: pictures/InnerCircle2011B1LibyaBuildup.png Graphic file (type png)
 
 <use pictures/InnerCircle2011B1LibyaBuildup.png>
@@ -780,28 +780,20 @@ Package pdftex.def Info: pictures/InnerCircle2011B1LibyaBuildup.png used on inp
 ut line 436.
 (pdftex.def)             Requested size: 238.75226pt x 155.04498pt.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<pictures/EmailVolumeB1Jun1On.png, id=315, 755.82375pt x 457.71pt>
+<pictures/EmailVolumeB1Jun1On.png, id=334, 755.82375pt x 457.71pt>
 File: pictures/EmailVolumeB1Jun1On.png Graphic file (type png)
 
 <use pictures/EmailVolumeB1Jun1On.png>
 Package pdftex.def Info: pictures/EmailVolumeB1Jun1On.png used on input line 45
-1.
+3.
 (pdftex.def)             Requested size: 238.75226pt x 144.58449pt.
- [6 <./pictures/EmailVolumeB1LastTwoYears.png> <./pictures/EmailVolumeB1JanApri
-l2011.png> <./pictures/EmailVolumeB1LibyaBuildup.png> <./pictures/TFIDFB1LibyaB
-uildup.png> <./pictures/TermFreqB1LibyaBuildup.png>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
 
 <pictures/TFIDFOct22Nov17_2012.png, id=349, 285.065pt x 176.66pt>
 File: pictures/TFIDFOct22Nov17_2012.png Graphic file (type png)
 
 <use pictures/TFIDFOct22Nov17_2012.png>
 Package pdftex.def Info: pictures/TFIDFOct22Nov17_2012.png used on input line 4
-67.
+77.
 (pdftex.def)             Requested size: 100.52605pt x 62.29556pt.
 
 <pictures/TermFreqOct22Nov17_2012.png, id=350, 285.065pt x 176.66pt>
@@ -809,25 +801,25 @@ File: pictures/TermFreqOct22Nov17_2012.png Graphic file (type png)
 
 <use pictures/TermFreqOct22Nov17_2012.png>
 Package pdftex.def Info: pictures/TermFreqOct22Nov17_2012.png used on input lin
-e 469.
+e 479.
 (pdftex.def)             Requested size: 100.52605pt x 62.29556pt.
- [7 <./pictures/FOIAB12011LibyaBuildup.png> <./pictures/InnerCircle2011B1LibyaB
-uildup.png> <./pictures/EmailVolumeB1Jun1On.png> <./pictures/TFIDFOct22Nov17_20
-12.png> <./pictures/TermFreqOct22Nov17_2012.png>]
+ [7 <./pictures/InnerCircle2011B1LibyaBuildup.png> <./pictures/EmailVolumeB1Jun
+1On.png> <./pictures/TFIDFOct22Nov17_2012.png> <./pictures/TermFreqOct22Nov17_2
+012.png>]
 <pictures/ClintonZerosOctober2009AndForeignSchedule.png, id=381, 760.8425pt x 4
 64.73625pt>
 File: pictures/ClintonZerosOctober2009AndForeignSchedule.png Graphic file (type
  png)
  <use pictures/ClintonZerosOctober2009AndForeignSchedule.png>
 Package pdftex.def Info: pictures/ClintonZerosOctober2009AndForeignSchedule.png
- used on input line 501.
+ used on input line 511.
 (pdftex.def)             Requested size: 238.75226pt x 145.83247pt.
 
 <pictures/ZeroEmailsDec2012.png, id=394, 756.8275pt x 452.69125pt>
 File: pictures/ZeroEmailsDec2012.png Graphic file (type png)
 
 <use pictures/ZeroEmailsDec2012.png>
-Package pdftex.def Info: pictures/ZeroEmailsDec2012.png used on input line 528.
+Package pdftex.def Info: pictures/ZeroEmailsDec2012.png used on input line 538.
 
 (pdftex.def)             Requested size: 238.75226pt x 142.80571pt.
  [8 <./pictures/ClintonZerosOctober2009AndForeignSchedule.png> <./pictures/Zero
@@ -836,7 +828,7 @@ EmailsDec2012.png>]
 File: pictures/googleSearch.png Graphic file (type png)
 
 <use pictures/googleSearch.png>
-Package pdftex.def Info: pictures/googleSearch.png used on input line 564.
+Package pdftex.def Info: pictures/googleSearch.png used on input line 574.
 (pdftex.def)             Requested size: 188.48923pt x 18.7994pt.
  [9 <./pictures/googleSearch.png>] (./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -857,34 +849,34 @@ s`
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 607.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 617.
 
 [11
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 607.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 617.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 607.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 607.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 617.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 617.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 4299B3DC8B1932C36D88DC5D2B58EEF0;2065.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 607.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 617.
  ) 
 Here is how much of TeX's memory you used:
  9501 strings out of 493089
  144960 string characters out of 6134842
- 277446 words of memory out of 5000000
+ 278446 words of memory out of 5000000
  12339 multiletter control sequences out of 15000+600000
  59677 words of font info for 310 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,15n,35p,2060b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,15n,35p,1544b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/txfonts/txtt.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2015/te
 xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1453162 bytes).
+Output written on paper.pdf (11 pages, 1444411 bytes).
 PDF statistics:
  528 PDF objects out of 1000 (max. 8388607)
  456 compressed objects within 5 object streams
