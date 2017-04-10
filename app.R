@@ -83,22 +83,28 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
     else cols <- pal2[statemail + 1]
     # generate a new page
     grid.newpage()
-    # define radial units
-    radunit <- 0.42/levelNum
-    # determine inner level names
-    diffs <- diff(wgtTbl)
-    # select the largest
-    impDiffs <- order(diffs)[1:(levelNum-1)]
-    # extract names of the largest
-    innerCirc <- names(wgtTbl)[1:impDiffs]
     # now sort the table alphabetically
     ordering <- order(names(wgtTbl))
     wgtTbl <- wgtTbl[ordering]
-    # get the radial positions of the first level
+    # get the radial positions of the points
     radPos <- seq(from = 0, to = 2*pi, length.out = length(wgtTbl) + 1)[1:length(wgtTbl)]
-    # now extract coordinates
-    xvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*cos(radPos) + 0.5
-    yvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*sin(radPos) + 0.5
+    ### old code which determined the position radially by the largest difference ####
+    # define radial units
+    #radunit <- 0.42/levelNum
+    # determine inner level names
+    #diffs <- diff(wgtTbl)
+    # select the largest
+    #impDiffs <- order(diffs)[1:(levelNum-1)]
+    # extract names of the largest
+    #innerCirc <- names(wgtTbl)[1:impDiffs]
+    # now generate coordinates
+    #xvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*cos(radPos) + 0.5
+    #yvals <- radunit*((!(names(wgtTbl) %in% innerCirc)) + 1)*sin(radPos) + 0.5
+    # generate coordinates ####
+    # first define range
+    radunit <- 0.37
+    xvals <- (radunit*(1-(sqrt(wgtTbl)-sqrt(min(wgtTbl)))/(sqrt(max(wgtTbl))))+0.05)*cos(radPos)+0.5
+    yvals <- (radunit*(1-(sqrt(wgtTbl)-sqrt(min(wgtTbl)))/(sqrt(max(wgtTbl))))+0.05)*sin(radPos)+0.5
     # sort out some bookkeeping
     cols <- cols[ordering]
     # now plot everything
