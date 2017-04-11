@@ -1,32 +1,33 @@
 This is BibTeX, Version 0.99d (TeX Live 2015)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: paper.aux
-The style file: abbrv.bst
+The style file: abbrv-doi-hyperref-narrow.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: clinton.bib
 You've used 78 entries,
-            2118 wiz_defined-function locations,
-            908 strings with 14086 characters,
-and the built_in function-call counts, 17596 in all, are:
+            2611 wiz_defined-function locations,
+            1072 strings with 20946 characters,
+and the built_in function-call counts, 21992 in all, are:
 = -- 1727
 > -- 706
 < -- 3
 + -- 299
 - -- 214
-* -- 877
-:= -- 3296
+* -- 2177
+:= -- 3672
 add.period$ -- 239
 call.type$ -- 78
 change.case$ -- 332
 chr.to.int$ -- 0
 cite$ -- 78
 duplicate$ -- 808
-empty$ -- 1425
+empty$ -- 2784
 format.name$ -- 214
-if$ -- 3569
+if$ -- 4928
 int.to.chr$ -- 0
 int.to.str$ -- 78
 missing$ -- 76
-newline$ -- 393
+newline$ -- 394
 num.names$ -- 156
 pop$ -- 272
 preamble$ -- 1
@@ -43,4 +44,4 @@ type$ -- 304
 warning$ -- 0
 while$ -- 158
 width$ -- 80
-write$ -- 846
+write$ -- 847
