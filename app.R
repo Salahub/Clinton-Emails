@@ -185,7 +185,9 @@ ui <- fluidPage(
 
    # Application title
    titlePanel(HTML("Secretary Clinton's Email (Source: <a href = 'https://wikileaks.org/clinton-emails/'>Wikileaks</a>)")),
-   fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
+                                                                        href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
+                   offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -202,46 +204,39 @@ ui <- fluidPage(
      column(width = 4,
             wellPanel(id = "WriteUp", 
                       style = "overflow-y:scroll; max-height: 800px",
-                      fluidRow(a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
-                                 href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
-                      fluidRow(id = "Contents", h3("Table of Contents"),
-                               p(HTML("<a href='#KeyPlayers'>Wikipedia Articles of Key Players</a>")),
-                               p(HTML("<a href='#Timeline'>Timeline Links</a>")),
-                               p(HTML("<a href='#Context'>Context Links</a>")),
-                               p(HTML("<a href='#App'>Service Description</a>")),
-                               p(HTML("<a href='#Data'>Data</a>")),
-                               p(HTML("<a href='#Analysis'>Some Interesting Analyses</a>"))),
-                      fluidRow(id = "KeyPlayers", 
-                               h3("Wikipedia Articles of Key Players"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               p(HTML(paste(paste(links, collapse = " | "),
-                                            "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeleine Albright ('pathfinder')</a>",
-                                            "<a href='https://en.wikipedia.org/wiki/Tony_Blair'>Tony Blair ('aclb')</a>",
-                                            sep = " | ")))),
-                      fluidRow(id = "Timeline", h3("The Email Timeline"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               a("Sharyl Attkisson Timeline",  
-                                 href = "https://sharylattkisson.com/hillary-clintons-email-the-definitive-timeline/"),
-                               " | ",
-                               a("The Washington Post", href = "https://www.washingtonpost.com/news/fact-checker/wp/2015/03/10/hillary-clintons-emails-a-timeline-of-actions-and-regulations/?utm_term=.dec3139a0542"),
-                               " | ",
-                               a("Wikipedia", href = "https://en.wikipedia.org/wiki/Hillary_Clinton_email_controversy")),
-                      fluidRow(id = "Context", h3("Useful Context"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               a("Clinton's tenure as Secretary of State",
-                                 href = "https://en.wikipedia.org/wiki/Hillary_Clinton%27s_tenure_as_Secretary_of_State"),
-                               " | ",
-                               a("2012 Benghazi attack",
-                                 href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack#October_2012")),
-                      fluidRow(id = "App", h3("The Service"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               p("This application provides the ability to interactively filter 32,795 emails
+                      fluidRow(p("This application provides the ability to interactively filter 32,795 emails
                                  sent during Hillary Clinton's tenure as the United States Secretary of 
                                  State and display features of the selected subset. The data is extracted
                                  from HTML representations of the ",
                                  a("official State Department release", href = "https://foia.state.gov/Search/Results.aspx?collection=Clinton_Email"),
                                  "provided in a ",
-                                 a("Wikileaks data base.", href = "https://wikileaks.org/clinton-emails/")),
+                                 a("Wikileaks data base.", href = "https://wikileaks.org/clinton-emails/"))),
+                      fluidRow(id = "Context",
+                               p("Context:",
+                                 a("Clinton's tenure as Secretary of State",
+                                   href = "https://en.wikipedia.org/wiki/Hillary_Clinton%27s_tenure_as_Secretary_of_State"),
+                                 " | ",
+                                 a("2012 Benghazi attack",
+                                   href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack#October_2012"))),
+                      fluidRow(id = "Timeline",
+                               p("Email Timelines:",
+                                 a("Sharyl Attkisson",  
+                                   href = "https://sharylattkisson.com/hillary-clintons-email-the-definitive-timeline/"),
+                                 " | ",
+                                 a("The Washington Post", href = "https://www.washingtonpost.com/news/fact-checker/wp/2015/03/10/hillary-clintons-emails-a-timeline-of-actions-and-regulations/?utm_term=.dec3139a0542"),
+                                 " | ",
+                                 a("Wikipedia", href = "https://en.wikipedia.org/wiki/Hillary_Clinton_email_controversy"))),
+                      fluidRow(id = "KeyPlayers",
+                               p("Key Players:",
+                                 HTML(paste(paste(links, collapse = " | "),
+                                            "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeleine Albright ('pathfinder')</a>",
+                                            "<a href='https://en.wikipedia.org/wiki/Tony_Blair'>Tony Blair ('aclb')</a>",
+                                            sep = " | ")))),
+                      fluidRow(id = "Analysis", 
+                               h3("Analysis"),
+                               p(HTML("<a href='#Peak'>Peak Email</a>")),
+                               p(HTML("<a href='#Gaps'>Email Gaps</a>")),
+                               p(HTML("<a href='#EmTimes'>Email Times</a>")),
                                p("This service is not meant to provide stand-alone means of analyzing this
                                  controversial data set. It is most powerful when used simultaneously with
                                  both internet searches and the Wikileaks data base or official State 
@@ -259,24 +254,8 @@ ui <- fluidPage(
                                  experience firsthand exploring the way data can be leveraged
                                  will prove informative to you and help you to inform your own
                                  opinion on the subject.")),
-                      fluidRow(id = "Data", h3("The Data"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               p("This application allows the user to view the senders, recipients, times, ",
-                                 a("Freedom of Information Act exemption codes",
-                                   href = "https://vault.fbi.gov/explanation-of-exemptions"),
-                                 "(applied by the State Department censors in the official release), the
-                                 most frequent terms, and the most important terms as measured by the ", 
-                                 a("tf-idf", href = "https://en.wikipedia.org/wiki/Tf%E2%80%93idf"),
-                                 "over the filtered region selected.")),
-                      fluidRow(id = "Analysis", 
-                               h3("Some Interesting Analyses"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
-                               p(HTML("<a href='#Peak'>Peak Email</a>")),
-                               p(HTML("<a href='#Gaps'>Email Gaps</a>")),
-                               p(HTML("<a href='#EmTimes'>Email Times</a>"))),
                       fluidRow(id = "Peak",
                                h4("Peak Email"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Focusing on the email volume plot, an obvious peak can be seen
                                  near the centre of the time series. Using the date selection
@@ -295,7 +274,6 @@ ui <- fluidPage(
                                  "and the countries affected by this revolutionary wave.")),
                       fluidRow(id = "Gaps",
                                h4("Email Gaps"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("There are a number of conspicuous time periods where no emails
                                  are recorded in this data set. The most obvious of these occurs
@@ -345,7 +323,6 @@ ui <- fluidPage(
                                  investigations.")),
                       fluidRow(id = "EmTimes",
                                h4("Email Times"),
-                               p(HTML("<a href='#Contents'>Back to table of contents</a>")),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Filtering by the emails sent by Clinton during her tenure, we
                                  can glimpse her email sending patterns by looking at the email
@@ -371,7 +348,8 @@ ui <- fluidPage(
                                  selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", 
                                               "B9", "None"),
                                  multiple = TRUE)),
-            fluidRow(h4("20 Highest TFIDF Terms")),
+            fluidRow(h4("20 Highest", a("TF_IDF", href = "https://en.wikipedia.org/wiki/Tf%E2%80%93idf"),
+                        "Terms")),
             fluidRow(textOutput("tfidf")),
             fluidRow(h4("20 Highest Frequency Terms")),
             fluidRow(textOutput("Freq"))
