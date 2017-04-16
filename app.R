@@ -338,6 +338,7 @@ ui <- fluidPage(
      column(width = 2,
             fluidRow(selectInput("AdjVar", "Daily Reference Point: ", c("0:00", "18:00"),
                                  selected = "0:00")),
+            fluidRow(checkboxInput("SelScale", "Scale by selected")),
             fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
             fluidRow(selectInput("ToFromFilter", "Show Emails: ", 
                                  c("From Clinton", "To Clinton", "All Emails"),
@@ -348,7 +349,7 @@ ui <- fluidPage(
                                  selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", 
                                               "B9", "None"),
                                  multiple = TRUE)),
-            fluidRow(h4("20 Highest", a("TF_IDF", href = "https://en.wikipedia.org/wiki/Tf%E2%80%93idf"),
+            fluidRow(h4("20 Highest", a("TF-IDF", href = "https://en.wikipedia.org/wiki/Tf%E2%80%93idf"),
                         "Terms")),
             fluidRow(textOutput("tfidf")),
             fluidRow(h4("20 Highest Frequency Terms")),
@@ -398,6 +399,7 @@ server <- function(input, output) {
                                           StartDate < input$range[2]) |
                                (EndDate < input$range[2] & EndDate >= input$range[1]))
     intermed$dispSched <- input$Schedule
+    intermed$ScaleSel <- input$SelScale
     intermed$adjVar <- input$AdjVar == "18:00"
     intermed$ZeroSel <- length(intermed$selIDs) == 0
     return(intermed)
@@ -438,10 +440,12 @@ server <- function(input, output) {
    })
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
+     if (inter()$ScaleSel) yrange <- extendrange(inter()$selCounts)
+     else yrange <- extendrange(AScounts)
      plot(x = inter()$selDays, y = inter()$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails', pch = 19,
           main = "Number of Emails by Date", sub = inter()$DateRange,
-          ylim = extendrange(AScounts), col = adjustcolor("black", alpha.f = 0.6))
+          ylim = yrange, col = adjustcolor("black", alpha.f = 0.6))
      # add the schedule if it has been selected
      if (inter()$dispSched) {
        apply(inter()$Sched, 1,
