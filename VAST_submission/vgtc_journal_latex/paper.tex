@@ -124,8 +124,8 @@ The data are extracted from Wikileaks HTML files, cleaned, and stored in a form 
 \teaser{
   \centering
   \begin{tabular}{cc}
-  \includegraphics[height=0.22\textheight]{EmailSentRecdSept11toNov23} &
-  \includegraphics[height=0.22\textheight]{InnerCircleSept11ToNov23} \\
+  \includegraphics[height=0.2\textheight]{EmailSentRecdSept11toNov23} &
+  \includegraphics[height=0.2\textheight]{InnerCircleSept11ToNov23} \\
   &\\
   {\small (a) An empty email block: October 30 - November 9} & {\small (b) Inner Circle: Correspondent info by colour; volume by thickness.}
   \end{tabular}
@@ -238,7 +238,13 @@ This display takes the most frequent correspondents (max. 20) in the selected em
 \autoref{fig:InnerCircleAll} shows the top 20 correspondents (or ``Inner Circle'')  over all emails in the collection.
 Note that Huma Abedin appears both as a blue  \texttt{.gov} account and as a red non-government (\texttt{clintonemail.com}) account.   The other red account is that of Sidney Blumenthal.  This has been a source of some controversy  \cite{BlumenthalControversy, NYTBlumenthalBenghazi}, since he had been rejected by the State Department yet appears to have provided Secretary Clinton advice throughout her tenure.  Wendy Sherman appears as orange. Sherman was appointed by Clinton to be Under Secretary of State for Political Affairs in 2011 and the high frequency of Sherman emails dates from this time.  Nevertheless, from this archive the email address could not be identified definitively as being either government or non-government.  Either the address was redacted for privacy reasons (a B6 FOIA exemption), or it was simply unavailable in the header provided by the WikiLeaks HTML \cite{WikileaksPull} (e.g. occasionally, a blank header appeared in the WikiLeaks HTML that was not present in the pdf; we did not correct for these manually).
 
-The width of each spoke is proportional to the volume of emails between correspondents.  Whenever the difference in volume is great enough,  correspondents are separated into two groups: those with the greatest correspondence have shorter spokes visually placing them ``closer'' to Clinton.  As \autoref{fig:InnerCircleAll} shows shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan.
+The width of each spoke is proportional to the volume of emails between correspondents.  
+Similarly, the length of each spoke is inversely proportional to the volume of email so 
+%Whenever the difference in volume is great enough,  correspondents are separated into two groups: 
+those correspondents having the greatest volume will 
+%with the greatest correspondence 
+have shorter spokes visually placing them ``closer'' to Clinton.  
+As \autoref{fig:InnerCircleAll} shows shows, Clinton's closest inner circle are her closest aides Huma Abedin, Cheryl Mills, and Jake Sullivan.
 \subsection{Email volume}
 \label{sect:Displays:volume}
 \autoref{fig:VolumeAll} 
@@ -370,7 +376,6 @@ In this section, we explore a few avenues of enquiry that might naturally arise.
 
 \subsection{The last two years}
 We begin our interactive analysis by looking at  email patterns in the last two years of Clinton's tenure as Secretary of State.  
-
 \autoref{fig:lastTwoYears} 
 \begin{figure}[h]
 \begin{center}
@@ -380,6 +385,7 @@ We begin our interactive analysis by looking at  email patterns in the last two 
 \end{center}
 \end{figure}
 shows the email volume time series over this period. 
+
 This is accomplished by simply having the right end of the time slider of \autoref{fig:timeSlider} as far right as possible and then moving the left most end towards the middle of the time period until January 1, 2011 is reached.   Note, however, that in addition to filtering on time we have chosen to also filter on FOIA exemption code, selecting only those emails containing one or more B1 (national security and foreign policy matters) redactions.  The magenta time series at the bottom then shows all emails, sent or received by Clinton, in the last two years of her tenure which were redacted in part by the State Department (after the fact, not at the time) as being B1 FOIA exempt.  As can be seen, there are \emph{relatively} few of these.
 
 Recall from \autoref{sect:Displays:circle} that the tallest spike of \autoref{fig:lastTwoYears} corresponds to the beginning of the battle for Tripoli (August 21, 2011).   The next largest spikes appear at the far left of this time window, at the beginning of 2011.  We might choose to compress the time window more, to focus on the early 2011 section of the emails.  Bringing the right end of the time slider in to April 15, 2011 produces the series of \autoref{fig:early2011B1}.
