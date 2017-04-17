@@ -231,6 +231,8 @@ ui <- fluidPage(
                                  HTML(paste(paste(links, collapse = " | "),
                                             "<a href='https://en.wikipedia.org/wiki/Madeleine_Albright'>Madeleine Albright ('pathfinder')</a>",
                                             "<a href='https://en.wikipedia.org/wiki/Tony_Blair'>Tony Blair ('aclb')</a>",
+                                            "<a href='https://www.google.com/search?q=Monica+Hanley'>Monica Hanley</a>",
+                                            "<a href='https://www.google.com/search?q=Lauren+Jiloty'>Lauren Jiloty</a>",
                                             sep = " | ")))),
                       fluidRow(id = "Analysis", 
                                h3("Analysis"),
