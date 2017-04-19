@@ -193,6 +193,9 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
   return(FullData)
 }
 
+# the function call
+# get_Clin_emails(contAtErr = TRUE)
+
 ### Pre-loaded data #####################################################################
 EmailData <- read.csv('ClintonEmailData.csv')
 
