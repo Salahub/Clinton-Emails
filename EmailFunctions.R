@@ -12,80 +12,97 @@ library(loon)
 # fullmail <- readRDS('fullmail_full')
 
 ### Email Extraction Functions #########################################################
-# generate a function to clean up emails using the library chron
+# generate a function to clean up emails
 infoExtractor <- function(emails, ids, includeRaw = FALSE) {
-  # first identify whether the email is at all redacted
-  redacted <- grepl(x = emails, pattern = "RELEASE\\s*IN\\s*PART")
-  # extract the information on sender and recipient
-  # extract the recipient information from the Wikileaks header
-  to <- str_extract(emails, "(?<=(To\\: <span title=\"Original: )).+(?=</span>)")
-  nameTo <- str_extract(to, "(?<=(\">)).+")
-  nameTo <- str_replace_all(nameTo, "&lt.", "\\(")
-  nameTo <- str_replace_all(nameTo, "&gt.", "\\)")
-  nameTo <- str_replace_all(nameTo, "&quot.", "")
-  addressTo <- str_extract(to, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
-  # extract the sender information from the Wikileaks header
-  from <- str_extract(emails, "(?<=(From\\: <span title=\"Original: )).+(?=</span>)")
-  nameFrom <- str_extract(from, "(?<=(\">)).+")
-  nameFrom <- str_replace_all(nameFrom, "&lt.", "\\(")
-  nameFrom <- str_replace_all(nameFrom, "&gt.", "\\)")
-  nameFrom <- str_replace_all(nameFrom, "&quot.", "")
-  addressFrom <- str_extract(from, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
-  # also extract the forwarding contact chain using generic email matching on "@"
-  forwards <- str_extract_all(emails, "[a-zA-Z0-9]+\\@[a-zA-Z0-9\\.]+|To:|From:")
-  forwards <- lapply(forwards,
-                     function(el) c(rbind(el[which(grepl(x = el, pattern = "@"))-1],
-                                          el[which(grepl(x = el, pattern = "@"))]
-                                          )))
-  forwards <- unlist(lapply(forwards, function(el) paste(el, collapse = " ")))
-  # extract the subject line
-  subj <- str_extract(emails, "(?<=(Subject\\:)).+")
-  # extract the time and date information
-  date <- str_extract(emails, "(?<=(Date\\:\\s)).+")
-  # clean the extracted times and dates up
-  date <- str_replace_all(date, "[^\\s0-9\\-\\:]", "")
-  # convert these into time structures
-  # apply to the times from above a function which gets date and time information
-  chr_tm <- lapply(date, function (tm) {
-    chron(dates. = str_split(tm, " ")[[1]][1],
-          times. = paste(str_split(tm, " ")[[1]][2], ':00', sep = ''),
-          format = c(dates = "y-m-d", times = "h:m:s"))})
-  chr_tm <- unlist(chr_tm)
-  # now extract the email content using Wikileaks content tab
-  content <- str_extract(emails, "(?<=(<div class=\"email-content\" id=\"uniquer\">))(?s).+(?-s)(?=(<div class=\"tab-pane fade in\" id=\"source\">))")
-  # also extract all possible classifications used in the email
-  Clevel <- str_extract_all(content, "B[1-9](?![0-9a-zA-Z])")
-  Clevel <- unlist(lapply(Clevel, function(el) {
-    if(length(el)==0) "None"
-    else paste(sort(unique(el)), collapse = "-")}))
-  # next clean the email content
-  cln_txt <- str_replace_all(content, pattern = "\\s+|\"", " ")
-  cln_txt <- str_replace_all(cln_txt,
-                             pattern = "<span(?s).*?(?s)</span>|</div>|B[0-9]+", "")
-  cln_txt <- str_replace_all(cln_txt, pattern = "\\s+", " ")
-  # collect all this data into a structure
-  emailData <- data.frame(ID = ids, To.name = nameTo, To.Add = addressTo,
-                          From.name = nameFrom, From.Add = addressFrom,
-                          Subject = subj, Date = chr_tm,
-                          Day = days(chr_tm), Month = months(chr_tm),
-                          Year = years(chr_tm), Weekday = weekdays(chr_tm),
-                          Hour = hours(chr_tm), Minutes = minutes(chr_tm),
-                          Redacted = redacted, Forwards = forwards,
-                          Content = cln_txt, Classification = Clevel,
-                          B1 = grepl("B1", Clevel), B2 = grepl("B2", Clevel),
-                          B3 = grepl("B3", Clevel), B4 = grepl("B4", Clevel),
-                          B5 = grepl("B5", Clevel), B6 = grepl("B6", Clevel),
-                          B7 = grepl("B7", Clevel), B8 = grepl("B8", Clevel),
-                          B9 = grepl("B9", Clevel), None = grepl("None", Clevel))
-  # now if we want raw output alongside the processed output, include the raw header
-  # and the raw email content
-  if (includeRaw) {
-    header <- str_extract(emails, "<header id=\"header\">(?s).+(?-s)<div class=\"email-content\" id=\"uniquer\">")
-    # add this raw header and the raw content to the data
-    emailData <- data.frame(emailData, rawHead = header, rawCont = content)
-  }
-  # return the data structure
-  return(emailData)
+    ## first identify the interesting information
+    Cleaned1 <- str_extract(emails, '(?<=(div class=\"tab-pane fade in active\" id=\"content\">))(?s).+(?-s)(?=(<div class=\"tab-pane fade in\" id=\"source\">))')
+    ## replace HTML tags
+    Cleaned <- str_replace_all(Cleaned1, "<[^><]+>", "|")
+    ## now clean up some strange text formatting
+    Cleaned <- str_replace_all(Cleaned, "&lt.", "\\(")
+    Cleaned <- str_replace_all(Cleaned, "&gt.", "\\)")
+    Cleaned <- str_replace_all(Cleaned, "&quot.", "")
+    ## clean up extra spaces and anything left after the above replacements
+    Cleaned <- str_replace_all(Cleaned, "[\\s]+", " ")
+    Cleaned <- str_replace_all(Cleaned, "\\| \\|", "|")
+    ## now get to actually extracting data
+    ## start with the dates supplied by Wikileaks
+    WikileaksDate <- str_extract(Cleaned, "(?<=(Date\\: ))[\\-0-9]+ [\\:0-9]+")
+    WikileaksDate <- as.POSIXlt(WikileaksDate, format = "%Y-%m-%d %H:%M",
+                                tz = "GMT")
+    ## next try to extract the dates as recorded in the PDF documents
+    PDFDate <- str_extract(Cleaned, "(?<=([A-Za-z]{1,9}[,]?[\\s]?))[A-Za-z]+[\\s]?[0-9]+[,]?[\\s]?[0-9]+[\\s]?[0-9]{1,2}\\:[0-9]{1,2}[\\s]?[APM]{2}")
+    ## regularize formatting
+    PDFDate <- str_replace(PDFDate, "(?<=([0-9]{4}))(?=([0-9]{1,2}\\:))", " ")
+    PDFDate <- str_replace_all(PDFDate, "(?<=([a-z\\,]))(?=([0-9]))", " ")
+    PDFDate <- str_replace_all(PDFDate, "(?<=(\\:[0-9]{2}))(?=[PA])", " ")
+    PDFDate <- str_replace_all(PDFDate, "(?<=([0-9]{4}))(?=[\\:])", " 0")
+    PDFDate <- str_replace_all(PDFDate, "(?<=([A-Za-z]{1,9} [0-9]{1,2}))[^,](?=([0-9]+))", ", ")
+    ## create a new object for the date objects
+    PDFDateObj <- as.POSIXlt(PDFDate, format = "%B %d, %Y %I:%M %p",
+                             tz = "GMT")
+    ## use this to create a flag
+    PDFDateFlag <- is.na(PDFDateObj)|is.na(PDFDate)
+    ## try to extract more date information from these based on other formats
+    PDFDate2 <- str_extract(Cleaned[is.na(PDFDateObj)], "[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}[\\s]?[0-9]{1,2}:[0-9]{2}:[0-9]{2} [APMl/]{2,5}")
+    PDFDate2 <- str_replace(PDFDate2, "ll/l", "M")
+    PDFDate2 <- as.POSIXlt(PDFDate2, format = "%m/%e/%Y %I:%M:%S %p")
+    PDFDate2[as.numeric(format(PDFDate2, "%Y%")) < 2009] <- NA
+    ## put these two together
+    PDFDateObj[is.na(PDFDateObj)] <- PDFDate2
+    ## extract the subject as provided by Wikileaks
+    WikiSubject <- str_extract(Cleaned,"(?<=(Subject:[\\s]?))[^\\|]+(?=\\|)")
+    ## try to extract the subjects from the emails directly
+    EmailSubjects <- str_extract_all(Cleaned,"(?<=(Subject:[\\s]?))[^\\|]+(?=\\|)")
+    EmailSubjects <- lapply(EmailSubjects, function(vec) paste(vec, collapse = "|"))
+    ## extract the wikileaks to and from information
+    WikiFrom <- str_extract(Cleaned, "(?<=(From: \\|))[^\\|]+(?=\\|)")
+    WikiAddFrom <- str_extract(Cleaned1, "(?<=(From\\: <span title=\"Original: ))[^\"]+(?=\")")
+    WikiTo <- str_extract(Cleaned, "(?<=(To: \\|))[^\\|]+(?=\\|)")
+    WikiAddTo <- str_extract(Cleaned1, "(?<=(To\\: <span title=\"Original: ))[^\"]+(?=\")")
+    ## extract all the to from information
+    AllToFrom <- str_extract_all(Cleaned, "(?<=(From:[\\s]?[\\|]?))[^\\|]+(?=\\|)|(?<=(To:[\\s]?[\\|]?))[^\\|]+(?=\\|)")
+    AllToFrom <- lapply(AllToFrom, function(vec) paste(vec, collapse = "|"))
+    ## identify whether the email is redacted
+    Redacted <- grepl("RELEASE[\\s]*IN[\\s]*PART", Cleaned)
+    ## identify the email redaction codes used
+    Clevel <- str_extract_all(Cleaned, "B[1-9](?![0-9a-zA-Z])")
+    Clevel <- unlist(lapply(Clevel, function(el) {
+        if(length(el)==0) "None"
+        else paste(sort(unique(el)), collapse = "-")}))
+    ## extract the email content
+    Content <- str_split(Cleaned, "\\|")
+    Content <- lapply(Content, function(vec) {
+        temp <- vec[9:length(vec)]
+        paste(temp[!grepl("To:|From:|Subject:|Date:|UNCLASSIFIED U.S.|RELEASE|MSG_|Original Message|Attachments:", temp)], collapse = " ")
+    })
+    ## return all the data after placing it into a storage structure
+    Data <- data.frame(ID = ids, To.name = WikiTo, From.name = WikiFrom,
+                       To.Add = WikiAddTo, From.Add = WikiAddFrom,
+                       Subject = WikiSubject, Date = WikileaksDate,
+                       Day = days(WikileaksDate),
+                       Month = months(WikileaksDate),
+                       Year = years(WikileaksDate),
+                       Weekday = weekdays(WikileaksDate),
+                       Hour = hours(WikileaksDate),
+                       Minutes = minutes(WikileaksDate),
+                       PDFDate = PDFDateObj, PDFDay = days(PDFDateObj),
+                       PDFMonth = months(PDFDateObj),
+                       PDFYear = years(PDFDateObj),
+                       PDFWeekday = weekdays(PDFDateObj),
+                       PDFHour = hours(PDFDateObj),
+                       PDFMinutes = minuts(PDFDateObj)
+                       Content = unlist(Content),
+                       AllToFrom = unlist(AllToFrom),
+                       Classification = Clevel,
+                       Redacted = Redacted, B1 = grepl("B1", Clevel),
+                       B2 = grepl("B2", Clevel), B3 = grepl("B3", Clevel),
+                       B4 = grepl("B4", Clevel), B5 = grepl("B5", Clevel),
+                       B6 = grepl("B6", Clevel), B7 = grepl("B7", Clevel),
+                       B8 = grepl("B8", Clevel), B9 = grepl("B9", Clevel),
+                       None = grepl("None", Clevel),
+                       PDFSubjects = as.character(unlist(EmailSubjects)),
+                       CleanedEmails = as.character(Cleaned))
 }
 
 # define a function which accepts some basic user input and pulls the
