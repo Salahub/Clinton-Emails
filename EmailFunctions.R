@@ -33,7 +33,7 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   addressFrom <- str_extract(from, "[\\.a-zA-Z0-9\\_]+@[\\.a-zA-Z0-9]+")
   # also extract the forwarding contact chain using generic email matching on "@"
   forwards <- str_extract_all(emails, "[a-zA-Z0-9]+\\@[a-zA-Z0-9\\.]+|To:|From:")
-  forwards <- lapply(forwards, 
+  forwards <- lapply(forwards,
                      function(el) c(rbind(el[which(grepl(x = el, pattern = "@"))-1],
                                           el[which(grepl(x = el, pattern = "@"))]
                                           )))
@@ -47,7 +47,7 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
   # convert these into time structures
   # apply to the times from above a function which gets date and time information
   chr_tm <- lapply(date, function (tm) {
-    chron(dates. = str_split(tm, " ")[[1]][1], 
+    chron(dates. = str_split(tm, " ")[[1]][1],
           times. = paste(str_split(tm, " ")[[1]][2], ':00', sep = ''),
           format = c(dates = "y-m-d", times = "h:m:s"))})
   chr_tm <- unlist(chr_tm)
@@ -60,14 +60,14 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     else paste(sort(unique(el)), collapse = "-")}))
   # next clean the email content
   cln_txt <- str_replace_all(content, pattern = "\\s+|\"", " ")
-  cln_txt <- str_replace_all(cln_txt, 
+  cln_txt <- str_replace_all(cln_txt,
                              pattern = "<span(?s).*?(?s)</span>|</div>|B[0-9]+", "")
   cln_txt <- str_replace_all(cln_txt, pattern = "\\s+", " ")
   # collect all this data into a structure
   emailData <- data.frame(ID = ids, To.name = nameTo, To.Add = addressTo,
                           From.name = nameFrom, From.Add = addressFrom,
                           Subject = subj, Date = chr_tm,
-                          Day = days(chr_tm), Month = months(chr_tm), 
+                          Day = days(chr_tm), Month = months(chr_tm),
                           Year = years(chr_tm), Weekday = weekdays(chr_tm),
                           Hour = hours(chr_tm), Minutes = minutes(chr_tm),
                           Redacted = redacted, Forwards = forwards,
@@ -98,7 +98,7 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
                             # error handling procedure
                             includeRaw = FALSE # pass along argument to specify if
                             # raw html data is to be included
-) 
+)
 {
   # check if output has already been generated
   output.exist <- file.exists("ClintonEmails.csv")
@@ -178,19 +178,29 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
     message(paste("Failed:", paste(ids[which(failures == 1)], collapse = ",")))
     assign("Failtures", ids[which(failures == 1)])
   }
-  # now clean this data using a regex helper
-  newMailData <- infoExtractor(emails, ids = ids[!failures], includeRaw)
+  # now clean this data using a regex helper with error handling
+  newMailData <- tryCatch(infoExtractor(emails, ids = ids[!failures], includeRaw),
+                            error = function(err) return(paste("Email Processing Error:", err)))
   # combine this with the previous email data, making sure dimension matches
   if ((is.null(prevPull$rawHead)|is.null(prevPull$rawCont)) & includeRaw & output.exist) {
     # if the dimension doesn't, add columns appropriately
     prevPull <- data.frame(prevPull, rawHead = rep("", dim(prevPull)[1]),
                            rawCont = rep("", dim(prevPull)[1]))
   }
-  FullData <- rbind(newMailData, prevPull)
-  # save this
-  write.csv(FullData, "ClintonEmails.csv", row.names = FALSE)
-  # return this
-  return(FullData)
+  # incude more error handling conditionals
+  if (length(newMailData) != 1) {
+      # if ther are no errors save and return the data
+      FullData <- rbind(newMailData, prevPull)
+      # save this
+      write.csv(FullData, "ClintonEmails.csv", row.names = FALSE)
+      # return this
+      return(FullData)
+  }
+  else {
+                                        # if an error has occurred, display it and return the raw emails
+      message(newMailData)
+      return(emails)
+      }
 }
 
 # the function call
@@ -230,7 +240,7 @@ get_ThompTime <- function() {
   # output the information
   dates <- matrix(c(unlist(pgDates), unlist(pgHeadLine)), ncol = 2)
   # replace peculiarities
-  dates[,2] <- str_replace_all(dates[,2], pattern = "&#8217;|&#8220;|&#8221;", 
+  dates[,2] <- str_replace_all(dates[,2], pattern = "&#8217;|&#8220;|&#8221;",
                                replacement = "'")
   return(dates)
 }
@@ -240,10 +250,10 @@ ThompsonTimeline <- get_ThompTime()
 # perform some replacements as identified later, these are specific and based on searching
 # the document for issues
 ThompsonTimeline[c(11,139,179,188,215,236,256,264,306,315,447,462,530,742,775,323),1] <-
-  c("January 1, 2006", "June 1, 2010", "April 1, 2011-May 31, 2011", 
-    "May 13, 2011-May 14, 2011", "August 18, 2011-August 19, 2011", 
-    "December 23, 2011-December 27, 2011", "June 19, 2012-June 20, 2012", 
-    "August 1, 2012-December 31, 2012", "March 31, 2013", "March 31, 2013", 
+  c("January 1, 2006", "June 1, 2010", "April 1, 2011-May 31, 2011",
+    "May 13, 2011-May 14, 2011", "August 18, 2011-August 19, 2011",
+    "December 23, 2011-December 27, 2011", "June 19, 2012-June 20, 2012",
+    "August 1, 2012-December 31, 2012", "March 31, 2013", "March 31, 2013",
     "March 10, 2015", "March 25, 2015-March 31, 2015", "August 8, 2015",
     "March 2, 2016-March 3, 2016", "April 1, 2016-May 31, 2016",
     "June 1, 2013")
@@ -278,7 +288,7 @@ DateCleaner <- function(dates, headlines) {
   # identify inexact dates
   inexact <- grepl(x = dates, pattern = "Between|Around|Late|Early|Mid|Thereafter|Before|Later|Shortly")
   # remove problem words related to the above inexact dates
-  dates <- str_replace_all(dates, 
+  dates <- str_replace_all(dates,
                            "Mid\\p{Pd}|:|Around|Earlier| or Shortly Thereafter|Earlier",
                            "")
   # first split the dates
@@ -339,9 +349,9 @@ schedProc <- function(date) {
     }
   }
   # now to generate the two dates to return
-  startdate <- dates(paste(day1, which(months == mnth1), yr, sep = "/"), 
+  startdate <- dates(paste(day1, which(months == mnth1), yr, sep = "/"),
                      format = "d/m/y")
-  enddate <- dates(paste(day2, which(months == mnth2), yr, sep = "/"), 
+  enddate <- dates(paste(day2, which(months == mnth2), yr, sep = "/"),
                    format = "d/m/y")
   # return these
   c(startdate, enddate)
@@ -354,10 +364,10 @@ ClinForeignSched <- function() {
   # pull the URL
   schedDat <- getURL(schedURL)
   # extract all schedule entries
-  schedEntries <- unlist(str_extract_all(schedDat, 
+  schedEntries <- unlist(str_extract_all(schedDat,
                                          pattern = "(?<=(<tr>))(?s).*?(?-s)(?=(</tr>))"))
   # now extract more specific information
-  schedEntries <- str_replace_all(schedEntries[-1], 
+  schedEntries <- str_replace_all(schedEntries[-1],
                                   pattern = "(?<=(</td>))\\s+(?=(<td>))",
                                   replacement = "")
   # trim whitespace
@@ -375,7 +385,7 @@ ClinForeignSched <- function() {
   dates <- dates(t(sapply(schedEntries, function(vec) schedProc(vec[4]))))
   # save and return this data
   sched <- data.frame(Country = country, City = city, Reason = reason,
-                      StartDate = as.numeric(dates[,1]), 
+                      StartDate = as.numeric(dates[,1]),
                       EndDate = as.numeric(dates[,2]))
   sched
 }
@@ -400,22 +410,22 @@ AsSec <- filter(EmailData, Year >= 2009 & Year <= 2013)
 # let's see what times of day have a lot of email activity before and after
 # Clinton became the secretary of state, use some alpha blending and colouring
 # to visualize it
-plot(y = AsSec$Hour*60 + AsSec$Minutes, 
+plot(y = AsSec$Hour*60 + AsSec$Minutes,
      x = rnorm(nrow(AsSec), sd = 0.025, mean = 0.25),
      xlim = extendrange(c(0,1)), xlab = '',
-     ylab = 'Time (Minutes After Midnight)', main = 'Emails During the Day', 
+     ylab = 'Time (Minutes After Midnight)', main = 'Emails During the Day',
      col = adjustcolor('red', alpha.f = 1/100), pch = 19,
      xaxt = 'n')
 points(y = NotSec$Hour*60 + NotSec$Minutes,
        x = rnorm(nrow(NotSec), sd = 0.025, mean = 0.75),
        col = adjustcolor('blue', alpha.f = 1/100),
        pch = 19)
-legend(x = 'topright', 
+legend(x = 'topright',
        legend = c('As Secretary of State', 'Before Secretary of State'),
        col = c('red','blue'), pch = 19)
 # how about overplotting to see what the patterns are day by day
 # first see if any weekday is favoured
-barplot(table(factor(as.character(AsSec$Weekday), 
+barplot(table(factor(as.character(AsSec$Weekday),
                      levels = c("Sun","Mon","Tue","Wed","Thu","Fri","Sat"))))
 # create a simple two-colour palette
 pal <- c("firebrick", "steelblue")
@@ -426,7 +436,7 @@ axis(side = 1, at = c(0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5),
      labels = c("Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"),
      tick = FALSE)
 axis(side = 1, at = c(0,1,2,3,4,5,6,7), labels = NA)
-axis(side = 2, at = c(240, 480, 720, 960, 1200), 
+axis(side = 2, at = c(240, 480, 720, 960, 1200),
      labels = c("04:00", "08:00", "12:00", "16:00", "20:00"))
 for (day in 1:7) {
   dylst <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -435,7 +445,7 @@ for (day in 1:7) {
        y = mail$Hour*60 + mail$Minutes, pch = 19, cex = 0.3,
        col = adjustcolor(pal[as.numeric(mail$Redacted)+1], alpha.f = 0.5))
 }
-legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19), 
+legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
        col = c("steelblue", "firebrick"), horiz = TRUE, cex = 0.5, inset = c(0,-0.1),
        xpd = TRUE)
 # we can break this down by time for the emails sent as the secretary of state
@@ -443,9 +453,9 @@ plot(x = as.chron(AsSec$Date),
      y = AsSec$Hour*60 + AsSec$Minutes, xlab = 'Date', ylab = 'Time Sent',
      yaxt = 'n', pch = 19, main = "Email Sending Times Over Clinton's Tenure",
      col = adjustcolor(pal[as.numeric(AsSec$Redacted)+1], alpha.f = 0.5), cex = 0.25)
-axis(side = 2, at = c(240, 480, 720, 960, 1200), 
+axis(side = 2, at = c(240, 480, 720, 960, 1200),
      labels = c('04:00', '08:00', '12:00', '16:00', '20:00'))
-legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19), 
+legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
        col = c("steelblue", "firebrick"), horiz = TRUE, cex = 0.5, inset = c(0,-0.1),
        xpd = TRUE)
 # both of these suggest that a different definition of 'day' might be useful,
@@ -467,9 +477,9 @@ plot(x = as.chron(AsSec$Date),
      y = AsSec$Hour6pm*60 + AsSec$Minutes, xlab = 'Adjusted Date', ylab = 'Time Sent',
      yaxt = 'n', pch = 19, main = "Adjusted Email Sending Times",
      col = adjustcolor(pal[as.numeric(AsSec$Redacted)+1], alpha.f = 0.5), cex = 0.25)
-axis(side = 2, at = c(240, 480, 720, 960, 1200), 
+axis(side = 2, at = c(240, 480, 720, 960, 1200),
      labels = c('22:00', '02:00', '06:00', '10:00', '14:00'))
-legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19), 
+legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
        col = c("steelblue", "firebrick"), horiz = TRUE, cex = 0.5, inset = c(0,-0.1),
        xpd = TRUE)
 # we can also look at the emails by day of the year and calendar date
@@ -490,7 +500,7 @@ mtext("Favourability", side = 4, line = 2.5)
 lines(x = Favourability$Date, y = Favourability$Favourability*122, col = "red")
 # now add the trip schedule
 for (ii in 1:239) {
-  polygon(x = c(Schedule[ii, c("StartDate", "EndDate")], 
+  polygon(x = c(Schedule[ii, c("StartDate", "EndDate")],
                 rev(Schedule[ii, c("StartDate", "EndDate")])),
           y = c(-50,-50,130,130), col = adjustcolor("steelblue", alpha.f = 0.4),
           border = NA)
@@ -500,7 +510,7 @@ for (ii in 1:1192) {
   start <- ThompsonTimeline[ii, c("Start")]
   end <- ThompsonTimeline[ii, c("End")]
   if (start == end) {
-    abline(v = ThompsonTimeline[ii, c("Start")], 
+    abline(v = ThompsonTimeline[ii, c("Start")],
            col = adjustcolor("firebrick", alpha.f = 0.4))
   }
   else {
@@ -570,17 +580,17 @@ cutoff <- 200
 # select arbitrary relevant keywords
 relKey <- names(keywords)[keywords > cutoff]
 # generate the term document matrix
-ASmat <- lapply(lapply(AsSec$Content, function(e) get_keywords(e, table = FALSE)), 
+ASmat <- lapply(lapply(AsSec$Content, function(e) get_keywords(e, table = FALSE)),
                 function(email) sapply(relKey, function(kw) sum(kw == email)))
 ASmat <- matrix(unlist(ASmat), ncol = length(relKey), byrow = TRUE)
 # load the term-document matrix
 # ASmat <- read.csv('TermDocumentMatrix.csv')
 # generate a tfidf matrix
 tfIdf <- apply(ASmat, 2, function(col) col/max(col) * log(length(col)/sum(col != 0)))
-ASmat <- cbind(AsSec$ID, AsSec$Date, 
+ASmat <- cbind(AsSec$ID, AsSec$Date,
                AsSec[,c("B1","B2","B3","B4","B5","B6","B7","B8","B9","None")],
                ASmat)
-tfIdf <- cbind(AsSec$ID, AsSec$Date, 
+tfIdf <- cbind(AsSec$ID, AsSec$Date,
                AsSec[,c("B1","B2","B3","B4","B5","B6","B7","B8","B9","None")],
                tfIdf)
 colnames(tfIdf) <- c("ID","Date","B1","B2","B3","B4","B5","B6","B7","B8","B9","None",
@@ -618,7 +628,7 @@ repRem <- function(mat) {
   else mat[mat[,1] != mat[,2],]
 }
 # now extract
-DayFrom <- lapply(Days, 
+DayFrom <- lapply(Days,
                   function(dy) AsSec$From.name[floor(AsSec$Date) == dy])
 names(DayFrom) <- Days
 DayTo <- lapply(Days,
@@ -640,7 +650,7 @@ tktitle(tt) <- "Network"
 tktitle(tt2) <- "Keywords"
 MailRng <- range(Days)
 sel <- min(Days)
-p <- l_plot(x = rep(c(0.33, 0.66), times = 10), 
+p <- l_plot(x = rep(c(0.33, 0.66), times = 10),
             y = rep(seq(from = 0.95, to = 0.05, length.out = 10), each = 2),
             parent = tt2,
             size = 6 + 10*rescale(DayKW_tfidf[[as.character(sel)]]),
@@ -648,7 +658,7 @@ p <- l_plot(x = rep(c(0.33, 0.66), times = 10),
             xlabel = "", ylabel = "", color = 'black')
 names <- l_glyph_add_text(p, text = names(DayKW_tfidf[[as.character(sel)]]))
 p['glyph'] <- names
-p2 <- l_plot(x = rep(c(0.33, 0.66), times = 10), 
+p2 <- l_plot(x = rep(c(0.33, 0.66), times = 10),
              y = rep(seq(from = 0.95, to = 0.05, length.out = 10), each = 2),
              parent = tt2,
              size = 6 + 10*rescale(DayKW[[as.character(sel)]]),
@@ -701,7 +711,7 @@ update_plot <- function() {
   }
 }
 # add a slider
-slider <- tkscale(tt, from = min(Days), to = max(Days), resolution = 1, 
+slider <- tkscale(tt, from = min(Days), to = max(Days), resolution = 1,
                   showvalue = TRUE, orient = "horizontal")
 SliderValue <- tclVar(min(Days))
 tkconfigure(slider, variable = SliderValue, command = function(...) update_plot())
@@ -713,11 +723,11 @@ tkpack(g, side = "top", fill = "both", expand = 1)
 ### Spiral Network Plot Function ########################################################
 library(grid)
 # first filter out those communications which involve Clinton
-ClintonCom <- filter(EmailData, 
+ClintonCom <- filter(EmailData,
                      From.name == "Hillary Clinton" | To.name == "Hillary Clinton" |
                        From.name == "H" | To.name == "H")
 # extract the names of all addresses that communicated with Clinton
-ClintNet <- sort(table(c(as.character(ClintonCom$To.name), 
+ClintNet <- sort(table(c(as.character(ClintonCom$To.name),
                          as.character(ClintonCom$From.name))),
                  decreasing = TRUE)[-1]
 # write the function to generate the spiral network plot
@@ -748,7 +758,7 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     radPoslvl2 <- c(outer(radPoslvl1, shift*(1:numFull), FUN = function(x,y) x + y))
     # add in the rest
     extraPos <- if(numRot-numFull == 0) NULL else(radPoslvl2 +
-                                                    numFull*shift)[1:(length(wgtTbl) - 
+                                                    numFull*shift)[1:(length(wgtTbl) -
                                                                         impDiffs[1]*(numFull+1))]
     # combine
     radPoslvl2 <- c(radPoslvl2, extraPos)
@@ -763,11 +773,11 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                  gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
                            col = adjustcolor(cols[ii]), alpha.f = 0.8))
     }
-    grid.circle(x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y), r = 0.01, 
+    grid.circle(x = c(lvl1x, lvl2x), y = c(lvl1y, lvl2y), r = 0.01,
                 gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
                           fill = adjustcolor(cols, alpha.f = 0.8)))
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # label everything
@@ -781,14 +791,14 @@ spiralNetPlot <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # generate a new page
     grid.newpage()
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
   }
-}  
+}
 
 # modify the spiral network plot function
-spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA, 
+spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                            levelNum = 2, nodeNum = 20, title = "Title") {
   # check the wgtTbl status
   if (!all(is.na(wgtTbl))) {
@@ -825,11 +835,11 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
                  gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
                            col = adjustcolor(cols[ii]), alpha.f = 0.8))
     }
-    grid.circle(x = xvals, y = yvals, r = 0.01, 
+    grid.circle(x = xvals, y = yvals, r = 0.01,
                 gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
                           fill = adjustcolor(cols, alpha.f = 0.8)))
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # label everything
@@ -848,7 +858,7 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = NA,
     # generate a new page
     grid.newpage()
     # place the central node
-    grid.circle(x = 0.5, y = 0.5, r = 0.01, 
+    grid.circle(x = 0.5, y = 0.5, r = 0.01,
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
   }
@@ -875,12 +885,12 @@ sel1 <- min(Days)
 sel2 <- max(Days)
 SliderValue1 <- tclVar(sel1)
 SliderValue2 <- tclVar(sel2)
-slider <- tkscale(t2, from = min(Days), to = sel2, resolution = 1, 
+slider <- tkscale(t2, from = min(Days), to = sel2, resolution = 1,
                   showvalue = TRUE, orient = "horizontal")
 slider2 <- tkscale(t2, from = sel1, to = max(Days), resolution = 1,
                    showvalue = TRUE, orient = "horizontal")
 RelEmDat <- filter(ClintonCom, Date >= sel1 & Date <= sel2)
-RelEmNodes <- sort(table(c(as.character(RelEmDat$To.name), 
+RelEmNodes <- sort(table(c(as.character(RelEmDat$To.name),
                            as.character(RelEmDat$From.name))),
                    decreasing = TRUE)[-1]
 spiralNetPlot(wgtTbl = RelEmNodes[1:min(nshown, length(RelEmNodes))])
@@ -889,10 +899,10 @@ update_plot1 <- function(slider1) {
   sVal1 <- as.numeric(tclvalue(SliderValue1))
   tkconfigure(slider1, to = sVal2)
   dat <- filter(ClintonCom, Date >= sVal1 & Date <= sVal2)
-  tab <- sort(table(c(as.character(dat$To.name), 
+  tab <- sort(table(c(as.character(dat$To.name),
                       as.character(dat$From.name))),
               decreasing = TRUE)[-1]
-  spiralNetPlot(wgtTbl = tab[1:nshown], 
+  spiralNetPlot(wgtTbl = tab[1:nshown],
                 title = paste(dates(sVal1), dates(sVal2), sep = " - "))
 }
 update_plot2 <- function(slider2) {
@@ -900,13 +910,13 @@ update_plot2 <- function(slider2) {
   sVal2 <- as.numeric(tclvalue(SliderValue2))
   tkconfigure(slider2, from = sVal1)
   dat <- filter(ClintonCom, Date >= sVal1 & Date <= sVal2)
-  tab <- sort(table(c(as.character(dat$To.name), 
+  tab <- sort(table(c(as.character(dat$To.name),
                       as.character(dat$From.name))),
               decreasing = TRUE)[-1]
   spiralNetPlot(wgtTbl = tab[1:nshown],
                 title = paste(dates(sVal1), dates(sVal2), sep = " - "))
 }
-tkconfigure(slider, variable = SliderValue1, 
+tkconfigure(slider, variable = SliderValue1,
             command = function(...) update_plot2(slider2))
 tkconfigure(slider2, variable = SliderValue2,
             command = function(...) update_plot1(slider))
@@ -915,7 +925,7 @@ tkpack(slider2, fill = "x", side = "bottom")
 
 ### Next Step: Double Sided Slider with Foreign Trips and Thompson Timeline #############
 # convert the foreign trip schedule into more useful forms
-awaydates <- unlist(lapply(1:239, 
+awaydates <- unlist(lapply(1:239,
                            function(n) seq(Schedule$StartDate[n],
                                            Schedule$EndDate[n],
                                            by = "day")))
@@ -923,7 +933,7 @@ AsSec$Away <- floor(AsSec$Date) %in% awaydates
 
 # process the days to get keywords
 AsSecKeyword <- floor(AsSec$Date)
-AsSecKeyword <- sapply(AsSecKeyword, 
+AsSecKeyword <- sapply(AsSecKeyword,
                        function(dy) paste(AsSec[floor(AsSec$Date) == dy, c("Content")],
                                           collapse = " "))
 AsSecKeyword <- lapply(AsSecKeyword, get_keywords)
@@ -941,18 +951,18 @@ sel1 <- min(Days)
 sel2 <- max(Days)
 SliderValue1 <- tclVar(sel1)
 SliderValue2 <- tclVar(sel2)
-slider <- tkscale(t2, from = min(Days), to = sel2, resolution = 1, 
+slider <- tkscale(t2, from = min(Days), to = sel2, resolution = 1,
                   showvalue = TRUE, orient = "horizontal")
 slider2 <- tkscale(t2, from = sel1, to = max(Days), resolution = 1,
                    showvalue = TRUE, orient = "horizontal")
 RelEmDat <- filter(ClintonCom, Date >= sel1 & Date <= sel2)
-RelEmNodes <- sort(table(c(as.character(RelEmDat$To.name), 
+RelEmNodes <- sort(table(c(as.character(RelEmDat$To.name),
                            as.character(RelEmDat$From.name))),
                    decreasing = TRUE)[-1]
 dev.set(which = spiralPlot)
 spiralNetPlot(wgtTbl = RelEmNodes[1:nshown])
 dev.set(which = countPlot)
-plot(x = ASDays[ASDays >= sel1 & ASDats <= sel2], 
+plot(x = ASDays[ASDays >= sel1 & ASDats <= sel2],
      y = AScounts[ASDays >= sel1 & ASDats <= sel2])
 dev.set(which = tfisf)
 tsisf <- get_keywords(RelEmDat$content)
@@ -961,10 +971,10 @@ update_plot1 <- function(slider1) {
   sVal1 <- as.numeric(tclvalue(SliderValue1))
   tkconfigure(slider1, to = sVal2)
   dat <- filter(ClintonCom, Date >= sVal1 & Date <= sVal2)
-  tab <- sort(table(c(as.character(dat$To.name), 
+  tab <- sort(table(c(as.character(dat$To.name),
                       as.character(dat$From.name))),
               decreasing = TRUE)[-1]
-  spiralNetPlot(wgtTbl = tab[1:nshown], 
+  spiralNetPlot(wgtTbl = tab[1:nshown],
                 title = paste(dates(sVal1), dates(sVal2), sep = " - "))
 }
 update_plot2 <- function(slider2) {
@@ -972,13 +982,13 @@ update_plot2 <- function(slider2) {
   sVal2 <- as.numeric(tclvalue(SliderValue2))
   tkconfigure(slider2, from = sVal1)
   dat <- filter(ClintonCom, Date >= sVal1 & Date <= sVal2)
-  tab <- sort(table(c(as.character(dat$To.name), 
+  tab <- sort(table(c(as.character(dat$To.name),
                       as.character(dat$From.name))),
               decreasing = TRUE)[-1]
   spiralNetPlot(wgtTbl = tab[1:nshown],
                 title = paste(dates(sVal1), dates(sVal2), sep = " - "))
 }
-tkconfigure(slider, variable = SliderValue1, 
+tkconfigure(slider, variable = SliderValue1,
             command = function(...) update_plot2(slider2))
 tkconfigure(slider2, variable = SliderValue2,
             command = function(...) update_plot1(slider))
