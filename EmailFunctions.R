@@ -64,7 +64,7 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     AllToFrom <- str_extract_all(Cleaned, "(?<=(From:[\\s]?[\\|]?))[^\\|]+(?=\\|)|(?<=(To:[\\s]?[\\|]?))[^\\|]+(?=\\|)")
     AllToFrom <- lapply(AllToFrom, function(vec) paste(vec, collapse = "|"))
     ## identify whether the email is redacted
-    Redacted <- grepl("RELEASE[\\s]*IN[\\s]*PART", Cleaned)
+    Redacted <- grepl("RELEASE\\s*IN\\s*PART", Cleaned)
     ## identify the email redaction codes used
     Clevel <- str_extract_all(Cleaned, "B[1-9](?![0-9a-zA-Z])")
     Clevel <- unlist(lapply(Clevel, function(el) {
@@ -456,7 +456,8 @@ axis(side = 1, at = c(0,1,2,3,4,5,6,7), labels = NA)
 axis(side = 2, at = c(240, 480, 720, 960, 1200),
      labels = c("04:00", "08:00", "12:00", "16:00", "20:00"))
 for (day in 1:7) {
-  dylst <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    dylst <- c("Monday", "Tuesday", "Wednesday", "Thursday",
+               "Friday", "Saturday", "Sunday")
   mail <- filter(AsSec, Weekday == dylst[day])
   points(x = (mail$Date - min(AsSec$Date))/(max(AsSec$Date) - min(AsSec$Date)) + day - 1,
        y = mail$Hour*60 + mail$Minutes, pch = 19, cex = 0.3,
