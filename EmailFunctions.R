@@ -79,14 +79,16 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     ## return all the data after placing it into a storage structure
     Data <- data.frame(ID = ids, To.name = WikiTo, From.name = WikiFrom,
                        To.Add = WikiAddTo, From.Add = WikiAddFrom,
-                       Subject = WikiSubject, Date = WikileaksDate,
+                       Subject = WikiSubject,
+                       Date = as.chron(WikileaksDate),
                        Day = days(WikileaksDate),
                        Month = months(WikileaksDate),
                        Year = years(WikileaksDate),
                        Weekday = weekdays(WikileaksDate),
                        Hour = hours(WikileaksDate),
                        Minutes = minutes(WikileaksDate),
-                       PDFDate = PDFDateObj, PDFDay = days(PDFDateObj),
+                       PDFDate = as.chron(PDFDateObj),
+                       PDFDay = days(PDFDateObj),
                        PDFMonth = months(PDFDateObj),
                        PDFYear = years(PDFDateObj),
                        PDFWeekday = weekdays(PDFDateObj),
@@ -443,7 +445,7 @@ legend(x = 'topright',
 # how about overplotting to see what the patterns are day by day
 # first see if any weekday is favoured
 barplot(table(factor(as.character(AsSec$Weekday),
-                     levels = c("Sun","Mon","Tue","Wed","Thu","Fri","Sat"))))
+                     levels = c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"))))
 # create a simple two-colour palette
 pal <- c("firebrick", "steelblue")
 # looks pretty even, now overplot
