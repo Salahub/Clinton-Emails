@@ -16,12 +16,12 @@ library(loon)
 infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     ## first identify the interesting information
     Cleaned1 <- str_extract(emails, '(?<=(div class=\"tab-pane fade in active\" id=\"content\">))(?s).+(?-s)(?=(<div class=\"tab-pane fade in\" id=\"source\">))')
+    ## now clean up some strange text formatting
+    Cleaned1 <- str_replace_all(Cleaned1, "&lt.", "\\(")
+    Cleaned1 <- str_replace_all(Cleaned1, "&gt.", "\\)")
+    Cleaned1 <- str_replace_all(Cleaned1, "&quot.", "")
     ## replace HTML tags
     Cleaned <- str_replace_all(Cleaned1, "<[^><]+>", "|")
-    ## now clean up some strange text formatting
-    Cleaned <- str_replace_all(Cleaned, "&lt.", "\\(")
-    Cleaned <- str_replace_all(Cleaned, "&gt.", "\\)")
-    Cleaned <- str_replace_all(Cleaned, "&quot.", "")
     ## clean up extra spaces and anything left after the above replacements
     Cleaned <- str_replace_all(Cleaned, "[\\s]+", " ")
     Cleaned <- str_replace_all(Cleaned, "\\| \\|", "|")
@@ -47,9 +47,9 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     PDFDate2 <- str_extract(Cleaned[is.na(PDFDateObj)], "[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}[\\s]?[0-9]{1,2}:[0-9]{2}:[0-9]{2} [APMl/]{2,5}")
     PDFDate2 <- str_replace(PDFDate2, "ll/l", "M")
     PDFDate2 <- as.POSIXlt(PDFDate2, format = "%m/%e/%Y %I:%M:%S %p")
-    PDFDate2[as.numeric(format(PDFDate2, "%Y%")) < 2009] <- NA
     ## put these two together
     PDFDateObj[is.na(PDFDateObj)] <- PDFDate2
+    PDFDateObj[as.numeric(format(PDFDateObj, "%Y")) < 2009 | as.numeric(format(PDFDateObj, "%Y")) > 2014] <- NA
     ## extract the subject as provided by Wikileaks
     WikiSubject <- str_extract(Cleaned,"(?<=(Subject:[\\s]?))[^\\|]+(?=\\|)")
     ## try to extract the subjects from the emails directly
@@ -80,14 +80,14 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
     Data <- data.frame(ID = ids, To.name = WikiTo, From.name = WikiFrom,
                        To.Add = WikiAddTo, From.Add = WikiAddFrom,
                        Subject = WikiSubject,
-                       Date = as.chron(WikileaksDate),
+                       Date = as.numeric(as.chron(WikileaksDate)),
                        Day = days(WikileaksDate),
                        Month = months(WikileaksDate),
                        Year = years(WikileaksDate),
                        Weekday = weekdays(WikileaksDate),
                        Hour = hours(WikileaksDate),
                        Minutes = minutes(WikileaksDate),
-                       PDFDate = as.chron(PDFDateObj),
+                       PDFDate = as.numeric(as.chron(PDFDateObj)),
                        PDFDay = days(PDFDateObj),
                        PDFMonth = months(PDFDateObj),
                        PDFYear = years(PDFDateObj),

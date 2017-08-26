@@ -12,7 +12,6 @@ library(shinyBS)
 pal <- c("steelblue", "firebrick")
 pal2 <- c("darkorange","firebrick", "steelblue", "black")
 EmailData <- read.csv('ClintonEmailData.csv')
-ThompTime <- read.csv('ThompsonTimeline.csv')
 ForSched <- read.csv('ForeignSchedule.csv')
 Freq <- read.csv("TermDocumentMatrix.csv")
 TfIdf <- read.csv("TFIDF.csv")
@@ -188,6 +187,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.2 | Data Extraction Version 2.0 | August 23, 2017"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -338,8 +338,8 @@ ui <- fluidPage(
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
-            fluidRow(selectInput("AdjVar", "Daily Reference Point: ", c("0:00", "18:00"),
-                                 selected = "0:00")),
+            fluidRow(checkboxInput("Misreads", "Include Emails with Wikileaks Time Misreads")),
+            fluidRow(checkboxInput("PDFDates", "Use Content Extracted Dates and Times")),
             fluidRow(checkboxInput("SelScale", "Scale by selected")),
             fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
             fluidRow(selectInput("ToFromFilter", "Show Emails: ", 
@@ -381,16 +381,34 @@ server <- function(input, output) {
     intermed$DateRange <- paste(chron(c(input$range[1], input$range[2]),
                                       format = "day mon year"),
                                 collapse = " - ")
-    intermed$selIDs <- 
-      switch(input$ToFromFilter,
-             "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                   Date < input$range[2] + 1 & Date >= input$range[1])$ID,
-             "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+    if (input$Misreads) {
+      intermed$selIDs <- 
+        switch(input$ToFromFilter,
+               "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                     Date < input$range[2] + 1 & Date >= input$range[1])$ID,
+               "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                       Date < input$range[2] + 1 & Date >= input$range[1] &
+                                         (From.name == "Hillary Clinton" | From.name == "H"))$ID,
+               "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
                                      Date < input$range[2] + 1 & Date >= input$range[1] &
-                                       (From.name == "Hillary Clinton" | From.name == "H"))$ID,
-             "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                   Date < input$range[2] + 1 & Date >= input$range[1] &
-                                     (To.name == "Hillary Clinton" | To.name == "H"))$ID)
+                                       (To.name == "Hillary Clinton" | To.name == "H"))$ID)
+    }
+    else {
+      intermed$selIDs <- 
+        switch(input$ToFromFilter,
+               "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                     Date < input$range[2] + 1 & Date >= input$range[1] &
+                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
+               "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                       Date < input$range[2] + 1 & Date >= input$range[1] &
+                                         (From.name == "Hillary Clinton" | From.name == "H") &
+                                         Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
+               "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                     Date < input$range[2] + 1 & Date >= input$range[1] &
+                                       (To.name == "Hillary Clinton" | To.name == "H") &
+                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID)
+    }
+    
     intermed$toFromLab <- switch(input$ToFromFilter,
                                  "All Emails" = "Sent/Received",
                                  "From Clinton" = "Sent",
@@ -402,7 +420,8 @@ server <- function(input, output) {
                                (EndDate < input$range[2] & EndDate >= input$range[1]))
     intermed$dispSched <- input$Schedule
     intermed$ScaleSel <- input$SelScale
-    intermed$adjVar <- input$AdjVar == "18:00"
+    intermed$PDFDates <- input$PDFDates
+    intermed$Misreads <- input$Misreads
     intermed$ZeroSel <- length(intermed$selIDs) == 0
     return(intermed)
   })
@@ -410,35 +429,70 @@ server <- function(input, output) {
   inter <- inputProc(input)
   # now define all outputs
    output$Times <- renderPlot({
-     # first determine whether adjusted or unadjusted times are to be used
-     if (inter()$adjVar) {
-       timevalues <- AsSec$Hour6pm[AsSec$ID %in% inter()$selIDs]*60 + 
-         AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
-       xlab <- "Adjusted Date (dd/mm/yy)"
-       main <- paste("Adjusted Email", inter()$toFromLab, "Times")
-       labelset <- c('18:00', '24:00', '06:00', '12:00', '18:00')
-     } else {
-       timevalues <- AsSec$Hour[AsSec$ID %in% inter()$selIDs]*60 + 
-         AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
-       xlab <- "Date (dd/mm/yy)"
-       main <- paste("Email", inter()$toFromLab, "Times")
-       labelset <- c("00:00", "06:00", "12:00", "18:00", "24:00")
+     # first determine whether PDF times or Wikileaks times are to be used
+     if (inter()$PDFDates & inter()$Misreads) {
+       timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
+         AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
+       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+       ylim <- c(1640, 0)
+       ylab <- paste("Content Extracted Time", inter()$toFromLab)
+       IndstoMove <- is.na(timevalues)
+       timevalues[IndstoMove] <- rnorm(n = sum(IndstoMove),
+                                              mean = 1580, sd = 15)
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
+       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs]))
+       PlotdateValues[IndstoMove] <- DateValues[IndstoMove]
+       plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
+            ylab = ylab, axes = FALSE, main = main, sub = inter()$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+                              alpha.f = 0.5),
+            cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
+       rect(xleft = par('usr')[1], xright = par('usr')[2], ybottom = 1440 + 72, ytop = par('usr')[4])
+       axis(side = 2, at = c(0, 360, 720, 1080, 1440),
+            labels = c("00:00", "06:00", "12:00", "18:00", "24:00"), las = 1)
+       axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
+       legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
+              col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
+              xpd = TRUE)
      }
-     # plot dates based on the dates provided from the slider
-     plot(x = as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs])),
-          y = timevalues, xlab = xlab,
-          ylab = paste("Time", inter()$toFromLab), yaxt = 'n', xaxt = 'n', pch = 19,
-          main = main, sub = inter()$DateRange,
-          col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
-                            alpha.f = 0.5),
-          cex = 0.25, ylim = c(1440,0) + c(0.05,-0.05)*1440, 
-          xlim = c(input$range[1], input$range[2]))
-     axis(side = 2, at = c(0, 360, 720, 1080, 1440),
-          labels = labelset, las = 1)
-     axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
-     legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
-           col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
-           xpd = TRUE)
+     else if (inter()$PDFDates) {
+       timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
+         AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
+       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+       ylim <- c(1440, 0)
+       ylab <- paste("Content Extracted Time", inter()$toFromLab)
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
+       plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
+            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = inter()$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+                              alpha.f = 0.5),
+            cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
+       axis(side = 2, at = c(0, 360, 720, 1080, 1440),
+            labels = c("00:00", "06:00", "12:00", "18:00", "24:00"), las = 1)
+       axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
+       legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
+              col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
+              xpd = TRUE)
+     }
+     else {
+       timevalues <- AsSec$Hour[AsSec$ID %in% inter()$selIDs]*60 +
+         AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
+       main <- paste("Email", inter()$toFromLab, "Times As Provided by Wikileaks")
+       ylim <- c(1440, 0)
+       ylab <- paste("Wikileaks Time", inter()$toFromLab)
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
+       plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
+            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = inter()$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+                              alpha.f = 0.5),
+            cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
+       axis(side = 2, at = c(0, 360, 720, 1080, 1440),
+            labels = c("00:00", "06:00", "12:00", "18:00", "24:00"), las = 1)
+       axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
+       legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
+              col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
+              xpd = TRUE)
+     }
    })
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
