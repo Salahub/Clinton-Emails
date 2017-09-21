@@ -361,7 +361,7 @@ ui <- fluidPage(
             fluidRow(checkboxInput("PDFDates", "Use Content Extracted Dates and Times")),
             fluidRow(checkboxInput("SelScale", "Scale by selected")),
             fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
-            fluidRow(selectInput("ToFromFilter", "Show Emails: ", 
+            fluidRow(selectInput("ToFromFilter", "Include Emails: ", 
                                  c("From Clinton", "To Clinton", "All Emails"),
                                  selected = "All Emails", multiple = FALSE)),
             fluidRow(selectInput("ClassFilter", 
