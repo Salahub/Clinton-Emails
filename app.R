@@ -187,7 +187,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
-   fluidRow(column(h4("Application Version 1.2 | Data Extraction Version 2.0 | August 23, 2017"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.3 | Data Extraction Version 2.0 | September 21, 2017"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -326,19 +326,38 @@ ui <- fluidPage(
                       fluidRow(id = "EmTimes",
                                h4("Email Times"),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
-                               p("Filtering by the emails sent by Clinton during her tenure, we
-                                 can glimpse her email sending patterns by looking at the email
-                                 time plot. These patterns are fairly regular, with most activity
-                                 occurring at night and a gap between roughly 6 and 11 pm. There 
-                                 are also some strikingly consistent sending times visible in the 
-                                 data, alternatingly at 2 and 3 am. The switching between 2 and
-                                 3 am in these sending times matches exactly with the switching of
-                                 daylight savings time in North America, suggesting these
-                                 represent some server function performed every 24 hours.")))),
+                               p("Several patterns in the date and time displays are immediately obvious.
+                                 One of the most obvious of these is the appearance of modes at 2 am and 
+                                 3 am in the Wikileaks reported times. Switching to the PDF extracted
+                                 times instead, however, these modes disappear. Investigation of this 
+                                 pattern using the ", a("Wikileaks source",
+                                                        href = "https://wikileaks.org/clinton-emails"),
+                                 "with a random sample of emails reveals that these modes correspond to
+                                 a default time setting applied when the PDF extracted dates cannot be
+                                 read by the autmated extractor used by Wikileaks, though the this 
+                                 methodological choice is never mentioned, let alone explained, by the
+                                 Wikileaks page."),
+                               p("The second pattern of note is that of Clinton's strange sending times.
+                                 The Wikileaks data seems to show that, regardless of which filter is 
+                                 applied, Clinton's team is most active in the middle of the night, with
+                                 only a small communication break between 4 pm and 10 pm present.
+                                 This pattern is changed entirely when the extracted dates are used, and
+                                 the communication gap is shifted to the far more natural 11 pm to 5 am.
+                                 Once again, the presence and justification of this shift are never
+                                 addressed on the Wikileaks page. Further investigation on a large sample 
+                                 of emails showed this 7 hour time shift to be a consistently applied
+                                 transformation from the times reported in the PDF to the times reported 
+                                 in the Wikileaks header. While the irony of this lack of transparency on
+                                 a site which claims to champion that virtue is somewhat amusing, it 
+                                 provides a very useful reminder that we cannot blindly trust any source,
+                                 and should always investigate the data ourselves.")))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
-            fluidRow(checkboxInput("Misreads", "Include Emails with Wikileaks Time Misreads")),
+            fluidRow(selectInput("Misreads", "Include Emails: ",
+                                 c("All", "Without Wikileaks Time Misreads", 
+                                   "With Wikileaks Time Misreads"),
+                                 selected = "All", multiple = FALSE)),
             fluidRow(checkboxInput("PDFDates", "Use Content Extracted Dates and Times")),
             fluidRow(checkboxInput("SelScale", "Scale by selected")),
             fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
@@ -381,34 +400,38 @@ server <- function(input, output) {
     intermed$DateRange <- paste(chron(c(input$range[1], input$range[2]),
                                       format = "day mon year"),
                                 collapse = " - ")
-    if (input$Misreads) {
-      intermed$selIDs <- 
-        switch(input$ToFromFilter,
-               "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                     Date < input$range[2] + 1 & Date >= input$range[1])$ID,
-               "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                       Date < input$range[2] + 1 & Date >= input$range[1] &
-                                         (From.name == "Hillary Clinton" | From.name == "H"))$ID,
-               "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                     Date < input$range[2] + 1 & Date >= input$range[1] &
-                                       (To.name == "Hillary Clinton" | To.name == "H"))$ID)
-    }
-    else {
-      intermed$selIDs <- 
-        switch(input$ToFromFilter,
-               "All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                     Date < input$range[2] + 1 & Date >= input$range[1] &
-                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-               "From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                       Date < input$range[2] + 1 & Date >= input$range[1] &
-                                         (From.name == "Hillary Clinton" | From.name == "H") &
-                                         Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-               "To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
-                                     Date < input$range[2] + 1 & Date >= input$range[1] &
-                                       (To.name == "Hillary Clinton" | To.name == "H") &
-                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID)
-    }
-    
+    intermed$selIDs <- 
+      switch(paste(input$Misreads, input$ToFromFilter, sep = ", "),
+             "All, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                        Date < input$range[2] + 1 & Date >= input$range[1])$ID,
+             "All, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                          Date < input$range[2] + 1 & Date >= input$range[1] &
+                                            (From.name == "Hillary Clinton" | From.name == "H"))$ID,
+             "All, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                        Date < input$range[2] + 1 & Date >= input$range[1] &
+                                          (To.name == "Hillary Clinton" | To.name == "H"))$ID,
+             "Without Wikileaks Time Misreads, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                    Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                      Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
+             "Without Wikileaks Time Misreads, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                      Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                        (From.name == "Hillary Clinton" | From.name == "H") &
+                                                                        Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
+             "Without Wikileaks Time Misreads, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                    Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                      (To.name == "Hillary Clinton" | To.name == "H") &
+                                                                      Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
+             "With Wikileaks Time Misreads, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                 Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                   Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
+             "With Wikileaks Time Misreads, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                   Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                     (From.name == "Hillary Clinton" | From.name == "H") &
+                                                                     Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
+             "With Wikileaks Time Misreads, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+                                                                 Date < input$range[2] + 1 & Date >= input$range[1] &
+                                                                   (To.name == "Hillary Clinton" | To.name == "H") &
+                                                                   Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID)
     intermed$toFromLab <- switch(input$ToFromFilter,
                                  "All Emails" = "Sent/Received",
                                  "From Clinton" = "Sent",
@@ -430,7 +453,7 @@ server <- function(input, output) {
   # now define all outputs
    output$Times <- renderPlot({
      # first determine whether PDF times or Wikileaks times are to be used
-     if (inter()$PDFDates & inter()$Misreads) {
+     if (inter()$PDFDates & inter()$Misreads == "All") {
        timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
          AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
        main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
@@ -455,7 +478,7 @@ server <- function(input, output) {
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
      }
-     else if (inter()$PDFDates) {
+     else if (inter()$PDFDates & inter()$Misreads == "Without Wikileaks Time Misreads") {
        timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
          AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
        main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
@@ -469,6 +492,23 @@ server <- function(input, output) {
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis(side = 2, at = c(0, 360, 720, 1080, 1440),
             labels = c("00:00", "06:00", "12:00", "18:00", "24:00"), las = 1)
+       axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
+       legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
+              col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
+              xpd = TRUE)
+     }
+     else if (inter()$PDFDates & inter()$Misreads == "With Wikileaks Time Misreads") {
+       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+       ylim <- c(100, 0)
+       ylab <- paste("Jittered as the Time", inter()$toFromLab, "Could not be Extracted")
+       timevalues <- rnorm(n = length(inter()$selIDs),
+                                       mean = 50, sd = 15)
+       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs]))
+       plot(x = DateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
+            ylab = ylab, axes = FALSE, main = main, sub = inter()$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+                              alpha.f = 0.5),
+            cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
        legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
