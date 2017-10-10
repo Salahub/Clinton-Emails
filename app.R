@@ -338,7 +338,7 @@ ui <- fluidPage(
                                  methodological choice is never mentioned, let alone explained, by the
                                  Wikileaks page."),
                                p("The second pattern of note is that of Clinton's strange sending times.
-                                 The Wikileaks data seems to show that, regardless of which filter is 
+                                 The Wikileaks data seem to show that, regardless of which filter is 
                                  applied, Clinton's team is most active in the middle of the night, with
                                  only a small communication break between 4 pm and 10 pm present.
                                  This pattern is changed entirely when the extracted dates are used, and
