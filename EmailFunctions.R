@@ -216,7 +216,7 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
       return(FullData)
   }
   else {
-                                        # if an error has occurred, display it and return the raw emails
+      # if an error has occurred, display it and return the raw emails
       message(newMailData)
       return(emails)
       }
@@ -1014,3 +1014,10 @@ tkconfigure(slider2, variable = SliderValue2,
             command = function(...) update_plot1(slider))
 tkpack(slider, fill = "x", side = "bottom")
 tkpack(slider2, fill = "x", side = "bottom")
+
+### App Data List Definition ############################################################
+AppData <- list(AsSec = arrange(AsSec, Date), Freq = ASmat, TfIdf = tfIdf,
+                ForSched = Schedule, countbyDate = countbyDate,
+                ASDays = ASDays, AScounts = AScounts, ClintonCom = ClintonCom,
+                ClintNet = ClintNet, stateMail = stateMail)
+saveRDS(AppData, "FullAppData.Rds")

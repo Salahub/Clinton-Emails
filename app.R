@@ -8,66 +8,13 @@ library(shiny)
 library(grid)
 library(shinyBS)
 
-### Pre-loaded data #####################################################################
+### Load the Data #######################################################################
+Data <- readRDS("FullAppData.Rds")
+list2env(Data, globalenv())
 pal <- c("steelblue", "firebrick")
 pal2 <- c("darkorange","firebrick", "steelblue", "black")
-EmailData <- read.csv('ClintonEmailData.csv')
-ForSched <- read.csv('ForeignSchedule.csv')
-Freq <- read.csv("TermDocumentMatrix.csv")
-TfIdf <- read.csv("TFIDF.csv")
 
-### Filter and prepare the data from time as secretary of state #########################
-# select all emails sent while Secretary
-AsSec <- filter(EmailData, Year >= 2009 & Year <= 2013)
-# extract daily counts of emails for plotting later
-countbyDate <- tally(group_by(AsSec, dates(as.chron(Date))))
-ASDays <- seq(from = min(countbyDate$`dates(as.chron(Date))`),
-              to = max(countbyDate$`dates(as.chron(Date))`),
-              by = 'days')
-AScounts <- rep(0, length(ASDays))
-AScounts[ASDays %in% countbyDate$`dates(as.chron(Date))`] <- countbyDate$n
-# prepare the adjusted dates
-AsSec <- arrange(AsSec, Date)
-# now define the days with 6pm as the adjusted day definition
-days6pm <- seq(from = floor(min(AsSec$Date)) + 0.75, to = max(AsSec$Date),
-               by = 1)
-newDays <- sapply(AsSec$Date, function(date) sum(days6pm < date) %% 7) + 1
-newDays <- c("Sat-Sun","Sun-Mon","Mon-Tue","Tue-Wed","Wed-Thu","Thu-Fri",
-             "Fri-Sat")[newDays]
-AsSec$Weekday6pm <- newDays
-# and generate new times referencing 6 pm
-AsSec$Hour6pm <- (AsSec$Hour + 6) %% 24
-
-### Spiral Network Plot Functions #######################################################
-# filter the data by communications including Clinton
-ClintonCom <- filter(AsSec,
-                     From.name == "Hillary Clinton" | To.name == "Hillary Clinton" |
-                       From.name == "H" | To.name == "H")
-# extract names of all the communicated with Clinton
-ClintNet <- sort(table(c(as.character(ClintonCom$To.name),
-                         as.character(ClintonCom$From.name))),
-                 decreasing = TRUE)[-1]
-# extract state mail information, information pertaining to whether an email is .gov or not
-# first get all names from above network
-allnames <- levels(as.factor(c(levels(as.factor(ClintonCom$To.name)),
-                               levels(as.factor(ClintonCom$From.name)))))
-# generate storage in advance
-stateMail <- rep(0, length(allnames))
-names(stateMail) <- allnames
-# for each name identify if it is associated with a .gov email anywhere in the data
-for (name in allnames) {
-  toMail <- filter(ClintonCom, To.name == name)
-  fromMail <- filter(ClintonCom, From.name == name)
-  state <- any(grepl("[\\.]gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
-                               as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  mil <- any(grepl("[\\.]mil$", c(as.character(toMail$To.Add), as.character(toMail$To.name),
-                             as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  notState <- any(grepl("[@\\.]", c(as.character(toMail$To.Add), as.character(toMail$To.name),
-                                  as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState) + 
-    2*as.numeric(mil)
-}
-
+### Define Helper Functions #############################################################
 # modify the spiral network plot function, improve it
 spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
                            levelNum = 2, nodeNum = 20, title = "Title") {
@@ -396,6 +343,8 @@ server <- function(input, output) {
   inputProc <- function(input) reactive({
     # generate a storage item
     intermed <- list()
+    # create some reference structures to make the code readable
+    AsSec_CFilt <- AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),]
     # select data using the input date and classification filters
     intermed$DateRange <- paste(chron(c(input$range[1], input$range[2]),
                                       format = "day mon year"),
@@ -601,4 +550,3 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
