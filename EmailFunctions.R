@@ -890,12 +890,18 @@ allnames <- levels(as.factor(c(levels(ClintonCom$To.name),
                                levels(ClintonCom$From.name))))
 stateMail <- rep(0, length(allnames))
 names(stateMail) <- allnames
+# for each name identify if it is associated with a .gov email anywhere in the data
 for (name in allnames) {
   toMail <- filter(ClintonCom, To.name == name)
   fromMail <- filter(ClintonCom, From.name == name)
-  state <- any(grepl(".gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
-                               as.character(fromMail$From.name), as.character(fromMail$From.Add))))
-  stateMail[which(allnames == name)] <- as.numeric(state)
+  state <- any(grepl("[\\.]gov", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                                   as.character(fromMail$From.name), as.character(fromMail$From.Add))))
+  mil <- any(grepl("[\\.]mil$", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                                  as.character(fromMail$From.name), as.character(fromMail$From.Add))))
+  notState <- any(grepl("[@\\.]", c(as.character(toMail$To.Add), as.character(toMail$To.name),
+                                    as.character(fromMail$From.name), as.character(fromMail$From.Add))))
+  stateMail[which(allnames == name)] <- as.numeric(state) + as.numeric(notState) + 
+    2*as.numeric(mil)
 }
 # this is my double sided slider hack
 nshown <- 20

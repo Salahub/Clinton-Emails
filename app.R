@@ -134,7 +134,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
-   fluidRow(column(h4("Application Version 1.3 | Data Extraction Version 2.0 | September 21, 2017"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.4 | Data Extraction Version 2.0 | September 21, 2017"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -351,33 +351,33 @@ server <- function(input, output) {
                                 collapse = " - ")
     intermed$selIDs <- 
       switch(paste(input$Misreads, input$ToFromFilter, sep = ", "),
-             "All, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "All, All Emails" = filter(AsSec_CFilt,
                                         Date < input$range[2] + 1 & Date >= input$range[1])$ID,
-             "All, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "All, From Clinton" = filter(AsSec_CFilt,
                                           Date < input$range[2] + 1 & Date >= input$range[1] &
                                             (From.name == "Hillary Clinton" | From.name == "H"))$ID,
-             "All, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "All, To Clinton" = filter(AsSec_CFilt,
                                         Date < input$range[2] + 1 & Date >= input$range[1] &
                                           (To.name == "Hillary Clinton" | To.name == "H"))$ID,
-             "Without Wikileaks Time Misreads, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "Without Wikileaks Time Misreads, All Emails" = filter(AsSec_CFilt,
                                                                     Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "Without Wikileaks Time Misreads, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "Without Wikileaks Time Misreads, From Clinton" = filter(AsSec_CFilt,
                                                                       Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                         (From.name == "Hillary Clinton" | From.name == "H") &
                                                                         Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "Without Wikileaks Time Misreads, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "Without Wikileaks Time Misreads, To Clinton" = filter(AsSec_CFilt,
                                                                     Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                       (To.name == "Hillary Clinton" | To.name == "H") &
                                                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "With Wikileaks Time Misreads, All Emails" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "With Wikileaks Time Misreads, All Emails" = filter(AsSec_CFilt,
                                                                  Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                    Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
-             "With Wikileaks Time Misreads, From Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "With Wikileaks Time Misreads, From Clinton" = filter(AsSec_CFilt,
                                                                    Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                      (From.name == "Hillary Clinton" | From.name == "H") &
                                                                      Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
-             "With Wikileaks Time Misreads, To Clinton" = filter(AsSec[apply(AsSec[,input$ClassFilter, drop = FALSE],1,any),],
+             "With Wikileaks Time Misreads, To Clinton" = filter(AsSec_CFilt,
                                                                  Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                    (To.name == "Hillary Clinton" | To.name == "H") &
                                                                    Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID)
