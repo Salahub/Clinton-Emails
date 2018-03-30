@@ -401,22 +401,24 @@ server <- function(input, output) {
   inter <- inputProc(input)
   # now define all outputs
    output$Times <- renderPlot({
+     # call inter once to calculate require objects
+     Vals <- inter()
      # first determine whether PDF times or Wikileaks times are to be used
-     if (inter()$PDFDates & inter()$Misreads == "All") {
-       timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
-         AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
-       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+     if (Vals$PDFDates & Vals$Misreads == "All") {
+       timevalues <- AsSec$PDFHour[AsSec$ID %in% Vals$selIDs]*60 +
+         AsSec$PDFMinutes[AsSec$ID %in% Vals$selIDs]
+       main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
        ylim <- c(1640, 0)
-       ylab <- paste("Content Extracted Time", inter()$toFromLab)
+       ylab <- paste("Content Extracted Time", Vals$toFromLab)
        IndstoMove <- is.na(timevalues)
        timevalues[IndstoMove] <- rnorm(n = sum(IndstoMove),
                                               mean = 1580, sd = 15)
-       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
-       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs]))
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
+       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% Vals$selIDs]))
        PlotdateValues[IndstoMove] <- DateValues[IndstoMove]
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
-            ylab = ylab, axes = FALSE, main = main, sub = inter()$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+            ylab = ylab, axes = FALSE, main = main, sub = Vals$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        rect(xleft = par('usr')[1], xright = par('usr')[2], ybottom = 1440 + 72, ytop = par('usr')[4])
@@ -427,16 +429,16 @@ server <- function(input, output) {
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
      }
-     else if (inter()$PDFDates & inter()$Misreads == "Without Wikileaks Time Misreads") {
-       timevalues <- AsSec$PDFHour[AsSec$ID %in% inter()$selIDs]*60 +
-         AsSec$PDFMinutes[AsSec$ID %in% inter()$selIDs]
-       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+     else if (Vals$PDFDates & Vals$Misreads == "Without Wikileaks Time Misreads") {
+       timevalues <- AsSec$PDFHour[AsSec$ID %in% Vals$selIDs]*60 +
+         AsSec$PDFMinutes[AsSec$ID %in% Vals$selIDs]
+       main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
        ylim <- c(1440, 0)
-       ylab <- paste("Content Extracted Time", inter()$toFromLab)
-       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
+       ylab <- paste("Content Extracted Time", Vals$toFromLab)
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
-            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = inter()$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = Vals$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis(side = 2, at = c(0, 360, 720, 1080, 1440),
@@ -446,16 +448,16 @@ server <- function(input, output) {
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
      }
-     else if (inter()$PDFDates & inter()$Misreads == "With Wikileaks Time Misreads") {
-       main <- paste("Email", inter()$toFromLab, "Times Extracted from Content")
+     else if (Vals$PDFDates & Vals$Misreads == "With Wikileaks Time Misreads") {
+       main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
        ylim <- c(100, 0)
-       ylab <- paste("Jittered as the Time", inter()$toFromLab, "Could not be Extracted")
-       timevalues <- rnorm(n = length(inter()$selIDs),
+       ylab <- paste("Jittered as the Time", Vals$toFromLab, "Could not be Extracted")
+       timevalues <- rnorm(n = length(Vals$selIDs),
                                        mean = 50, sd = 15)
-       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% inter()$selIDs]))
+       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% Vals$selIDs]))
        plot(x = DateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
-            ylab = ylab, axes = FALSE, main = main, sub = inter()$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+            ylab = ylab, axes = FALSE, main = main, sub = Vals$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
@@ -464,15 +466,15 @@ server <- function(input, output) {
               xpd = TRUE)
      }
      else {
-       timevalues <- AsSec$Hour[AsSec$ID %in% inter()$selIDs]*60 +
-         AsSec$Minutes[AsSec$ID %in% inter()$selIDs]
-       main <- paste("Email", inter()$toFromLab, "Times As Provided by Wikileaks")
+       timevalues <- AsSec$Hour[AsSec$ID %in% Vals$selIDs]*60 +
+         AsSec$Minutes[AsSec$ID %in% Vals$selIDs]
+       main <- paste("Email", Vals$toFromLab, "Times As Provided by Wikileaks")
        ylim <- c(1440, 0)
-       ylab <- paste("Wikileaks Time", inter()$toFromLab)
-       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% inter()$selIDs]))
+       ylab <- paste("Wikileaks Time", Vals$toFromLab)
+       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
-            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = inter()$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% inter()$selIDs])+1], 
+            ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = Vals$DateRange,
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis(side = 2, at = c(0, 360, 720, 1080, 1440),
@@ -485,25 +487,26 @@ server <- function(input, output) {
    })
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
-     if (inter()$ScaleSel) yrange <- extendrange(inter()$selCounts)
+     Vals <- inter()
+     if (Vals$ScaleSel) yrange <- extendrange(Vals$selCounts)
      else yrange <- extendrange(AScounts)
-     plot(x = inter()$selDays, y = inter()$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
+     plot(x = Vals$selDays, y = Vals$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails', pch = 19,
-          main = "Number of Emails by Date", sub = inter()$DateRange,
+          main = "Number of Emails by Date", sub = Vals$DateRange,
           ylim = yrange, col = adjustcolor("black", alpha.f = 0.6))
      # add the schedule if it has been selected
-     if (inter()$dispSched) {
-       apply(inter()$Sched, 1,
+     if (Vals$dispSched) {
+       apply(Vals$Sched, 1,
           function(row) {
             polygon(x = c(row[c("StartDate", "EndDate")],  rev(row[c("StartDate", "EndDate")])),
                     y = c(-50,-50,130,130), col = adjustcolor("steelblue", alpha.f = 0.4),
                     border = NA)
             })
      }
-     axis.Date(side = 1, as.chron(inter()$selDays), format = "%d/%m/%y")
-     countbyDate <- tally(group_by(AsSec[AsSec$ID %in% inter()$selIDs,], dates(as.chron(Date))))
-     tempDays <- seq(from = min(inter()$selDays),
-                   to = max(inter()$selDays),
+     axis.Date(side = 1, as.chron(Vals$selDays), format = "%d/%m/%y")
+     countbyDate <- tally(group_by(AsSec[AsSec$ID %in% Vals$selIDs,], dates(as.chron(Date))))
+     tempDays <- seq(from = min(Vals$selDays),
+                   to = max(Vals$selDays),
                    by = 'days')
      tempcounts <- rep(0, length(tempDays))
      tempcounts[tempDays %in% countbyDate$`dates(as.chron(Date))`] <- countbyDate$n
@@ -514,11 +517,12 @@ server <- function(input, output) {
    })
    # add the spiral network plot
    output$Spiral <- renderPlot({
-     spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% inter()$selIDs]),
-                                as.character(ClintonCom$From.name[ClintonCom$ID %in% inter()$selIDs]))),
+     Vals <- inter()
+     spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% Vals$selIDs]),
+                                as.character(ClintonCom$From.name[ClintonCom$ID %in% Vals$selIDs]))),
                         decreasing = TRUE)[-1],
                    title = paste("Inner Circle by Volume of Communication (", 
-                                 inter()$DateRange, ")", sep = ""))
+                                 Vals$DateRange, ")", sep = ""))
    })
    # display the top twenty tfidf terms
    output$tfidf <- renderText(paste(
@@ -533,15 +537,16 @@ server <- function(input, output) {
    # display the selected date range
    output$Dates <- renderText(inter()$DateRange)
    # finally a barplot of classification codes used in the selection
-   output$Class <- renderPlot(
-     if (!inter()$ZeroSel) {
-       barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% inter()$selIDs], "-"))),
+   output$Class <- renderPlot({
+     Vals <- inter()
+     if (!Vals$ZeroSel) {
+       barplot(table(unlist(str_split(AsSec$Classification[AsSec$ID %in% Vals$selIDs], "-"))),
                main = "FOIA Redaction Codes Appearing in Selected Emails",
-               sub = inter()$DateRange)
+               sub = Vals$DateRange)
        } else {
          plot(NA, xlim = 0:1, ylim = 0:1, xaxt = 'n', yaxt = 'n', ylab = "", xlab = "")
          text("No Emails", x = 0.5, y = 0.5)
-    })
+    }})
    
    # record the user window size (still cannot use in ui)
    # output$winHeight <- reactive(input$height)
