@@ -29,6 +29,8 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
     else cols <- pal2[statemail + 1]
     # generate a new page
     grid.newpage()
+    pushViewport(viewport(x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                          width = unit(1, "snpc"), height = unit(1, "snpc")))
     # now sort the table alphabetically
     ordering <- order(names(wgtTbl))
     wgtTbl <- wgtTbl[ordering]
@@ -44,50 +46,67 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
     # now plot everything
     for (ii in 1:length(wgtTbl)) {
       grid.lines(x = c(0.5, xvals[ii]), y = c(0.5, yvals[ii]),
+                 default.units = "snpc",
                  gp = gpar(lwd = 1+wgtTbl[ii]/max(wgtTbl)*6,
                            col = adjustcolor(cols[ii]), alpha.f = 0.8))
     }
     grid.circle(x = xvals, y = yvals, r = 0.01,
+                default.units = "snpc",
                 gp = gpar(col = adjustcolor(cols, alpha.f = 0.8),
                           fill = adjustcolor(cols, alpha.f = 0.8)))
     # place the central node
     grid.circle(x = 0.5, y = 0.5, r = 0.01,
+                default.units = "snpc",
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # label everything
     grid.text(names(wgtTbl), x = xvals, y = yvals - 0.01,
+              default.units = "snpc",
               just = "top", gp = gpar(cex = 0.75))
     # add a title
     grid.text(title, x = 0, y = 0.98, just = "left",
+              default.units = "snpc",
               gp = gpar(face = 2))
     # add a legend
     grid.text(".gov", x = 0, y = 0.02, just = "left", 
+              default.units = "snpc",
               gp = gpar(face = 2, col = "steelblue"))
     grid.text(".mil", x = 0.33, y = 0.02, just = "center",
+              default.units = "snpc",
               gp = gpar(face = 2, col = "black"))
     grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
+              default.units = "snpc",
               gp = gpar(face = 2, col = "firebrick"))
     grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
+              default.units = "snpc",
               gp = gpar(face = 2, col = "darkorange"))
   }
   else  {
     # generate a new page
     grid.newpage()
+    pushViewport(viewport(x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                          width = unit(1, "snpc"), height = unit(1, "snpc")))
     # place the central node
     grid.circle(x = 0.5, y = 0.5, r = 0.01,
+                default.units = "snpc",
                 gp = gpar(col = adjustcolor(col = "firebrick", alpha.f = 1),
                           fill = adjustcolor(col = "firebrick", alpha.f = 1)))
     # add a title
     grid.text(title, x = 0, y = 0.98, just = "left",
+              default.units = "snpc",
               gp = gpar(face = 2))
     # add a legend
-    grid.text(".gov", x = 0, y = 0.02, just = "left", 
+    grid.text(".gov", x = 0, y = 0.02, just = "left",
+              default.units = "snpc",
               gp = gpar(face = 2, col = "steelblue"))
     grid.text(".mil", x = 0.33, y = 0.02, just = "center",
+              default.units = "snpc",
               gp = gpar(face = 2, col = "black"))
     grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
+              default.units = "snpc",
               gp = gpar(face = 2, col = "firebrick"))
     grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
+              default.units = "snpc",
               gp = gpar(face = 2, col = "darkorange"))
   }
 }
@@ -134,7 +153,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
-   fluidRow(column(h4("Application Version 1.4 | Data Extraction Version 2.0 | September 21, 2017"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.5 | Data Extraction Version 2.0 | April 4, 2018"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
