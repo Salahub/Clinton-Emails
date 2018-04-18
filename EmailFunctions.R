@@ -596,7 +596,7 @@ get_keywords <- function(Content, stem = TRUE, table = TRUE) {
 # run this on the main data
 keywords <- get_keywords(AsSec$Content)
 # set the cutoff
-cutoff <- 200
+cutoff <- 150
 # select arbitrary relevant keywords
 relKey <- names(keywords)[keywords > cutoff]
 # generate the term document matrix

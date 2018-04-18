@@ -447,8 +447,7 @@ server <- function(input, output) {
        legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
-     }
-     else if (Vals$PDFDates & Vals$Misreads == "Without Wikileaks Time Misreads") {
+     } else if (Vals$PDFDates & Vals$Misreads == "Without Wikileaks Time Misreads") {
        timevalues <- AsSec$PDFHour[AsSec$ID %in% Vals$selIDs]*60 +
          AsSec$PDFMinutes[AsSec$ID %in% Vals$selIDs]
        main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
@@ -466,8 +465,7 @@ server <- function(input, output) {
        legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
-     }
-     else if (Vals$PDFDates & Vals$Misreads == "With Wikileaks Time Misreads") {
+     } else if (Vals$PDFDates & Vals$Misreads == "With Wikileaks Time Misreads") {
        main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
        ylim <- c(100, 0)
        ylab <- paste("Jittered as the Time", Vals$toFromLab, "Could not be Extracted")
@@ -483,8 +481,7 @@ server <- function(input, output) {
        legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
-     }
-     else {
+     } else {
        timevalues <- AsSec$Hour[AsSec$ID %in% Vals$selIDs]*60 +
          AsSec$Minutes[AsSec$ID %in% Vals$selIDs]
        main <- paste("Email", Vals$toFromLab, "Times As Provided by Wikileaks")
