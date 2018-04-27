@@ -266,7 +266,7 @@ ui <- fluidPage(
                                  this account can be identified as that of Tony Blair, with the 
                                  four letter string likely standing for his ",
                                  a("full initials", href = "https://en.wikipedia.org/wiki/Tony_Blair"), 
-                                 "Finally, many of the emails surrounding this gap contain some
+                                 ". Finally, many of the emails surrounding this gap contain some
                                  FOIA  redaction, as is clearly visible in the barplot of FOIA 
                                  redaction codes."),
                                p("Other gaps in the data can be found by narrowing the slider 
@@ -293,30 +293,30 @@ ui <- fluidPage(
                                h4("Email Times"),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Several patterns in the date and time displays are immediately obvious.
-                                 One of the most obvious of these is the appearance of modes at 2 am and 
+                                 One of the most readily apparent of these is the appearance of modes at 2 am and 
                                  3 am in the Wikileaks reported times. Switching to the PDF extracted
-                                 times instead, however, these modes disappear. Investigation of this 
-                                 pattern using the ", a("Wikileaks source",
+                                 times, however, these modes disappear. Investigation of this 
+                                 pattern using the ", a("Wikileaks database",
                                                         href = "https://wikileaks.org/clinton-emails"),
                                  "with a random sample of emails reveals that these modes correspond to
                                  a default time setting applied when the PDF extracted dates cannot be
-                                 read by the autmated extractor used by Wikileaks, though the this 
+                                 read by the (presumedly) automated extractor used by Wikileaks. Unforunately, the motivation of this 
                                  methodological choice is never mentioned, let alone explained, by the
                                  Wikileaks page."),
                                p("The second pattern of note is that of Clinton's strange sending times.
                                  The Wikileaks data seem to show that, regardless of which filter is 
                                  applied, Clinton's team is most active in the middle of the night, with
-                                 only a small communication break between 4 pm and 10 pm present.
+                                 only a small communication break between 4 pm and 10 pm.
                                  This pattern is changed entirely when the extracted dates are used, and
                                  the communication gap is shifted to the far more natural 11 pm to 5 am.
                                  Once again, the presence and justification of this shift are never
                                  addressed on the Wikileaks page. Further investigation on a large sample 
-                                 of emails showed this 7 hour time shift to be a consistently applied
-                                 transformation from the times reported in the PDF to the times reported 
+                                 of emails showed this 7 hour time shift was consistently applied
+                                 from the times reported in the PDF to the times reported 
                                  in the Wikileaks header. While the irony of this lack of transparency on
-                                 a site which claims to champion that virtue is somewhat amusing, it 
-                                 provides a very useful reminder that we cannot blindly trust any source,
-                                 and should always investigate the data ourselves.")))),
+                                 a site which claims to champion that virtue is not lost on the authors, it 
+                                 serves as a very poignant reminder that we cannot blindly trust any source,
+                                 and should always investigate ourselves.")))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
