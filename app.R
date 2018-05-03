@@ -153,7 +153,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
-   fluidRow(column(h4("Application Version 1.5 | Data Extraction Version 2.0 | April 4, 2018"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.6 | Data Version 2.1 | May 3, 2018"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -471,7 +471,7 @@ server <- function(input, output) {
        ylab <- paste("Jittered as the Time", Vals$toFromLab, "Could not be Extracted")
        timevalues <- rnorm(n = length(Vals$selIDs),
                                        mean = 50, sd = 15)
-       DateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% Vals$selIDs]))
+       DateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
        plot(x = DateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, axes = FALSE, main = main, sub = Vals$DateRange,
             col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
@@ -487,7 +487,7 @@ server <- function(input, output) {
        main <- paste("Email", Vals$toFromLab, "Times As Provided by Wikileaks")
        ylim <- c(1440, 0)
        ylab <- paste("Wikileaks Time", Vals$toFromLab)
-       PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
+       PlotdateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% Vals$selIDs]))
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = Vals$DateRange,
             col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
@@ -541,15 +541,20 @@ server <- function(input, output) {
                                  Vals$DateRange, ")", sep = ""))
    })
    # display the top twenty tfidf terms
-   output$tfidf <- renderText(paste(
-     colnames(TfIdf[TfIdf$ID %in% inter()$selIDs,-(1:12)])[order(cSum(TfIdf[TfIdf$ID %in% inter()$selIDs,-(1:12)]), decreasing = TRUE)][1:20],
-     collapse = ", "
-     ))
+   output$tfidf <- renderText({
+     inds <- TfIdf$ID %in% inter()$selIDs
+     paste(
+       colnames(TfIdf[inds,-(1:12)])[order(cSum(TfIdf[inds,-(1:12)]), decreasing = TRUE)][1:20],
+       collapse = ", "
+       )
+     })
    # display the top twenty frequency terms
-   output$Freq <- renderText(paste(
-     colnames(Freq[Freq$ID %in% inter()$selIDs,-(1:12)])[order(cSum(Freq[Freq$ID %in% inter()$selIDs,-(1:12)]), decreasing = TRUE)][1:20],
+   output$Freq <- renderText({
+     inds <- Freq$ID %in% inter()$selIDs
+     paste(
+       colnames(Freq[inds,-(1:12)])[order(cSum(Freq[inds,-(1:12)]), decreasing = TRUE)][1:20],
      collapse = ", "
-   ))
+   )})
    # display the selected date range
    output$Dates <- renderText(inter()$DateRange)
    # finally a barplot of classification codes used in the selection

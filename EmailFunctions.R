@@ -9,7 +9,7 @@ library(dplyr)
 library(loon)
 
 # load the raw HTML data if desired
-# fullmail <- readRDS('fullmail_full')
+fullmail <- readRDS('fullRawMail.Rds')
 
 ### Email Extraction Functions #########################################################
 # generate a function to clean up emails
