@@ -504,8 +504,7 @@ server <- function(input, output) {
    # next display the time series of emails sent by day
    output$DaySum <- renderPlot({
      Vals <- inter()
-     if (Vals$ScaleSel) yrange <- extendrange(Vals$selCounts)
-     else yrange <- extendrange(AScounts)
+     if (Vals$ScaleSel) yrange <- extendrange(Vals$selCounts) else yrange <- extendrange(AScounts)
      plot(x = Vals$selDays, y = Vals$selCounts, type = 'l', xlab = 'Date (dd/mm/yy)',
           xaxt = "n", ylab = 'Number of Emails', pch = 19,
           main = "Number of Emails by Date", sub = Vals$DateRange,
