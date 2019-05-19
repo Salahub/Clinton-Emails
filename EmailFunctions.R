@@ -6,10 +6,12 @@ library(stringr)
 library(SnowballC)
 library(chron)
 library(dplyr)
-library(loon)
+
+# define the current email totals
+mailMax <- 33727
 
 # load the raw HTML data if desired
-fullmail <- readRDS('fullRawMail.Rds')
+# fullmail <- readRDS('fullRawMail.Rds')
 
 ### Email Extraction Functions #########################################################
 # generate a function to clean up emails
@@ -108,22 +110,23 @@ infoExtractor <- function(emails, ids, includeRaw = FALSE) {
 }
 
 # define a function which accepts some basic user input and pulls the
-# corresponding emails, the max was 30322, but addition of more increased it to 32795
-get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
+# corresponding emails, the max was 30322, but addition of more increased it to 32795, then 33727
+get_Clin_emails <- function(ids = 1:mailMax, # give possible emails for selection
                             size = length(ids), # size of selection
                             random = FALSE, # determine if selection is random
                             replaceOutput = TRUE, # determine if old output is kept
                             contAtErr = NULL, # provide the option of specifying default
-                            # error handling procedure
-                            includeRaw = FALSE # pass along argument to specify if
-                            # raw html data is to be included
+                                              # error handling procedure
+                            includeRaw = FALSE, # pass along argument to specify if
+                                                # raw html data is to be included
+                            output = "ClintonEmailData.csv"
 )
 {
   # check if output has already been generated
-  output.exist <- file.exists("ClintonEmails.csv")
+  output.exist <- file.exists(output)
   # if so extract the ids which are included
   if (output.exist) {
-    prevPull <- read.csv("ClintonEmails.csv")
+    prevPull <- read.csv(output)
     # now, if past output is to be rewritten, do not select emails with ID values
     if (replaceOutput) prevPull <- prevPull[!(prevPull$ID %in% ids),]
     else {
@@ -133,10 +136,10 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
     }
   } else prevPull <- NULL
   # check if all IDs provided exist
-  if (!all(ids %in% 1:32795)) {
+  if (!all(ids %in% 1:mailMax)) {
     # give a warning
     warning("IDs must be integers between 1 and 32795: continuing only with valid IDs")
-    ids <- ids[ids %in% 1:32795] # select the valid ids
+    ids <- ids[ids %in% 1:mailMax] # select the valid ids
   }
   # check the size of the selection and the range
   if (size <= length(ids)) N <- size
@@ -211,7 +214,7 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
       # if ther are no errors save and return the data
       FullData <- rbind(newMailData, prevPull)
       # save this
-      write.csv(FullData, "ClintonEmails.csv", row.names = FALSE)
+      write.csv(FullData, output, row.names = FALSE)
       # return this
       return(FullData)
   }
@@ -223,10 +226,11 @@ get_Clin_emails <- function(ids = 1:32795, # give possible emails for selection
 }
 
 # the function call
-# get_Clin_emails(contAtErr = TRUE)
+get_Clin_emails(contAtErr = TRUE, output = "Data_19052019.csv")
 
 ### Pre-loaded data #####################################################################
-EmailData <- read.csv('ClintonEmailData.csv')
+#EmailData <- read.csv('ClintonEmailData.csv')
+EmailData <- read.csv("Data_19052019.csv")
 
 ### Official Schedule ###################################################################
 # create a helper to process official foreign schedule dates from the state department
