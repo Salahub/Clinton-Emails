@@ -65,5 +65,20 @@ halfSample <- function(n) {
 }
 
 ## use both of these to generate estimates of likelihood
+set.seed(19052019)
 HalfSamp <- halfSample(1e6)
 simpSim <- prunSim(1e6)
+
+
+## make a dual histogram
+sampHist <- hist(HalfSamp, breaks = seq(-0.5,6.5, by = 1))
+simHist <- hist(simpSim, breaks = seq(-0.5,6.5, by = 1))
+plot(NA, xlim = max(c(sampHist$counts, simHist$counts))*c(-1,1), ylim = range(sampHist$breaks),
+     xlab = expression(paste("Frequency (", x, 10^5, ")")), xaxt = "n", ylab = "Longest Gap")
+axis(1, at = seq(-7.5e5, 7.5e5, by = 2.5e5), labels = abs(seq(-7.5, 7.5, by = 2.5)))
+with(sampHist, rect(-counts, breaks[1:7], 0, breaks[2:8], col = adjustcolor("firebrick", alpha.f = 0.7)))
+with(simHist, rect(0, breaks[1:7], counts, breaks[2:8], col = adjustcolor("steelblue", alpha.f = 0.7)))
+abline(h = 6, lty = 2)
+legend(x = "topright", legend = c("Non-parametric", "Parametric", "Observed"),
+       col = c(adjustcolor("firebrick", alpha.f = 0.7), adjustcolor("steelblue", alpha.f = 0.7), "black"),
+       pch = c(15,15,NA), lty = c(NA,NA,2), bg = "white")

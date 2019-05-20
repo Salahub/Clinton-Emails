@@ -68,16 +68,16 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
               default.units = "snpc",
               gp = gpar(face = 2))
     # add a legend
-    grid.text(".gov", x = 0, y = 0.02, just = "left", 
+    grid.text(".gov", x = 0, y = 0.02, just = "left",
               default.units = "snpc",
               gp = gpar(face = 2, col = "steelblue"))
     grid.text(".mil", x = 0.33, y = 0.02, just = "center",
               default.units = "snpc",
               gp = gpar(face = 2, col = "black"))
-    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
+    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center",
               default.units = "snpc",
               gp = gpar(face = 2, col = "firebrick"))
-    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
+    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right",
               default.units = "snpc",
               gp = gpar(face = 2, col = "darkorange"))
   }
@@ -102,10 +102,10 @@ spiralNetPlot2 <- function(centralNode = "Hillary Clinton", wgtTbl = integer(0),
     grid.text(".mil", x = 0.33, y = 0.02, just = "center",
               default.units = "snpc",
               gp = gpar(face = 2, col = "black"))
-    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center", 
+    grid.text("Not .gov", x = 0.66, y = 0.02, just = "center",
               default.units = "snpc",
               gp = gpar(face = 2, col = "firebrick"))
-    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right", 
+    grid.text("Unidentifiable", x = 1, y = 0.02, just = "right",
               default.units = "snpc",
               gp = gpar(face = 2, col = "darkorange"))
   }
@@ -153,7 +153,7 @@ ui <- fluidPage(
    fluidRow(column(h4("Christopher D. Salahub and R. Wayne Oldford:", a("Interactive Filter and Display of Hillary Clinton's Emails: A Cautionary Tale of Metadata",
                                                                         href = "https://www.researchgate.net/publication/315876309_Interactive_Filter_and_Display_of_Hillary_Clinton%27s_Emails_A_Cautionary_Tale_of_Metadata")),
                    offset = 0.2, width = 12)),
-   fluidRow(column(h4("Application Version 1.6 | Data Version 2.1 | May 3, 2018"), offset = 0.2, width = 12)),
+   fluidRow(column(h4("Application Version 1.7 | Data Version 2.1 | May 19, 2019"), offset = 0.2, width = 12)),
 
    # the slider right below the title to make it as long as possible
    fluidRow(column(width = 2, offset = 0.5, h4("Date Range:"))),
@@ -162,16 +162,17 @@ ui <- fluidPage(
                                  min = floor(min(AsSec$Date)),
                                  max = floor(max(AsSec$Date)),
                                  value = c(floor(min(AsSec$Date)), floor(max(AsSec$Date))),
+                                 timeFormat = "%Y/%m/%d",
                                  width = "100%"))),
 
    # everything else
    fluidRow(
      # well panel with write up
      column(width = 4,
-            wellPanel(id = "WriteUp", 
+            wellPanel(id = "WriteUp",
                       style = "overflow-y:scroll; max-height: 800px",
                       fluidRow(p("This application provides the ability to interactively filter 32,795 emails
-                                 sent during Hillary Clinton's tenure as the United States Secretary of 
+                                 sent during Hillary Clinton's tenure as the United States Secretary of
                                  State and display features of the selected subset. The data is extracted
                                  from HTML representations of the ",
                                  a("official State Department release", href = "https://foia.state.gov/Search/Results.aspx?collection=Clinton_Email"),
@@ -186,7 +187,7 @@ ui <- fluidPage(
                                    href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack#October_2012"))),
                       fluidRow(id = "Timeline",
                                p("Email Timelines:",
-                                 a("Sharyl Attkisson",  
+                                 a("Sharyl Attkisson",
                                    href = "https://sharylattkisson.com/hillary-clintons-email-the-definitive-timeline/"),
                                  " | ",
                                  a("The Washington Post", href = "https://www.washingtonpost.com/news/fact-checker/wp/2015/03/10/hillary-clintons-emails-a-timeline-of-actions-and-regulations/?utm_term=.dec3139a0542"),
@@ -200,16 +201,16 @@ ui <- fluidPage(
                                             "<a href='https://www.google.com/search?q=Monica+Hanley'>Monica Hanley</a>",
                                             "<a href='https://www.google.com/search?q=Lauren+Jiloty'>Lauren Jiloty</a>",
                                             sep = " | ")))),
-                      fluidRow(id = "Analysis", 
+                      fluidRow(id = "Analysis",
                                h3("Analysis"),
                                p(HTML("<a href='#Peak'>Peak Email</a>")),
                                p(HTML("<a href='#Gaps'>Email Gaps</a>")),
                                p(HTML("<a href='#EmTimes'>Email Times</a>")),
                                p("This service is not meant to provide stand-alone means of analyzing this
                                  controversial data set. It is most powerful when used simultaneously with
-                                 both internet searches and the Wikileaks data base or official State 
+                                 both internet searches and the Wikileaks data base or official State
                                  Department site. The latter two services provide indispensable context
-                                 and precision; two services which the primarily 
+                                 and precision; two services which the primarily
                                  metadata-driven displays cannot provide. Rather, the intended use of this
                                  application is the exploration of patterns present in the data to
                                  generate and explore different hypotheses."),
@@ -236,7 +237,7 @@ ui <- fluidPage(
                                  "and ",
                                  a("NATO", href = "http://www.nato.int/cps/en/natohq/topics_71652.htm"),
                                  "were both heavily involved in this conflict, so this peak makes
-                                 perfect sense. In fact, many other local maxima correspond to 
+                                 perfect sense. In fact, many other local maxima correspond to
                                  events related to the ",
                                  a("Arab Spring", href = "https://en.wikipedia.org/wiki/Arab_Spring"),
                                  "and the countries affected by this revolutionary wave.")),
@@ -245,35 +246,35 @@ ui <- fluidPage(
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("There are a number of conspicuous time periods where no emails
                                  are recorded in this data set. The most obvious of these occurs
-                                 in early November 2012. This time period marks the beginning of 
+                                 in early November 2012. This time period marks the beginning of
                                  much of the ",
                                  a("increased controversy", href = "https://en.wikipedia.org/wiki/Timeline_of_the_investigation_into_the_2012_Benghazi_attack"),
                                  "surrounding the ",
                                  a("2012 attack", href = "https://en.wikipedia.org/wiki/2012_Benghazi_attack"),
-                                 "on the US Diplomatic compound in Benghazi, and also includes the 
+                                 "on the US Diplomatic compound in Benghazi, and also includes the
                                  2012 US Presidential Election."),
-                               p("The time slider can be used to select a period surrounding this 
-                                 gap which includes the Benghazi attack, take September 11 to 
-                                 November 23. In this selection mentions of terms related to 
+                               p("The time slider can be used to select a period surrounding this
+                                 gap which includes the Benghazi attack, take September 11 to
+                                 November 23. In this selection mentions of terms related to
                                  this attack, such as Benghazi and Ansar al-Sharia, can be seen.
-                                 The network plot also reveals one of the contentious points of 
+                                 The network plot also reveals one of the contentious points of
                                  interest in Clinton's emails, the nature and frequency of her
                                  contact with ",
                                  a("Sidney Blumenthal", href = "https://en.wikipedia.org/wiki/Sidney_Blumenthal#Relationship_to_Hillary_Clinton_and_post.E2.80.932007_employment"),
                                  "during the Benghazi attack and shortly thereafter. We can also
                                  see contact with an account of unidentifiable domain with the
                                  label 'aclb.' Utilizing internet searches and inspecting emails,
-                                 this account can be identified as that of Tony Blair, with the 
+                                 this account can be identified as that of Tony Blair, with the
                                  four letter string likely standing for his ",
-                                 a("full initials", href = "https://en.wikipedia.org/wiki/Tony_Blair"), 
+                                 a("full initials", href = "https://en.wikipedia.org/wiki/Tony_Blair"),
                                  ". Finally, many of the emails surrounding this gap contain some
-                                 FOIA  redaction, as is clearly visible in the barplot of FOIA 
+                                 FOIA  redaction, as is clearly visible in the barplot of FOIA
                                  redaction codes."),
-                               p("Other gaps in the data can be found by narrowing the slider 
+                               p("Other gaps in the data can be found by narrowing the slider
                                  range, selecting the centre bar, and dragging this small window
                                  across the whole time range with the 'Show Emails' filter set to
                                  show only mail from Clinton. Doing this, a number of periods of
-                                 no email can be discovered. By selecting the foreign travel 
+                                 no email can be discovered. By selecting the foreign travel
                                  tickbox, some of these can be identified as corresponding to
                                  official state visits. Other gaps occur near less typical events,
                                  such as a gap in mid June 2009, likely due to Clinton ",
@@ -287,55 +288,55 @@ ui <- fluidPage(
                                  interest you notice for yourself. However, you should
                                  always be mindful of the tendency for all of us to seek
                                  information which confirms preconceptions, and attempt as
-                                 much as possible to be honest and unbiased in your 
+                                 much as possible to be honest and unbiased in your
                                  investigations.")),
                       fluidRow(id = "EmTimes",
                                h4("Email Times"),
                                p(HTML("<a href='#Analysis'>Back to analysis links</a>")),
                                p("Several patterns in the date and time displays are immediately obvious.
-                                 One of the most readily apparent of these is the appearance of modes at 2 am and 
+                                 One of the most readily apparent of these is the appearance of modes at 2 am and
                                  3 am in the Wikileaks reported times. Switching to the PDF extracted
-                                 times, however, these modes disappear. Investigation of this 
+                                 times, however, these modes disappear. Investigation of this
                                  pattern using the ", a("Wikileaks database",
                                                         href = "https://wikileaks.org/clinton-emails"),
                                  "with a random sample of emails reveals that these modes correspond to
                                  a default time setting applied when the PDF extracted dates cannot be
-                                 read by the (presumedly) automated extractor used by Wikileaks. Unforunately, the motivation of this 
+                                 read by the (presumedly) automated extractor used by Wikileaks. Unforunately, the motivation of this
                                  methodological choice is never mentioned, let alone explained, by the
                                  Wikileaks page."),
                                p("The second pattern of note is that of Clinton's strange sending times.
-                                 The Wikileaks data seem to show that, regardless of which filter is 
+                                 The Wikileaks data seem to show that, regardless of which filter is
                                  applied, Clinton's team is most active in the middle of the night, with
                                  only a small communication break between 4 pm and 10 pm.
                                  This pattern is changed entirely when the extracted dates are used, and
                                  the communication gap is shifted to the far more natural 11 pm to 5 am.
                                  Once again, the presence and justification of this shift are never
-                                 addressed on the Wikileaks page. Further investigation on a large sample 
+                                 addressed on the Wikileaks page. Further investigation on a large sample
                                  of emails showed this 7 hour time shift was consistently applied
-                                 from the times reported in the PDF to the times reported 
+                                 from the times reported in the PDF to the times reported
                                  in the Wikileaks header. While the irony of this lack of transparency on
-                                 a site which claims to champion that virtue is not lost on the authors, it 
+                                 a site which claims to champion that virtue is not lost on the authors, it
                                  serves as a very poignant reminder that we cannot blindly trust any source,
                                  and should always investigate ourselves.")))),
 
      # central interaction panel with a slider input for number of bins
      column(width = 2,
-            fluidRow(selectInput("Misreads", "Include Emails: ",
-                                 c("All", "Without Wikileaks Time Misreads", 
-                                   "With Wikileaks Time Misreads"),
+            fluidRow(selectInput("Misreads", "Misread filter: ",
+                                 c("All", "Without Wikileaks time misreads",
+                                   "With Wikileaks Time misreads"),
                                  selected = "All", multiple = FALSE)),
-            fluidRow(checkboxInput("PDFDates", "Use Content Extracted Dates and Times")),
-            fluidRow(checkboxInput("SelScale", "Scale by selected")),
-            fluidRow(checkboxInput("Schedule", "Display Foreign Travel Schedule")),
-            fluidRow(selectInput("ToFromFilter", "Include Emails: ", 
-                                 c("From Clinton", "To Clinton", "All Emails"),
-                                 selected = "All Emails", multiple = FALSE)),
-            fluidRow(selectInput("ClassFilter", 
+            fluidRow(selectInput("ToFromFilter", "Clinton filter: ",
+                                 c("From Clinton", "To Clinton", "All emails"),
+                                 selected = "All emails", multiple = FALSE)),
+            fluidRow(selectInput("ClassFilter",
                                  HTML("Contains any of the <a href='https://vault.fbi.gov/explanation-of-exemptions'>FOIA codes</a>:"),
                                  c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "None"),
-                                 selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", 
+                                 selected = c("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8",
                                               "B9", "None"),
                                  multiple = TRUE)),
+            fluidRow(checkboxInput("PDFDates", "Use content-extracted dates and times")),
+            fluidRow(checkboxInput("SelScale", "Scale by selected")),
+            fluidRow(checkboxInput("Schedule", "Display foreign travel schedule")),
             fluidRow(h4("20 Highest", a("TF-IDF", href = "https://en.wikipedia.org/wiki/Tf%E2%80%93idf"),
                         "Terms")),
             fluidRow(textOutput("tfidf")),
@@ -368,9 +369,9 @@ server <- function(input, output) {
     intermed$DateRange <- paste(chron(c(input$range[1], input$range[2]),
                                       format = "day mon year"),
                                 collapse = " - ")
-    intermed$selIDs <- 
+    intermed$selIDs <-
       switch(paste(input$Misreads, input$ToFromFilter, sep = ", "),
-             "All, All Emails" = filter(AsSec_CFilt,
+             "All, All emails" = filter(AsSec_CFilt,
                                         Date < input$range[2] + 1 & Date >= input$range[1])$ID,
              "All, From Clinton" = filter(AsSec_CFilt,
                                           Date < input$range[2] + 1 & Date >= input$range[1] &
@@ -378,30 +379,30 @@ server <- function(input, output) {
              "All, To Clinton" = filter(AsSec_CFilt,
                                         Date < input$range[2] + 1 & Date >= input$range[1] &
                                           (To.name == "Hillary Clinton" | To.name == "H"))$ID,
-             "Without Wikileaks Time Misreads, All Emails" = filter(AsSec_CFilt,
+             "Without Wikileaks time misreads, All emails" = filter(AsSec_CFilt,
                                                                     Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "Without Wikileaks Time Misreads, From Clinton" = filter(AsSec_CFilt,
+             "Without Wikileaks time misreads, From Clinton" = filter(AsSec_CFilt,
                                                                       Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                         (From.name == "Hillary Clinton" | From.name == "H") &
                                                                         Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "Without Wikileaks Time Misreads, To Clinton" = filter(AsSec_CFilt,
+             "Without Wikileaks time misreads, To Clinton" = filter(AsSec_CFilt,
                                                                     Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                       (To.name == "Hillary Clinton" | To.name == "H") &
                                                                       Hour*60+Minutes != 180 & Hour*60+Minutes != 120)$ID,
-             "With Wikileaks Time Misreads, All Emails" = filter(AsSec_CFilt,
+             "With Wikileaks time misreads, All emails" = filter(AsSec_CFilt,
                                                                  Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                    Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
-             "With Wikileaks Time Misreads, From Clinton" = filter(AsSec_CFilt,
+             "With Wikileaks time misreads, From Clinton" = filter(AsSec_CFilt,
                                                                    Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                      (From.name == "Hillary Clinton" | From.name == "H") &
                                                                      Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID,
-             "With Wikileaks Time Misreads, To Clinton" = filter(AsSec_CFilt,
+             "With Wikileaks time misreads, To Clinton" = filter(AsSec_CFilt,
                                                                  Date < input$range[2] + 1 & Date >= input$range[1] &
                                                                    (To.name == "Hillary Clinton" | To.name == "H") &
                                                                    Hour*60+Minutes == 180 | Hour*60+Minutes == 120)$ID)
     intermed$toFromLab <- switch(input$ToFromFilter,
-                                 "All Emails" = "Sent/Received",
+                                 "All emails" = "Sent/Received",
                                  "From Clinton" = "Sent",
                                  "To Clinton" = "Received")
     intermed$selDays <- ASDays[ASDays < input$range[2] + 1 & ASDays >= input$range[1]]
@@ -437,7 +438,7 @@ server <- function(input, output) {
        PlotdateValues[IndstoMove] <- DateValues[IndstoMove]
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, axes = FALSE, main = main, sub = Vals$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1],
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        rect(xleft = par('usr')[1], xright = par('usr')[2], ybottom = 1440 + 72, ytop = par('usr')[4])
@@ -456,7 +457,7 @@ server <- function(input, output) {
        PlotdateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = Vals$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1],
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis(side = 2, at = c(0, 360, 720, 1080, 1440),
@@ -465,7 +466,7 @@ server <- function(input, output) {
        legend("topright", legend = c("Redacted", "Unedited"), pch = c(19,19),
               col = c("firebrick", "steelblue"), horiz = TRUE, cex = 0.8, inset = c(0,-0.05),
               xpd = TRUE)
-     } else if (Vals$PDFDates & Vals$Misreads == "With Wikileaks Time Misreads") {
+     } else if (Vals$PDFDates & Vals$Misreads == "With Wikileaks time misreads") {
        main <- paste("Email", Vals$toFromLab, "Times Extracted from Content")
        ylim <- c(100, 0)
        ylab <- paste("Jittered as the Time", Vals$toFromLab, "Could not be Extracted")
@@ -474,7 +475,7 @@ server <- function(input, output) {
        DateValues <- as.chron(floor(AsSec$PDFDate[AsSec$ID %in% Vals$selIDs]))
        plot(x = DateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, axes = FALSE, main = main, sub = Vals$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1],
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis.Date(side = 1, as.chron(c(input$range[1], input$range[2])), format = "%d/%m/%y")
@@ -490,7 +491,7 @@ server <- function(input, output) {
        PlotdateValues <- as.chron(floor(AsSec$Date[AsSec$ID %in% Vals$selIDs]))
        plot(x = PlotdateValues, y = timevalues, xlab = "Date (dd/mm/yy)", pch = 19,
             ylab = ylab, xaxt = 'n', yaxt = 'n', main = main, sub = Vals$DateRange,
-            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1], 
+            col = adjustcolor(pal[as.numeric(AsSec$Redacted[AsSec$ID %in% Vals$selIDs])+1],
                               alpha.f = 0.5),
             cex = 0.25, ylim = ylim + c(0.05,-0.05)*1440, xlim = c(input$range[1], input$range[2]))
        axis(side = 2, at = c(0, 360, 720, 1080, 1440),
@@ -536,7 +537,7 @@ server <- function(input, output) {
      spiralNetPlot2(wgtTbl = sort(table(c(as.character(ClintonCom$To.name[ClintonCom$ID %in% Vals$selIDs]),
                                 as.character(ClintonCom$From.name[ClintonCom$ID %in% Vals$selIDs]))),
                         decreasing = TRUE)[-1],
-                   title = paste("Inner Circle by Volume of Communication (", 
+                   title = paste("Inner Circle by Volume of Communication (",
                                  Vals$DateRange, ")", sep = ""))
    })
    # display the top twenty tfidf terms
@@ -567,7 +568,7 @@ server <- function(input, output) {
          plot(NA, xlim = 0:1, ylim = 0:1, xaxt = 'n', yaxt = 'n', ylab = "", xlab = "")
          text("No Emails", x = 0.5, y = 0.5)
     }})
-   
+
    # record the user window size (still cannot use in ui)
    # output$winHeight <- reactive(input$height)
    # add server link processing
