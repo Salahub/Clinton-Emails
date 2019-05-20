@@ -301,7 +301,7 @@ ui <- fluidPage(
                                                         href = "https://wikileaks.org/clinton-emails"),
                                  "with a random sample of emails reveals that these modes correspond to
                                  a default time setting applied when the PDF extracted dates cannot be
-                                 read by the (presumedly) automated extractor used by Wikileaks. Unforunately, the motivation of this
+                                 read by the (presumedly) automated extractor used by Wikileaks. Unfortunately, the motivation of this
                                  methodological choice is never mentioned, let alone explained, by the
                                  Wikileaks page."),
                                p("The second pattern of note is that of Clinton's strange sending times.
