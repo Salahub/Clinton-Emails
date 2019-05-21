@@ -184,7 +184,7 @@ get_Clin_emails <- function(ids = 1:mailMax, # give possible emails for selectio
       # now save the data in a vector
       emails[idx] <- tryURL
       # provide a message on progress
-      if(idx %% 10 == 0) message(paste(idx/N*100, '% completed at', Sys.time()))
+      if(idx %% 10 == 0) message(paste(round(idx/N*100, digits = 3), '% completed at', Sys.time()))
     }
     # update the index value
     idx <- idx + 1
