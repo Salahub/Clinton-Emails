@@ -230,7 +230,7 @@ get_Clin_emails(contAtErr = TRUE, output = "Data_19052019.csv")
 
 ### Pre-loaded data #####################################################################
 #EmailData <- read.csv('ClintonEmailData.csv')
-EmailData <- read.csv("Data_19052019.csv")
+EmailData <- read.csv("Data_22052019.csv")
 
 ### Official Schedule ###################################################################
 # create a helper to process official foreign schedule dates from the state department
