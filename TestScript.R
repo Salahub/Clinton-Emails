@@ -71,11 +71,11 @@ simpSim <- prunSim(1e6)
 
 
 ## make a dual histogram
-sampHist <- hist(HalfSamp, breaks = seq(-0.5,6.5, by = 1))
-simHist <- hist(simpSim, breaks = seq(-0.5,6.5, by = 1))
+sampHist <- hist(HalfSamp, breaks = seq(-0.5,6.5, by = 1), plot = FALSE)
+simHist <- hist(simpSim, breaks = seq(-0.5,6.5, by = 1), plot = FALSE)
 plot(NA, xlim = max(c(sampHist$counts, simHist$counts))*c(-1,1), ylim = range(sampHist$breaks),
-     xlab = expression(paste("Frequency (", x, 10^5, ")")), xaxt = "n", ylab = "Longest Gap")
-axis(1, at = seq(-7.5e5, 7.5e5, by = 2.5e5), labels = abs(seq(-7.5, 7.5, by = 2.5)))
+     xlab = "Frequency", xaxt = "n", ylab = "Longest Gap")
+axis(1, at = seq(-7.5e5, 7.5e5, by = 2.5e5), labels = c(NA, "500,000", NA, "0", NA, "500,000", NA))
 with(sampHist, rect(-counts, breaks[1:7], 0, breaks[2:8], col = adjustcolor("firebrick", alpha.f = 0.7)))
 with(simHist, rect(0, breaks[1:7], counts, breaks[2:8], col = adjustcolor("steelblue", alpha.f = 0.7)))
 abline(h = 6, lty = 2)
